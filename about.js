@@ -14,6 +14,8 @@ html
 //used to stor data
 //use let,const, or var to declare
 //example
+// since variables must need include var key word java script let know it's variable.
+var name = "john"
 let name = "john";
 const age = 26;
 
