@@ -14,13 +14,13 @@ html
 //used to stor data
 //use let,const, or var to declare
 //example
-// since variables must need include var key word java script let know it's variable.
+// since variables must need include var ,let or const, these key words java script let know it's variable.
 var name = "john"
 let name = "john";
 const age = 26;
 
 // Data Types
-//string - Text- e.g., "hello"
+// string - Text- e.g., "hello" , inside quotes anything strings
 //number - e.g., 2,1,18,12,
 //Array - list of items e.g., [1,2,3,4,5]
 //Object - key - value pairs e.g.,{name:"john", age: 25}
