@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Free Online Temperature Converter Tool - Convert Celsius, Fahrenheit, Kelvin easily." />
+  <title>Temperature Converter Tool</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Temperature Converter</h1>
+    
+    <input type="number" id="inputTemp" placeholder="Enter value" />
+
+    <select id="conversionType">
+      <option value="CtoF">Celsius to Fahrenheit</option>
+      <option value="FtoC">Fahrenheit to Celsius</option>
+      <option value="CtoK">Celsius to Kelvin</option>
+      <option value="KtoC">Kelvin to Celsius</option>
+      <option value="FtoK">Fahrenheit to Kelvin</option>
+      <option value="KtoF">Kelvin to Fahrenheit</option>
+    </select>
+
+    <button onclick="convert()">Convert</button>
+
+    <h2 id="result"></h2>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
