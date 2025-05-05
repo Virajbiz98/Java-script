@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Energy Converter</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <canvas id="bubbleCanvas"></canvas>
+
+  <div class="card">
+    <h1>Energy/Power Converter</h1>
+    
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" data-unit="joules">Joules</button>
+      <button class="tab" data-unit="watts">Watts</button>
+      <button class="tab" data-unit="kilowatts">kW</button>
+      <button class="tab" data-unit="btu">BTU</button>
+      <button class="tab" data-unit="volts">Volts</button>
+    </div>
+
+    <!-- Input Section -->
+    <div class="input-group">
+      <label id="input-label">Joules</label>
+      <input type="number" id="energy-input" class="energy-input" placeholder="0">
+    </div>
+
+    <!-- Voltage Inputs (always present but conditionally styled) -->
+    <div class="volts-inputs">
+      <div class="input-group">
+        <label>Current (A)</label>
+        <input type="number" id="current-input" value="1" step="0.1">
+      </div>
+      <div class="input-group">
+        <label>Resistance (Ω)</label>
+        <input type="number" id="resistance-input" step="0.1">
+      </div>
+    </div>
+
+    <!-- Time Input -->
+    <div class="input-group">
+      <label>Time Duration (seconds)</label>
+      <input type="number" id="time-input" value="3600" min="1">
+    </div>
+
+    <!-- Scale Indicator -->
+    <div class="scale-container">
+      <div class="scale-bar">
+        <div class="scale-indicator" id="scale-indicator"></div>
+      </div>
+      <div class="scale-labels">
+        <span id="scale-min-label">0 J</span>
+        <span id="scale-max-label">3600000 J</span>
+      </div>
+    </div>
+
+    <!-- Output Results -->
+    <div class="output-group">
+      <div class="output-row">
+        <span>Joules:</span>
+        <input readonly class="output" data-unit-out="joules">
+      </div>
+      <div class="output-row">
+        <span>Watts:</span>
+        <input readonly class="output" data-unit-out="watts">
+      </div>
+      <div class="output-row">
+        <span>Kilowatts:</span>
+        <input readonly class="output" data-unit-out="kilowatts">
+      </div>
+      <div class="output-row">
+        <span>BTU:</span>
+        <input readonly class="output" data-unit-out="btu">
+      </div>
+      <div class="output-row">
+        <span>Voltage:</span>
+        <input readonly class="output" data-unit-out="volts">
+      </div>
+    </div>
+  </div>
+
+  <script src="bubbles.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
