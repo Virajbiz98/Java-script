@@ -1,0 +1,204 @@
+/* Button Styles */
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border: none;
+  position: relative;
+  font-family: 'Inter', sans-serif;
+}
+
+.cta-button.primary {
+  background-color: var(--primary);
+  color: white;
+  box-shadow: 
+    0 2px 4px rgba(124, 58, 237, 0.2),
+    0 4px 8px rgba(124, 58, 237, 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+.cta-button.primary:hover, .cta-button.primary:focus {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 4px 8px rgba(124, 58, 237, 0.3),
+    0 8px 16px rgba(124, 58, 237, 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2),
+    0 0 15px rgba(124, 58, 237, 0.5);
+}
+
+.cta-button.primary:active {
+  transform: translateY(0);
+  box-shadow: 
+    0 1px 2px rgba(124, 58, 237, 0.2),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+.cta-button.secondary {
+  background-color: white;
+  color: var(--primary);
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.05),
+    0 4px 8px rgba(0, 0, 0, 0.03),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(124, 58, 237, 0.2);
+}
+
+.cta-button.secondary:hover, .cta-button.secondary:focus {
+  background-color: rgba(124, 58, 237, 0.05);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.05),
+    0 8px 16px rgba(0, 0, 0, 0.05),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2),
+    0 0 15px rgba(124, 58, 237, 0.1);
+}
+
+.cta-button.secondary:active {
+  transform: translateY(0);
+  box-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.05),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Glass Card */
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.05),
+    0 10px 15px rgba(124, 58, 237, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: var(--transition);
+  text-align: center;
+}
+
+.glass-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 
+    0 10px 15px rgba(0, 0, 0, 0.05),
+    0 20px 25px rgba(124, 58, 237, 0.05);
+}
+
+.glass-card i {
+  font-size: 2.5rem;
+  color: var(--primary);
+  margin-bottom: 1.5rem;
+}
+
+.glass-card h3 {
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+/* CV Preview Styles */
+.profile-image-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.profile-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 3px solid var(--primary-light);
+}
+
+.profile-image i {
+  font-size: 3rem;
+  color: #d1d5db;
+}
+
+.contact-info-section, .skills-section {
+  margin-bottom: 1.5rem;
+}
+
+.contact-info-section h4, .skills-section h4 {
+  color: var(--primary);
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(124, 58, 237, 0.1);
+  padding-bottom: 0.5rem;
+}
+
+.preview-skills {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.preview-skill {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.preview-skill-name {
+  font-size: 0.9rem;
+}
+
+.preview-skill-bar {
+  height: 6px;
+  background-color: #e5e7eb;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.preview-skill-level {
+  height: 100%;
+  background-color: var(--primary);
+  border-radius: 3px;
+}
+
+.name-title-section {
+  margin-bottom: 1.5rem;
+}
+
+.name-title-section h2 {
+  font-size: 1.8rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  color: var(--primary);
+}
+
+.summary-section, .experience-section, .education-section {
+  margin-bottom: 1.5rem;
+}
+
+.summary-section h4, .experience-section h4, .education-section h4 {
+  color: var(--primary);
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(124, 58, 237, 0.1);
+  padding-bottom: 0.5rem;
+}
+
+.preview-experience-item, .preview-education-item {
+  margin-bottom: 1.25rem;
+}
+
+.preview-job-title, .preview-degree {
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.preview-company, .preview-institution, .preview-date {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}

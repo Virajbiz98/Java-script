@@ -1,0 +1,166 @@
+/* Responsive Styles */
+@media (max-width: 1200px) {
+  .section-title {
+    font-size: 2.2rem;
+  }
+  
+  .hero-title {
+    font-size: 3rem;
+  }
+  
+  .app-interface {
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .template-showcase {
+    grid-template-columns: 1fr;
+  }
+  
+  .template-info {
+    padding-left: 0;
+    text-align: center;
+  }
+  
+  .template-info ul {
+    display: inline-block;
+    text-align: left;
+  }
+  
+  .app-interface {
+    grid-template-columns: 1fr;
+  }
+  
+  .cv-preview-container {
+    position: static;
+  }
+  
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .pricing-card.recommended {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+  
+  .mobile-menu-toggle {
+    display: block;
+  }
+  
+  section {
+    padding: 4rem 0;
+  }
+  
+  .hero {
+    padding: 7rem 0 4rem;
+  }
+  
+  .hero-content {
+    text-align: center;
+  }
+  
+  .hero-title {
+    font-size: 2.2rem;
+  }
+  
+  .hero-tagline {
+    font-size: 1.1rem;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .section-subtitle {
+    font-size: 1rem;
+  }
+  
+  .logo-row {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .ai-features, .features-grid, .steps, .pricing-plans {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .testimonial-text {
+    font-size: 1rem;
+  }
+  
+  .footer-links {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    padding: 0 1rem;
+  }
+  
+  .hero-title {
+    font-size: 1.8rem;
+  }
+  
+  .hero-tagline {
+    font-size: 1rem;
+  }
+  
+  .section-title {
+    font-size: 1.8rem;
+  }
+  
+  .cta-content h2 {
+    font-size: 1.8rem;
+  }
+  
+  .cta-content p {
+    font-size: 1rem;
+  }
+  
+  .testimonial-card {
+    padding: 1.5rem;
+  }
+  
+  .testimonial-author {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .faq-question h3 {
+    font-size: 1rem;
+  }
+  
+  .footer-links {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-row {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .cv-document {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .cv-left-column {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+  }
+  
+  .profile-image-container {
+    grid-row: span 2;
+  }
+}

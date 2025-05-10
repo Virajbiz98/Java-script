@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShimmerCV - Luxury AI-Powered CV Builder</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="logo">
+        <i class="ph ph-sparkle logo-icon"></i>
+        <span>ShimmerCV</span>
+      </div>
+      <div class="nav-links">
+        <a href="#hero" class="nav-link">Home</a>
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#how-it-works" class="nav-link">How It Works</a>
+        <a href="#pricing" class="nav-link">Pricing</a>
+        <a href="#faq" class="nav-link">FAQ</a>
+        <a href="#" class="cta-button">Get Started</a>
+      </div>
+      <div class="mobile-menu-toggle">
+        <div class="burger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="mobile-menu">
+    <div class="mobile-menu-links">
+      <a href="#hero" class="mobile-link">Home</a>
+      <a href="#features" class="mobile-link">Features</a>
+      <a href="#how-it-works" class="mobile-link">How It Works</a>
+      <a href="#pricing" class="mobile-link">Pricing</a>
+      <a href="#faq" class="mobile-link">FAQ</a>
+      <a href="#" class="mobile-cta">Get Started</a>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section id="hero" class="hero">
+    <div class="container">
+      <div class="hero-content animate-on-scroll">
+        <h1 class="hero-title">Create a stunning CV<br>powered by <span class="gradient-text">AI</span></h1>
+        <p class="hero-tagline">Land your dream job with a professionally crafted CV that showcases your true potential</p>
+        <a href="#app" class="cta-button primary">Create Your CV Now</a>
+      </div>
+      <div class="hero-image animate-on-scroll">
+        <img src="https://images.pexels.com/photos/6964338/pexels-photo-6964338.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="ShimmerCV UI Mockup" class="mockup-image">
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured In Section -->
+  <section id="featured" class="featured-in">
+    <div class="container">
+      <p class="featured-text animate-on-scroll">Featured in</p>
+      <div class="logo-row animate-on-scroll">
+        <div class="featured-logo"><i class="ph ph-globe-simple"></i><span>TechCrunch</span></div>
+        <div class="featured-logo"><i class="ph ph-tree-structure"></i><span>Forbes</span></div>
+        <div class="featured-logo"><i class="ph ph-currency-circle-dollar"></i><span>Business Insider</span></div>
+        <div class="featured-logo"><i class="ph ph-lightning"></i><span>Fast Company</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI Integration Section -->
+  <section id="ai-integration" class="ai-integration">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <h2 class="section-title">🧠 AI-Powered Excellence</h2>
+        <p class="section-subtitle">Our Gemini AI analyzes job descriptions to create perfectly tailored CVs</p>
+      </div>
+      <div class="ai-features animate-on-scroll">
+        <div class="glass-card">
+          <i class="ph ph-lightbulb"></i>
+          <h3>Smart Analysis</h3>
+          <p>Upload a job description and our AI extracts key requirements</p>
+        </div>
+        <div class="glass-card">
+          <i class="ph ph-sparkle"></i>
+          <h3>Skills Matching</h3>
+          <p>Automatically match your experience with job requirements</p>
+        </div>
+        <div class="glass-card">
+          <i class="ph ph-pen-nib"></i>
+          <h3>Perfect Wording</h3>
+          <p>Generate professional summaries optimized for your target role</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CV Template Section -->
+  <section id="cv-template" class="cv-template">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <h2 class="section-title">🧾 Luxury CV Templates</h2>
+        <p class="section-subtitle">Stand out with our professionally designed templates</p>
+      </div>
+      <div class="template-showcase animate-on-scroll">
+        <div class="cv-preview">
+          <div class="cv-sample">
+            <div class="cv-left-column">
+              <div class="profile-image-placeholder"></div>
+              <div class="contact-info">
+                <h4>Contact</h4>
+                <p><i class="ph ph-envelope"></i> email@example.com</p>
+                <p><i class="ph ph-phone"></i> (123) 456-7890</p>
+                <p><i class="ph ph-globe"></i> website.com</p>
+                <p><i class="ph ph-map-pin"></i> New York, NY</p>
+              </div>
+              <div class="skills-section">
+                <h4>Skills</h4>
+                <div class="skill-item">
+                  <div class="skill-name">UX Design</div>
+                  <div class="skill-bar"><div class="skill-level" style="width: 90%"></div></div>
+                </div>
+                <div class="skill-item">
+                  <div class="skill-name">UI Design</div>
+                  <div class="skill-bar"><div class="skill-level" style="width: 85%"></div></div>
+                </div>
+                <div class="skill-item">
+                  <div class="skill-name">Prototyping</div>
+                  <div class="skill-bar"><div class="skill-level" style="width: 80%"></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="cv-right-column">
+              <div class="name-title">
+                <h2>Alex Morgan</h2>
+                <p>Senior Product Designer</p>
+              </div>
+              <div class="summary">
+                <h4>Professional Summary</h4>
+                <p>Product designer with 5+ years of experience creating user-centered designs for SaaS products. Proven track record of increasing user engagement by 35% through intuitive interface design.</p>
+              </div>
+              <div class="experience">
+                <h4>Experience</h4>
+                <div class="experience-item">
+                  <div class="job-title">Senior Product Designer</div>
+                  <div class="company">TechCorp, Inc.</div>
+                  <div class="date">2020 - Present</div>
+                  <p>Led redesign of flagship product resulting in 42% increase in user retention.</p>
+                </div>
+                <div class="experience-item">
+                  <div class="job-title">UI/UX Designer</div>
+                  <div class="company">Design Studio</div>
+                  <div class="date">2018 - 2020</div>
+                  <p>Created wireframes and prototypes for mobile applications.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="template-info">
+          <h3>Glassmorphic Elegance</h3>
+          <p>Our premium template features a modern two-column layout with:</p>
+          <ul>
+            <li><i class="ph ph-check"></i> Stunning glass-effect design</li>
+            <li><i class="ph ph-check"></i> Perfect typography hierarchy</li>
+            <li><i class="ph ph-check"></i> ATS-friendly structure</li>
+            <li><i class="ph ph-check"></i> Custom skill visualization</li>
+            <li><i class="ph ph-check"></i> Professional photo integration</li>
+          </ul>
+          <a href="#app" class="cta-button">Try This Template</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section id="how-it-works" class="how-it-works">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-subtitle">Three simple steps to your perfect CV</p>
+      </div>
+      <div class="steps animate-on-scroll">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <i class="ph ph-note-pencil"></i>
+          <h3>Fill Your Information</h3>
+          <p>Enter your details or upload existing resume</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <i class="ph ph-magic-wand"></i>
+          <h3>Use AI Enhancement</h3>
+          <p>Upload a job description for tailored content</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <i class="ph ph-file-pdf"></i>
+          <h3>Download Your CV</h3>
+          <p>Get your professionally formatted PDF instantly</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="features">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <h2 class="section-title">Feature Highlights</h2>
+        <p class="section-subtitle">Everything you need to create the perfect CV</p>
+      </div>
+      <div class="features-grid animate-on-scroll">
+        <div class="feature-card">
+          <i class="ph ph-file-pdf"></i>
+          <h3>PDF Download</h3>
+          <p>Export your CV in high-quality PDF format ready to send to employers</p>
+        </div>
+        <div class="feature-card">
+          <i class="ph ph-magnifying-glass"></i>
+          <h3>ATS Friendly</h3>
+          <p>Optimized for Applicant Tracking Systems to ensure your CV gets seen</p>
+        </div>
+        <div class="feature-card">
+          <i class="ph ph-brain"></i>
+          <h3>Gemini AI</h3>
+          <p>Leverage Google's advanced AI to perfectly tailor your CV for each job</p>
+        </div>
+        <div class="feature-card">
+          <i class="ph ph-layout"></i>
+          <h3>Multiple Styles</h3>
+          <p>Choose from various professional templates to match your personality</p>
+        </div>
+        <div class="feature-card">
+          <i class="ph ph-lock"></i>
+          <h3>Privacy First</h3>
+          <p>Your data stays on your device - we never store your personal information</p>
+        </div>
+        <div class="feature-card">
+          <i class="ph ph-device-mobile"></i>
+          <h3>Mobile Friendly</h3>
+          <p>Create and download your CV from any device, anywhere</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission Statement -->
+  <section id="mission" class="mission">
+    <div class="container">
+      <div class="mission-content animate-on-scroll">
+        <h2 class="section-title">Our Mission</h2>
+        <p class="mission-text">At ShimmerCV, we believe everyone deserves a chance to shine in their career. Our mission is to democratize access to professional CV creation by combining cutting-edge AI technology with beautiful design, making it easy for anyone to create a standout CV that truly represents their unique value.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section id="testimonials" class="testimonials">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <h2 class="section-title">Success Stories</h2>
+        <p class="section-subtitle">Hear from people who landed their dream jobs</p>
+      </div>
+      <div class="testimonial-slider animate-on-scroll">
+        <div class="testimonial-track">
+          <div class="testimonial-card">
+            <div class="quote"><i class="ph ph-quotes"></i></div>
+            <p class="testimonial-text">ShimmerCV helped me optimize my CV for a senior marketing role. The AI suggestions were spot-on and I received interview offers from 3 out of 5 companies I applied to!</p>
+            <div class="testimonial-author">
+              <div class="author-image"></div>
+              <div class="author-info">
+                <h4>Sarah Johnson</h4>
+                <p>Marketing Director</p>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="quote"><i class="ph ph-quotes"></i></div>
+            <p class="testimonial-text">The AI analysis of job descriptions saved me hours of work. My CV is now perfectly tailored for tech roles, and I landed my dream job at a FAANG company!</p>
+            <div class="testimonial-author">
+              <div class="author-image"></div>
+              <div class="author-info">
+                <h4>Michael Chen</h4>
+                <p>Software Engineer</p>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="quote"><i class="ph ph-quotes"></i></div>
+            <p class="testimonial-text">As a career changer, I was struggling to highlight my transferable skills. ShimmerCV's AI helped me reframe my experience in a way that resonated with recruiters.</p>
+            <div class="testimonial-author">
+              <div class="author-image"></div>
+              <div class="author-info">
+                <h4>Priya Patel</h4>
+                <p>Data Analyst</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="slider-controls">
+          <button class="slider-prev"><i class="ph ph-caret-left"></i></button>
+          <div class="slider-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+          <button class="slider-next"><i class="ph ph-caret-right"></i></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section id="pricing" class="pricing">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <h2 class="section-title">Simple Pricing</h2>
+        <p class="section-subtitle">Choose the plan that works for you</p>
+      </div>
+      <div class="pricing-plans animate-on-scroll">
+        <div class="pricing-card">
+          <div class="plan-header">
+            <h3 class="plan-name">Free</h3>
+            <p class="plan-price">$0</p>
+            <p class="plan-billing">forever</p>
+          </div>
+          <div class="plan-features">
+            <div class="plan-feature"><i class="ph ph-check"></i> Basic CV template</div>
+            <div class="plan-feature"><i class="ph ph-check"></i> PDF downloads</div>
+            <div class="plan-feature"><i class="ph ph-check"></i> Basic AI suggestions</div>
+            <div class="plan-feature disabled"><i class="ph ph-x"></i> Multiple templates</div>
+            <div class="plan-feature disabled"><i class="ph ph-x"></i> Advanced AI analysis</div>
+            <div class="plan-feature disabled"><i class="ph ph-x"></i> No watermarks</div>
+          </div>
+          <a href="#" class="cta-button secondary">Get Started</a>
+        </div>
+        <div class="pricing-card recommended">
+          <div class="recommended-badge">Recommended</div>
+          <div class="plan-header">
+            <h3 class="plan-name">Pro</h3>
+            <p class="plan-price">$12</p>
+            <p class="plan-billing">per month</p>
+          </div>
+          <div class="plan-features">
+            <div class="plan-feature"><i class="ph ph-check"></i> All templates</div>
+            <div class="plan-feature"><i class="ph ph-check"></i> Unlimited PDF downloads</div>
+            <div class="plan-feature"><i class="ph ph-check"></i> Full AI optimization</div>
+            <div class="plan-feature"><i class="ph ph-check"></i> No watermarks</div>
+            <div class="plan-feature"><i class="ph ph-check"></i> Multiple CV versions</div>
+            <div class="plan-feature"><i class="ph ph-check"></i> Priority support</div>
+          </div>
+          <a href="#" class="cta-button primary">Get Started</a>
+        </div>
+        <div class="pricing-card">
+          <div class="plan-header">
+            <h3 class="plan-name">Enterprise</h3>
+            <p class="plan-price">Custom</p>
+            <p class="plan-billing">contact for pricing</p>
+          </div>
+          <div class="plan-features">
+            <div class="plan-feature"><i class="ph ph-check"></i> Everything in Pro</div>
+            <div class="plan-feature"><i class="ph ph-check"></i> Custom branding</div>
+            <div class="plan-feature"><i class="ph ph-check"></i> Team management</div>
+            <div class="plan-feature"><i class="ph ph-check"></i> Advanced analytics</div>
+            <div class="plan-feature"><i class="ph ph-check"></i> API access</div>
+            <div class="plan-feature"><i class="ph ph-check"></i> Dedicated support</div>
+          </div>
+          <a href="#" class="cta-button secondary">Contact Sales</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faq" class="faq">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-subtitle">Find answers to common questions</p>
+      </div>
+      <div class="faq-list animate-on-scroll">
+        <div class="faq-item">
+          <div class="faq-question">
+            <h3>How does the AI CV optimization work?</h3>
+            <i class="ph ph-caret-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Our AI analyzes your job description and compares it with your experience and skills. It then suggests optimized wording, highlights relevant skills, and creates a professional summary that matches what employers are looking for in that specific role.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <h3>Is my data secure?</h3>
+            <i class="ph ph-caret-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Absolutely. ShimmerCV processes all data in your browser - we never store your personal information on our servers. Your CV data remains on your device, and we use secure API calls to Google's Gemini for AI processing.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <h3>Are the CVs ATS-friendly?</h3>
+            <i class="ph ph-caret-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Yes, all our templates are designed to be ATS (Applicant Tracking System) friendly. We use standard formatting, appropriate section headings, and clean design to ensure your CV can be properly parsed by automated systems.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <h3>Can I create multiple versions of my CV?</h3>
+            <i class="ph ph-caret-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>With our Pro and Enterprise plans, you can create and save multiple versions of your CV. This is perfect for tailoring your application to different roles or industries.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <h3>What format will my CV be downloaded in?</h3>
+            <i class="ph ph-caret-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Your CV will be downloaded as a high-quality PDF file, which is the industry standard format for job applications. This ensures your CV looks consistent across all devices and platforms.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- App Section -->
+  <section id="app" class="app-section">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <h2 class="section-title">Create Your CV Now</h2>
+        <p class="section-subtitle">Get started with our AI-powered CV builder</p>
+      </div>
+      <div class="app-interface animate-on-scroll">
+        <div class="app-form">
+          <div class="form-section">
+            <h3><i class="ph ph-user"></i> Personal Information</h3>
+            <div class="form-group">
+              <label for="user-name">Full Name</label>
+              <input type="text" id="user-name" placeholder="e.g., John Smith">
+            </div>
+            <div class="form-group">
+              <label for="job-title">Current/Desired Job Title</label>
+              <input type="text" id="job-title" placeholder="e.g., Marketing Manager">
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" placeholder="e.g., (123) 456-7890">
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" placeholder="e.g., john@example.com">
+            </div>
+            <div class="form-group">
+              <label for="location">Location</label>
+              <input type="text" id="location" placeholder="e.g., New York, NY">
+            </div>
+          </div>
+          <div class="form-section">
+            <h3><i class="ph ph-briefcase"></i> Experience</h3>
+            <div class="form-group">
+              <label for="years-experience">Years of Experience</label>
+              <input type="number" id="years-experience" placeholder="e.g., 5">
+            </div>
+            <div class="experience-list" id="experience-list">
+              <!-- Experience items will be added here -->
+              <div class="experience-item-form">
+                <div class="form-group">
+                  <label>Job Title</label>
+                  <input type="text" class="job-title-input" placeholder="e.g., Marketing Specialist">
+                </div>
+                <div class="form-group">
+                  <label>Company</label>
+                  <input type="text" class="company-input" placeholder="e.g., Acme Inc.">
+                </div>
+                <div class="form-row">
+                  <div class="form-group half">
+                    <label>Start Date</label>
+                    <input type="text" class="start-date-input" placeholder="e.g., Jan 2018">
+                  </div>
+                  <div class="form-group half">
+                    <label>End Date</label>
+                    <input type="text" class="end-date-input" placeholder="e.g., Present">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Description</label>
+                  <textarea class="job-description-input" placeholder="Brief description of your responsibilities and achievements"></textarea>
+                </div>
+              </div>
+            </div>
+            <button class="add-button" id="add-experience">
+              <i class="ph ph-plus"></i> Add More Experience
+            </button>
+          </div>
+          <div class="form-section">
+            <h3><i class="ph ph-graduation-cap"></i> Education</h3>
+            <div class="education-list" id="education-list">
+              <!-- Education items will be added here -->
+              <div class="education-item-form">
+                <div class="form-group">
+                  <label>Degree</label>
+                  <input type="text" class="degree-input" placeholder="e.g., Bachelor of Science">
+                </div>
+                <div class="form-group">
+                  <label>Institution</label>
+                  <input type="text" class="institution-input" placeholder="e.g., University of Example">
+                </div>
+                <div class="form-row">
+                  <div class="form-group half">
+                    <label>Start Year</label>
+                    <input type="text" class="education-start-input" placeholder="e.g., 2014">
+                  </div>
+                  <div class="form-group half">
+                    <label>End Year</label>
+                    <input type="text" class="education-end-input" placeholder="e.g., 2018">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button class="add-button" id="add-education">
+              <i class="ph ph-plus"></i> Add More Education
+            </button>
+          </div>
+          <div class="form-section">
+            <h3><i class="ph ph-lightbulb"></i> Skills</h3>
+            <div class="form-group">
+              <label for="skills-input">Add Skills (comma separated)</label>
+              <input type="text" id="skills-input" placeholder="e.g., Marketing, SEO, Content Writing">
+            </div>
+            <div class="skills-tags" id="skills-tags">
+              <!-- Skills will be added here -->
+            </div>
+          </div>
+          <div class="form-section">
+            <h3><i class="ph ph-file-text"></i> Job Description Analysis</h3>
+            <div class="form-group">
+              <label for="job-description">Paste Job Description for AI Optimization</label>
+              <textarea id="job-description" placeholder="Paste the job description here to optimize your CV"></textarea>
+            </div>
+            <button class="cta-button" id="analyze-button">
+              <i class="ph ph-magic-wand"></i> Analyze with AI
+            </button>
+          </div>
+          <div class="form-section">
+            <h3><i class="ph ph-image"></i> Profile Photo</h3>
+            <div class="photo-upload">
+              <div class="photo-preview" id="photo-preview">
+                <i class="ph ph-user"></i>
+              </div>
+              <label for="photo-input" class="upload-button">
+                <i class="ph ph-upload"></i> Upload Photo
+                <input type="file" id="photo-input" accept="image/*">
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="cv-preview-container">
+          <h3 class="preview-title"><i class="ph ph-eye"></i> Live Preview</h3>
+          <div class="cv-preview-wrapper">
+            <div class="cv-document" id="cv-document">
+              <div class="cv-left-column">
+                <div class="profile-image-container" id="profile-image-container">
+                  <div class="profile-image" id="profile-image-preview"></div>
+                </div>
+                <div class="contact-info-section">
+                  <h4>Contact</h4>
+                  <p id="preview-phone"><i class="ph ph-phone"></i> Phone</p>
+                  <p id="preview-email"><i class="ph ph-envelope"></i> Email</p>
+                  <p id="preview-location"><i class="ph ph-map-pin"></i> Location</p>
+                </div>
+                <div class="skills-section">
+                  <h4>Skills</h4>
+                  <div class="preview-skills" id="preview-skills">
+                    <!-- Skills will be displayed here -->
+                  </div>
+                </div>
+              </div>
+              <div class="cv-right-column">
+                <div class="name-title-section">
+                  <h2 id="preview-name">Your Name</h2>
+                  <p id="preview-job-title">Your Job Title</p>
+                </div>
+                <div class="summary-section">
+                  <h4>Professional Summary</h4>
+                  <p id="preview-summary">Your professional summary will appear here after AI analysis.</p>
+                </div>
+                <div class="experience-section">
+                  <h4>Experience</h4>
+                  <div id="preview-experience">
+                    <!-- Experience items will be displayed here -->
+                  </div>
+                </div>
+                <div class="education-section">
+                  <h4>Education</h4>
+                  <div id="preview-education">
+                    <!-- Education items will be displayed here -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="preview-controls">
+            <button class="cta-button" id="download-cv">
+              <i class="ph ph-download"></i> Download CV
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section id="cta" class="cta-section">
+    <div class="container">
+      <div class="cta-content animate-on-scroll">
+        <h2>Ready to land your dream job?</h2>
+        <p>Create your professional CV in minutes with our AI-powered platform</p>
+        <a href="#app" class="cta-button primary">Get Started For Free</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <i class="ph ph-sparkle logo-icon"></i>
+          <span>ShimmerCV</span>
+        </div>
+        <p class="footer-tagline">AI-powered CVs that shine</p>
+        <div class="footer-links">
+          <div class="footer-column">
+            <h4>Product</h4>
+            <a href="#features">Features</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#testimonials">Testimonials</a>
+            <a href="#faq">FAQ</a>
+          </div>
+          <div class="footer-column">
+            <h4>Company</h4>
+            <a href="#">About</a>
+            <a href="#">Blog</a>
+            <a href="#">Careers</a>
+            <a href="#">Contact</a>
+          </div>
+          <div class="footer-column">
+            <h4>Legal</h4>
+            <a href="#">Terms of Service</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Cookie Policy</a>
+          </div>
+          <div class="footer-column">
+            <h4>Connect</h4>
+            <div class="social-icons">
+              <a href="#" class="social-icon"><i class="ph ph-twitter-logo"></i></a>
+              <a href="#" class="social-icon"><i class="ph ph-facebook-logo"></i></a>
+              <a href="#" class="social-icon"><i class="ph ph-instagram-logo"></i></a>
+              <a href="#" class="social-icon"><i class="ph ph-linkedin-logo"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 ShimmerCV. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/animation.js"></script>
+  <script src="js/cv-builder.js"></script>
+  <script src="js/ai-integration.js"></script>
+</body>
+</html>
