@@ -1,0 +1,29 @@
+@media print {
+  #cv-document {
+    width: 210mm !important;
+    min-height: 297mm !important;
+    padding: 20mm !important;
+    margin: 0 !important;
+    background: white !important;
+    box-shadow: none !important;
+    position: relative !important;
+    overflow: visible !important;
+  }
+
+  .preview-section {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+  }
+
+  .preview-experience-item,
+  .preview-education-item,
+  .preview-skill {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+}

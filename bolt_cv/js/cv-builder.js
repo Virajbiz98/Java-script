@@ -55,25 +55,35 @@ function initFormInteractions() {
       const file = this.files[0];
       if (file) {
         const reader = new FileReader();
-        reader.onload = function(e) {
-          // Update photo preview
-          photoPreview.innerHTML = '';
-          const img = document.createElement('img');
-          img.src = e.target.result;
-          img.style.width = '100%';
-          img.style.height = '100%';
-          img.style.objectFit = 'cover';
-          photoPreview.appendChild(img);
-          
-          // Update CV preview
-          profileImagePreview.innerHTML = '';
-          const cvImg = document.createElement('img');
-          cvImg.src = e.target.result;
-          cvImg.style.width = '100%';
-          cvImg.style.height = '100%';
-          cvImg.style.objectFit = 'cover';
-          profileImagePreview.appendChild(cvImg);
+        
+        reader.onerror = function(error) {
+          showErrorMessage('Error uploading image: ' + error);
         };
+        
+        reader.onload = function(e) {
+          try {
+            // Update photo preview
+            photoPreview.innerHTML = '';
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.style.width = '100%';
+            img.style.height = '100%';
+            img.style.objectFit = 'cover';
+            photoPreview.appendChild(img);
+            
+            // Update CV preview
+            profileImagePreview.innerHTML = '';
+            const cvImg = document.createElement('img');
+            cvImg.src = e.target.result;
+            cvImg.style.width = '100%';
+            cvImg.style.height = '100%';
+            cvImg.style.objectFit = 'cover';
+            profileImagePreview.appendChild(cvImg);
+          } catch (error) {
+            showErrorMessage('Error displaying image: ' + error);
+          }
+        };
+        
         reader.readAsDataURL(file);
       }
     });
@@ -202,7 +212,21 @@ function addSkill(skill) {
   const skillsTags = document.getElementById('skills-tags');
   const previewSkills = document.getElementById('preview-skills');
   
-  if (skillsTags && previewSkills) {
+  if (!skillsTags || !previewSkills) {
+    console.error('Skills container elements not found');
+    return;
+  }
+  
+  try {
+    // Check for duplicate skill
+    const existingSkill = Array.from(skillsTags.children)
+      .find(tag => tag.textContent.trim().toLowerCase() === skill.toLowerCase());
+    
+    if (existingSkill) {
+      showErrorMessage('This skill has already been added');
+      return;
+    }
+    
     // Create skill tag
     const skillTag = document.createElement('div');
     skillTag.className = 'skill-tag';
@@ -226,23 +250,44 @@ function addSkill(skill) {
       </div>
     `;
     previewSkills.appendChild(previewSkill);
+  } catch (error) {
+    console.error('Error adding skill:', error);
+    showErrorMessage('Failed to add skill: ' + error.message);
   }
 }
 
 // Remove skill tag
 window.removeSkill = function(element) {
-  const skill = element.parentElement.textContent.trim();
-  element.parentElement.remove();
-  
-  // Remove from preview
-  const previewSkills = document.getElementById('preview-skills');
-  if (previewSkills) {
+  try {
+    if (!element || !element.parentElement) {
+      throw new Error('Invalid skill element');
+    }
+    
+    const skill = element.parentElement.textContent.trim();
+    element.parentElement.remove();
+    
+    // Remove from preview
+    const previewSkills = document.getElementById('preview-skills');
+    if (!previewSkills) {
+      throw new Error('Preview skills container not found');
+    }
+    
     const skillElements = previewSkills.querySelectorAll('.preview-skill');
+    let removed = false;
+    
     skillElements.forEach(el => {
       if (el.getAttribute('data-skill') === skill) {
         el.remove();
+        removed = true;
       }
     });
+    
+    if (!removed) {
+      console.warn('Skill not found in preview:', skill);
+    }
+  } catch (error) {
+    console.error('Error removing skill:', error);
+    showErrorMessage('Failed to remove skill: ' + error.message);
   }
 };
 
@@ -305,42 +350,80 @@ function initPDFDownload() {
   const downloadBtn = document.getElementById('download-cv');
   const cvDocument = document.getElementById('cv-document');
   
-  if (downloadBtn && cvDocument) {
-    downloadBtn.addEventListener('click', function() {
-      // Show loading state
-      const loading = window.showLoading(this, 'Generating PDF...');
-      
-      // Clone the CV document to avoid modifying the original
-      const clonedCV = cvDocument.cloneNode(true);
-      
-      // Set specific styles for PDF export
-      const originalStyles = cvDocument.getAttribute('style') || '';
-      clonedCV.setAttribute('style', originalStyles + 'width: 210mm; background-color: white; padding: 20mm;');
-      
-      // Generate PDF
-      const options = {
-        margin: [0, 0, 0, 0],
-        filename: 'ShimmerCV_Resume.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-      };
-      
-      html2pdf().set(options).from(clonedCV).save()
-        .then(() => {
-          // Remove loading state
-          loading.done('Downloaded!', 1500);
-          
-          setTimeout(() => {
-            showDownloadSuccessMessage();
-          }, 1000);
-        })
-        .catch(err => {
-          console.error('PDF generation failed', err);
-          loading.done('Error - Try Again', 1500);
-        });
-    });
+  if (!downloadBtn || !cvDocument) {
+    console.error('PDF download elements not found');
+    return;
   }
+
+  downloadBtn.addEventListener('click', function() {
+    // Show loading state
+    const loading = window.showLoading(this, 'Generating PDF...');
+
+    // Get the CV content
+    const content = cvDocument.cloneNode(true);
+
+    // Create a temporary container
+    const pdfContainer = document.createElement('div');
+    pdfContainer.style.width = '210mm';
+    pdfContainer.style.height = '297mm';
+    pdfContainer.style.position = 'fixed';
+    pdfContainer.style.top = '-9999px';
+    pdfContainer.style.left = '-9999px';
+    pdfContainer.style.zIndex = '-1';
+    document.body.appendChild(pdfContainer);
+
+    // Style the content for PDF
+    content.style.width = '210mm';
+    content.style.minHeight = '297mm';
+    content.style.padding = '20mm';
+    content.style.backgroundColor = 'white';
+    content.style.margin = '0';
+    content.style.boxSizing = 'border-box';
+    content.style.transform = 'none';
+    content.style.boxShadow = 'none';
+    pdfContainer.appendChild(content);
+
+    // Configure PDF options
+    const opt = {
+      filename: 'My_CV.pdf',
+      image: { type: 'jpeg', quality: 1 },
+      html2canvas: {
+        scale: 2,
+        useCORS: true,
+        letterRendering: true,
+        allowTaint: true,
+        foreignObjectRendering: true
+      },
+      jsPDF: {
+        unit: 'mm',
+        format: 'a4',
+        orientation: 'portrait'
+      }
+    };
+
+    // Generate PDF
+    html2pdf()
+      .from(pdfContainer)
+      .set(opt)
+      .save()
+      .then(() => {
+        loading.done('Downloaded!', 1500);
+        showDownloadSuccessMessage();
+        // Clean up
+        if (pdfContainer && pdfContainer.parentNode) {
+          pdfContainer.parentNode.removeChild(pdfContainer);
+        }
+      })
+      .catch(err => {
+        console.error('PDF generation failed:', err);
+        loading.done('Error', 1500);
+        showErrorMessage('Failed to generate PDF. Please try again.');
+        // Clean up
+        if (pdfContainer && pdfContainer.parentNode) {
+          pdfContainer.parentNode.removeChild(pdfContainer);
+        }
+      });
+  });
 }
 
 // Show download success message
@@ -405,6 +488,35 @@ function showDownloadSuccessMessage() {
       message.style.animation = 'slideOut 0.3s ease forwards';
       setTimeout(() => {
         message.remove();
+      }, 300);
+    }
+  }, 5000);
+}
+
+// Show error message
+function showErrorMessage(message) {
+  const errorMessage = document.createElement('div');
+  errorMessage.className = 'error-message';
+  errorMessage.textContent = message;
+  errorMessage.style.position = 'fixed';
+  errorMessage.style.bottom = '20px';
+  errorMessage.style.right = '20px';
+  errorMessage.style.background = 'rgba(220, 38, 38, 0.9)';
+  errorMessage.style.color = 'white';
+  errorMessage.style.padding = '15px 20px';
+  errorMessage.style.borderRadius = '8px';
+  errorMessage.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.1)';
+  errorMessage.style.zIndex = '1000';
+  errorMessage.style.maxWidth = '300px';
+  errorMessage.style.animation = 'slideIn 0.3s ease forwards';
+  
+  document.body.appendChild(errorMessage);
+  
+  setTimeout(() => {
+    if (document.body.contains(errorMessage)) {
+      errorMessage.style.animation = 'slideOut 0.3s ease forwards';
+      setTimeout(() => {
+        errorMessage.remove();
       }, 300);
     }
   }, 5000);

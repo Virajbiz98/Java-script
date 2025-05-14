@@ -102,127 +102,244 @@ function initScrollAnimations() {
 
 // Testimonial Slider
 function initTestimonialSlider() {
-  let currentSlide = 0;
-  const testimonialTrack = document.querySelector('.testimonial-track');
-  const testimonialCards = document.querySelectorAll('.testimonial-card');
-  const dots = document.querySelectorAll('.dot');
-  const prevButton = document.querySelector('.slider-prev');
-  const nextButton = document.querySelector('.slider-next');
-  
-  if (!testimonialTrack || testimonialCards.length === 0) return;
-  
-  // Set initial width for testimonial track
-  updateTrackWidth();
-  
-  // Update on window resize
-  window.addEventListener('resize', updateTrackWidth);
-  
-  // Previous slide button
-  prevButton.addEventListener('click', function() {
-    currentSlide = (currentSlide > 0) ? currentSlide - 1 : testimonialCards.length - 1;
-    updateSlider();
-  });
-  
-  // Next slide button
-  nextButton.addEventListener('click', function() {
-    currentSlide = (currentSlide < testimonialCards.length - 1) ? currentSlide + 1 : 0;
-    updateSlider();
-  });
-  
-  // Dot navigation
-  dots.forEach((dot, index) => {
-    dot.addEventListener('click', function() {
-      currentSlide = index;
-      updateSlider();
-    });
-  });
-  
-  // Auto advance slides
-  let slideInterval = setInterval(nextSlide, 5000);
-  
-  // Reset interval on manual navigation
-  prevButton.addEventListener('click', resetInterval);
-  nextButton.addEventListener('click', resetInterval);
-  dots.forEach(dot => {
-    dot.addEventListener('click', resetInterval);
-  });
-  
-  function nextSlide() {
-    currentSlide = (currentSlide < testimonialCards.length - 1) ? currentSlide + 1 : 0;
-    updateSlider();
-  }
-  
-  function resetInterval() {
-    clearInterval(slideInterval);
-    slideInterval = setInterval(nextSlide, 5000);
-  }
-  
-  function updateSlider() {
-    // Update track position
-    testimonialTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+  try {
+    let currentSlide = 0;
+    const testimonialTrack = document.querySelector('.testimonial-track');
+    const testimonialCards = document.querySelectorAll('.testimonial-card');
+    const dots = document.querySelectorAll('.dot');
+    const prevButton = document.querySelector('.slider-prev');
+    const nextButton = document.querySelector('.slider-next');
     
-    // Update active dot
+    if (!testimonialTrack || testimonialCards.length === 0) {
+      console.warn('Testimonial slider elements not found');
+      return;
+    }
+    
+    let slideInterval;
+    
+    // Set initial width for testimonial track
+    updateTrackWidth();
+    
+    // Update on window resize with debounce
+    const debounceResize = debounce(updateTrackWidth, 250);
+    window.addEventListener('resize', debounceResize);
+    
+    // Previous slide button
+    if (prevButton) {
+      prevButton.addEventListener('click', function() {
+        currentSlide = (currentSlide > 0) ? currentSlide - 1 : testimonialCards.length - 1;
+        updateSlider();
+        resetInterval();
+      });
+    }
+    
+    // Next slide button
+    if (nextButton) {
+      nextButton.addEventListener('click', function() {
+        nextSlide();
+        resetInterval();
+      });
+    }
+    
+    // Dot navigation
     dots.forEach((dot, index) => {
-      dot.classList.toggle('active', index === currentSlide);
-    });
-  }
-  
-  function updateTrackWidth() {
-    // Set the width of track and cards for responsive layout
-    const containerWidth = testimonialTrack.parentElement.clientWidth;
-    testimonialTrack.style.width = `${containerWidth * testimonialCards.length}px`;
-    
-    testimonialCards.forEach(card => {
-      card.style.width = `${containerWidth}px`;
+      dot.addEventListener('click', function() {
+        currentSlide = index;
+        updateSlider();
+        resetInterval();
+      });
     });
     
-    // Update slider position for current slide
-    testimonialTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+    // Auto advance slides
+    startAutoSlide();
+    
+    function startAutoSlide() {
+      if (slideInterval) {
+        clearInterval(slideInterval);
+      }
+      slideInterval = setInterval(nextSlide, 5000);
+    }
+    
+    function nextSlide() {
+      currentSlide = (currentSlide < testimonialCards.length - 1) ? currentSlide + 1 : 0;
+      updateSlider();
+    }
+    
+    function resetInterval() {
+      startAutoSlide();
+    }
+    
+    function updateSlider() {
+      try {
+        // Update track position
+        testimonialTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+        
+        // Update active dot
+        dots.forEach((dot, index) => {
+          dot.classList.toggle('active', index === currentSlide);
+        });
+      } catch (error) {
+        console.error('Error updating slider:', error);
+      }
+    }
+    
+    function updateTrackWidth() {
+      try {
+        // Set the width of track and cards for responsive layout
+        const containerWidth = testimonialTrack.parentElement.clientWidth;
+        testimonialTrack.style.width = `${containerWidth * testimonialCards.length}px`;
+        
+        testimonialCards.forEach(card => {
+          card.style.width = `${containerWidth}px`;
+        });
+        
+        // Update slider position for current slide
+        testimonialTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+      } catch (error) {
+        console.error('Error updating track width:', error);
+      }
+    }
+    
+    // Cleanup function
+    return function cleanup() {
+      if (slideInterval) {
+        clearInterval(slideInterval);
+      }
+      window.removeEventListener('resize', debounceResize);
+    };
+  } catch (error) {
+    console.error('Error initializing testimonial slider:', error);
   }
+}
+
+// Utility function for debouncing
+function debounce(func, wait) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
 }
 
 // FAQ Accordion
 function initFAQAccordion() {
-  const faqItems = document.querySelectorAll('.faq-item');
-  
-  faqItems.forEach(item => {
-    const question = item.querySelector('.faq-question');
+  try {
+    const faqItems = document.querySelectorAll('.faq-item');
     
-    question.addEventListener('click', () => {
-      // Toggle current item
-      item.classList.toggle('active');
-      
-      // Optional: Close other items
-      faqItems.forEach(otherItem => {
-        if (otherItem !== item && otherItem.classList.contains('active')) {
-          otherItem.classList.remove('active');
+    if (!faqItems || faqItems.length === 0) {
+      console.warn('FAQ items not found');
+      return;
+    }
+    
+    faqItems.forEach(item => {
+      try {
+        const question = item.querySelector('.faq-question');
+        const answer = item.querySelector('.faq-answer');
+        
+        if (!question || !answer) {
+          console.warn('FAQ question or answer element missing');
+          return;
         }
-      });
+        
+        // Store initial height for animation
+        answer.style.maxHeight = '0px';
+        answer.style.transition = 'max-height 0.3s ease-out';
+        
+        question.addEventListener('click', () => {
+          try {
+            // Toggle current item
+            const isActive = item.classList.contains('active');
+            
+            // Optional: Close other items
+            faqItems.forEach(otherItem => {
+              if (otherItem !== item && otherItem.classList.contains('active')) {
+                otherItem.classList.remove('active');
+                const otherAnswer = otherItem.querySelector('.faq-answer');
+                if (otherAnswer) {
+                  otherAnswer.style.maxHeight = '0px';
+                }
+              }
+            });
+            
+            // Toggle current item
+            item.classList.toggle('active');
+            if (!isActive) {
+              answer.style.maxHeight = answer.scrollHeight + 'px';
+            } else {
+              answer.style.maxHeight = '0px';
+            }
+          } catch (error) {
+            console.error('Error handling FAQ click:', error);
+          }
+        });
+      } catch (error) {
+        console.error('Error setting up FAQ item:', error);
+      }
     });
-  });
+  } catch (error) {
+    console.error('Error initializing FAQ accordion:', error);
+  }
 }
 
 // Sticky Navigation with Background Blur
 function initStickyNav() {
-  const navbar = document.querySelector('.navbar');
-  const heroSection = document.querySelector('.hero');
-  
-  if (!navbar || !heroSection) return;
-  
-  const heroHeight = heroSection.offsetHeight;
-  const navHeight = navbar.offsetHeight;
-  
-  function updateNavbar() {
-    if (window.scrollY > navHeight) {
-      navbar.classList.add('scrolled');
-    } else {
-      navbar.classList.remove('scrolled');
+  try {
+    const navbar = document.querySelector('.navbar');
+    const heroSection = document.querySelector('.hero');
+    
+    if (!navbar) {
+      console.warn('Navbar element not found');
+      return;
     }
+    
+    const navHeight = navbar.offsetHeight;
+    
+    function updateNavbar() {
+      try {
+        if (window.scrollY > navHeight) {
+          if (!navbar.classList.contains('scrolled')) {
+            navbar.classList.add('scrolled');
+          }
+        } else {
+          if (navbar.classList.contains('scrolled')) {
+            navbar.classList.remove('scrolled');
+          }
+        }
+      } catch (error) {
+        console.error('Error updating navbar:', error);
+      }
+    }
+    
+    // Initial check
+    updateNavbar();
+    
+    // Throttle scroll event for better performance
+    const throttledUpdate = throttle(updateNavbar, 100);
+    
+    // Check on scroll
+    window.addEventListener('scroll', throttledUpdate);
+    
+    // Cleanup function
+    return function cleanup() {
+      window.removeEventListener('scroll', throttledUpdate);
+    };
+  } catch (error) {
+    console.error('Error initializing sticky navigation:', error);
   }
-  
-  // Initial check
-  updateNavbar();
-  
-  // Check on scroll
-  window.addEventListener('scroll', updateNavbar);
+}
+
+// Utility function for throttling
+function throttle(func, limit) {
+  let inThrottle;
+  return function(...args) {
+    if (!inThrottle) {
+      func.apply(this, args);
+      inThrottle = true;
+      setTimeout(() => inThrottle = false, limit);
+    }
+  };
 }

@@ -34,15 +34,24 @@ function initLoadingSpinner() {
   const spinner = document.createElement('div');
   spinner.className = 'loading-spinner';
   
+  // Keep track of active spinners
+  const activeSpinners = new Set();
+  
   // Function to show the spinner
   window.showLoading = function(element, text = 'Loading...') {
+    if (!element) return;
+    
     // Store original content
     const originalContent = element.innerHTML;
     element.dataset.originalContent = originalContent;
     
+    // Create a new spinner instance
+    const spinnerInstance = spinner.cloneNode();
+    activeSpinners.add(spinnerInstance);
+    
     // Set loading state
     element.innerHTML = '';
-    element.appendChild(spinner.cloneNode());
+    element.appendChild(spinnerInstance);
     element.appendChild(document.createTextNode(' ' + text));
     element.disabled = true;
     
@@ -55,10 +64,26 @@ function initLoadingSpinner() {
             element.innerHTML = element.dataset.originalContent;
           }
           element.disabled = false;
+          
+          // Cleanup spinner
+          activeSpinners.delete(spinnerInstance);
+          if (spinnerInstance.parentNode) {
+            spinnerInstance.remove();
+          }
         }, delay);
       }
     };
   };
+  
+  // Cleanup function for page unload
+  window.addEventListener('unload', () => {
+    activeSpinners.forEach(spinner => {
+      if (spinner.parentNode) {
+        spinner.remove();
+      }
+    });
+    activeSpinners.clear();
+  });
 }
 
 // Animation for the burger menu

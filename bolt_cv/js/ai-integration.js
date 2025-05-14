@@ -233,9 +233,15 @@ async function analyzeWithGemini(userData) {
       })
     });
     
-    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
     
-    // Parse the response text as JSON
+    const data = await response.json();
+    if (!data || !data.candidates || !data.candidates[0]?.content?.parts[0]?.text) {
+      throw new Error('Invalid response format from API');
+    }
+    
     const responseText = data.candidates[0].content.parts[0].text;
     const jsonMatch = responseText.match(/\{[\s\S]*\}/);
     
