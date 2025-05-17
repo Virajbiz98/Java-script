@@ -31,11 +31,10 @@ function initAIAnalysis() {
         jobDescription: jobDescription.value
       };
       
-      // Simulate AI analysis (in a real app, this would call the Gemini API)
-      setTimeout(() => {
-        const result = simulateAIAnalysis(userData);
-        
-        // Update the preview
+      // Call the Gemini API for analysis
+      analyzeWithGemini(userData) // Modified to call the real API function
+        .then(result => { // Added promise handling
+          // Update the preview
         if (previewSummary) {
           previewSummary.textContent = result.summary;
         }
@@ -51,86 +50,21 @@ function initAIAnalysis() {
         
         // End loading state
         loading.done('Analysis Complete!', 1500);
-      }, 2000);
+      })
+      .catch(error => {
+        console.error('AI analysis failed:', error);
+        loading.done('Analysis Failed!', 1500);
+        let errorMessage = 'Failed to perform AI analysis.';
+        if (error.message) {
+          errorMessage += ' Error: ' + error.message;
+        }
+        showErrorMessage(errorMessage);
+      })
+      .finally(() => { // Added finally block to ensure loading state is cleared
+        // Any cleanup or final actions
+      });
     });
   }
-}
-
-// Simulate AI analysis (in a real implementation, this would be an API call to Gemini)
-function simulateAIAnalysis(userData) {
-  // Extract job type from job description
-  const jobDesc = userData.jobDescription.toLowerCase();
-  let jobType = 'professional';
-  
-  if (jobDesc.includes('develop') || jobDesc.includes('code') || jobDesc.includes('software') || 
-      jobDesc.includes('engineer') || jobDesc.includes('programming')) {
-    jobType = 'tech';
-  } else if (jobDesc.includes('market') || jobDesc.includes('brand') || 
-             jobDesc.includes('advertis') || jobDesc.includes('social media')) {
-    jobType = 'marketing';
-  } else if (jobDesc.includes('design') || jobDesc.includes('ui') || 
-             jobDesc.includes('ux') || jobDesc.includes('creative')) {
-    jobType = 'design';
-  } else if (jobDesc.includes('sales') || jobDesc.includes('account') || 
-             jobDesc.includes('client') || jobDesc.includes('revenue')) {
-    jobType = 'sales';
-  } else if (jobDesc.includes('manag') || jobDesc.includes('lead') || 
-             jobDesc.includes('direct') || jobDesc.includes('executive')) {
-    jobType = 'management';
-  }
-  
-  // Generate a relevant summary based on job type
-  const summaries = {
-    tech: `Innovative ${userData.jobTitle} with ${userData.experience}+ years of experience developing scalable solutions and driving technical excellence. Demonstrated expertise in optimizing system performance and implementing best practices for code quality. Passionate about solving complex problems through elegant, efficient solutions.`,
-    
-    marketing: `Results-driven ${userData.jobTitle} with ${userData.experience}+ years of experience creating data-driven marketing campaigns and growing brand presence. Proven track record of increasing engagement metrics and developing comprehensive marketing strategies that align with business objectives.`,
-    
-    design: `Creative ${userData.jobTitle} with ${userData.experience}+ years of experience crafting user-centered designs and compelling visual experiences. Strong portfolio demonstrating expertise in translating business requirements into intuitive interfaces that delight users and drive engagement.`,
-    
-    sales: `Dynamic ${userData.jobTitle} with ${userData.experience}+ years of experience exceeding targets and building strong client relationships. Consistent record of generating new business opportunities and retaining key accounts through consultative selling approaches and excellent communication.`,
-    
-    management: `Accomplished ${userData.jobTitle} with ${userData.experience}+ years of experience leading high-performing teams and driving organizational success. Strong strategic vision combined with hands-on operational expertise, resulting in improved efficiency and sustainable growth.`,
-    
-    professional: `Dedicated ${userData.jobTitle} with ${userData.experience}+ years of experience delivering exceptional results and building expertise in the field. Combines analytical thinking with practical problem-solving to overcome challenges and contribute to organizational success.`
-  };
-  
-  // Generate relevant skills based on job type
-  const skillsByType = {
-    tech: ['JavaScript', 'React', 'Node.js', 'Python', 'AWS', 'Git', 'System Design', 'API Development'],
-    marketing: ['Social Media Strategy', 'Content Marketing', 'SEO', 'Google Analytics', 'Campaign Management', 'Market Research'],
-    design: ['UI/UX Design', 'Figma', 'Adobe Creative Suite', 'Wireframing', 'User Research', 'Design Systems'],
-    sales: ['Negotiation', 'Client Relationship Management', 'Sales Strategy', 'Pipeline Management', 'B2B Sales'],
-    management: ['Team Leadership', 'Strategic Planning', 'Project Management', 'Stakeholder Management', 'Budget Administration'],
-    professional: ['Problem Solving', 'Communication', 'Project Management', 'Data Analysis', 'Microsoft Office Suite']
-  };
-  
-  // Extract relevant skills from job description
-  function extractSkillsFromJobDescription(description, type) {
-    const allSkills = [
-      ...skillsByType.tech, 
-      ...skillsByType.marketing, 
-      ...skillsByType.design, 
-      ...skillsByType.sales, 
-      ...skillsByType.management, 
-      ...skillsByType.professional
-    ];
-    
-    // Find skills mentioned in the job description
-    const mentionedSkills = allSkills.filter(skill => 
-      description.toLowerCase().includes(skill.toLowerCase())
-    );
-    
-    // Add some skills from the job type
-    const typeSkills = skillsByType[type].slice(0, 3);
-    
-    // Combine and remove duplicates
-    return [...new Set([...mentionedSkills, ...typeSkills])].slice(0, 5);
-  }
-  
-  return {
-    summary: summaries[jobType],
-    skills: extractSkillsFromJobDescription(userData.jobDescription, jobType)
-  };
 }
 
 // Show error message
@@ -186,13 +120,12 @@ function showErrorMessage(message) {
 }
 
 // Function for real Gemini API integration (commented out as we're using simulation)
-/*
 async function analyzeWithGemini(userData) {
-  const API_KEY = 'AIzaSyCPtL3-uG3VtuL6PGrVVDThAU5o-C1gTwo';
-  const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`;
+  const API_KEY = 'AIzaSyC3AuxiErkFc0Vi9_mzByCDbWrCrsjdGM8'; // Updated with user's API key
+  const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro/generateContent?key=${API_KEY}`; // Changed :generateContent to /generateContent
   
   const prompt = `
-    I need help optimizing a CV for a job application. 
+    I need help optimizing a CV for a job application.
     
     Job Description: ${userData.jobDescription}
     
@@ -257,7 +190,7 @@ async function analyzeWithGemini(userData) {
     }
   } catch (error) {
     console.error('Error calling Gemini API:', error);
-    return simulateAIAnalysis(userData);
+    // Re-throwing the error to be caught by the caller (initAIAnalysis)
+    throw error;
   }
 }
-*/
