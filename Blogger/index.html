@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Get your exclusive offer now using our secure link system">
+  <title>Exclusive Offer Page</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #ffffff, #f0f4ff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: 20px;
+    }
+    .offer-container {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 100%;
+      max-width: 360px;
+      animation: fadeIn 1s ease-in;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .offer-title {
+      color: #1e3a8a;
+      font-size: 26px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .offer-text {
+      color: #4b5563;
+      font-size: 15px;
+      margin-bottom: 22px;
+    }
+    #countdown {
+      font-weight: bold;
+      color: #1e3a8a;
+    }
+    .offer-list-title {
+      background: #f3f4f6;
+      padding: 10px;
+      border-radius: 6px;
+      color: #1e3a8a;
+      font-size: 18px;
+      margin-bottom: 22px;
+    }
+    #offer-button {
+      background: #1e3a8a;
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 25px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    #offer-button:hover:enabled {
+      background: #3b82f6;
+    }
+    #offer-button:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+    }
+    .stats {
+      display: flex;
+      justify-content: space-between;
+      margin: 25px 0;
+      color: #4b5563;
+      font-size: 14px;
+    }
+    .footer-text {
+      color: #9ca3af;
+      font-size: 12px;
+    }
+    .icon {
+      vertical-align: middle;
+    }
+    #next-step {
+      display: none;
+      margin-top: 20px;
+    }
+    a {
+      color: #1e3a8a;
+    }
+    @media (max-width: 400px) {
+      .offer-container {
+        width: 100%;
+        padding: 15px;
+      }
+      #offer-button {
+        font-size: 14px;
+        padding: 10px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="offer-container">
+    <h1 class="offer-title">Offer</h1>
+    <p class="offer-text">Offer List will be available in <span id="countdown">10</span> seconds.</p>
+    <h2 class="offer-list-title">Get Offers List</h2>
+    <button id="offer-button" disabled>GET YOUR OFFER LINK</button>
+    <div id="next-step">
+      <p>Next, click here to proceed: <a id="original-link" href="#" target="_blank" rel="noopener">Original Offer</a></p>
+    </div>
+    <div class="stats">
+      <div>
+        <p>Links Remaining</p>
+        <p>1</p>
+      </div>
+      <div>
+        <p>Links Opened</p>
+        <p>0 <span class="icon">🔓</span></p>
+      </div>
+    </div>
+    <p class="footer-text">Offers Finder System</p>
+  </main>
+
+  <script>
+    const countdownElement = document.getElementById('countdown');
+    const offerButton = document.getElementById('offer-button');
+    const nextStep = document.getElementById('next-step');
+    const originalLinkElement = document.getElementById('original-link');
+
+    const adsterraLink = 'https://l8.nu/ZQz0';
+    const originalLink = 'https://apps.apple.com/us/app/google-notebooklm/id6737527615';
+
+    let timeLeft = 10;
+    const countdown = setInterval(() => {
+      timeLeft--;
+      countdownElement.textContent = timeLeft;
+      if (timeLeft <= 0) {
+        clearInterval(countdown);
+        offerButton.disabled = false;
+        offerButton.textContent = 'GET YOUR OFFER LINK';
+      }
+    }, 1000);
+
+    document.body.addEventListener('click', () => {
+      window.open(adsterraLink, '_blank', 'noopener');
+    }, { once: true });
+
+    offerButton.addEventListener('click', () => {
+      window.open(adsterraLink, '_blank', 'noopener');
+      originalLinkElement.href = originalLink;
+      originalLinkElement.textContent = 'Original Offer (' + originalLink + ')';
+      nextStep.style.display = 'block';
+    });
+  </script>
+</body>
+</html>
