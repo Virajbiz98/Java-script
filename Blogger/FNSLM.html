@@ -1,0 +1,276 @@
+<!-- Uploadcare public key -->
+<script>
+    UPLOADCARE_PUBLIC_KEY = '597cd585f0f0e2b58441';
+  </script>
+  
+  <!-- Uploadcare widget -->
+  <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js" charset="utf-8"></script>
+  
+  <style>
+    /* Hearts animation container */
+    .hearts-container {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+      background: #fff0f6;
+    }
+    .heart {
+      position: absolute;
+      bottom: -50px;
+      width: 20px; height: 20px;
+      background-color: #e91e63;
+      transform: rotate(-45deg);
+      animation-name: floatUp;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+      opacity: 0.7;
+    }
+    .heart::before, .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px; height: 20px;
+      background-color: #e91e63;
+      border-radius: 50%;
+    }
+    .heart::before { top: -10px; left: 0; }
+    .heart::after { top: 0; left: 10px; }
+    @keyframes floatUp {
+      0% { transform: translateY(0) rotate(-45deg); opacity: 0.7; }
+      100% { transform: translateY(-110vh) rotate(-45deg); opacity: 0; }
+    }
+    .heart:nth-child(1) { left: 10%; width: 15px; height: 15px; animation-duration: 6s; animation-delay: 0s; }
+    .heart:nth-child(1)::before, .heart:nth-child(1)::after { width: 15px; height: 15px; }
+    .heart:nth-child(2) { left: 25%; width: 25px; height: 25px; animation-duration: 8s; animation-delay: 2s; }
+    .heart:nth-child(2)::before, .heart:nth-child(2)::after { width: 25px; height: 25px; }
+    .heart:nth-child(3) { left: 40%; width: 18px; height: 18px; animation-duration: 7s; animation-delay: 4s; }
+    .heart:nth-child(3)::before, .heart:nth-child(3)::after { width: 18px; height: 18px; }
+    .heart:nth-child(4) { left: 60%; width: 22px; height: 22px; animation-duration: 9s; animation-delay: 1s; }
+    .heart:nth-child(4)::before, .heart:nth-child(4)::after { width: 22px; height: 22px; }
+    .heart:nth-child(5) { left: 75%; width: 16px; height: 16px; animation-duration: 6.5s; animation-delay: 3s; }
+    .heart:nth-child(5)::before, .heart:nth-child(5)::after { width: 16px; height: 16px; }
+    .heart:nth-child(6) { left: 85%; width: 20px; height: 20px; animation-duration: 7.5s; animation-delay: 5s; }
+    .heart:nth-child(6)::before, .heart:nth-child(6)::after { width: 20px; height: 20px; }
+  
+    /* Main container */
+    #matcher-container {
+      position: relative; z-index: 1;
+      max-width: 420px;
+      margin: 30px auto;
+      padding: 20px;
+      border: 2px solid #e91e63;
+      border-radius: 15px;
+      background: #fff;
+      box-shadow: 0 4px 10px rgba(233, 30, 99, 0.3);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+    }
+    #matcher-container h2 {
+      color: #d81b60;
+      margin-bottom: 15px;
+    }
+    label {
+      font-weight: 600;
+      margin-right: 15px;
+      color: #880e4f;
+      cursor: pointer;
+    }
+    #uploaded-photo, #match-photo {
+      margin-top: 20px;
+      max-width: 100%;
+      max-height: 300px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px #d81b60;
+      display: none;
+    }
+    #match-btn {
+      margin-top: 20px;
+      background-color: #d81b60;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 1.1em;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    #match-btn:disabled {
+      background-color: #f8bbd0;
+      cursor: not-allowed;
+    }
+    #match-btn:hover:not(:disabled) {
+      background-color: #b0144a;
+    }
+    #result {
+      margin-top: 25px;
+      font-size: 1.3em;
+      color: #880e4f;
+      font-weight: 700;
+      min-height: 50px;
+    }
+  </style>
+  
+  <!-- Hearts animation -->
+  <div class="hearts-container" aria-hidden="true">
+    <div class="heart"></div><div class="heart"></div><div class="heart"></div>
+    <div class="heart"></div><div class="heart"></div><div class="heart"></div>
+  </div>
+  
+  <div id="matcher-container">
+    <h2>Find Your Love Matcher ❤️</h2>
+  
+    <!-- Gender selection -->
+    <div>
+      <label><input type="radio" name="gender" value="male" /> Male</label>
+      <label><input type="radio" name="gender" value="female" /> Female</label>
+    </div>
+  
+    <!-- Uploadcare widget -->
+    <input type="hidden" role="uploadcare-uploader" id="uploadcare-uploader" />
+  
+    <!-- Uploaded photo -->
+    <img id="uploaded-photo" alt="Your Photo" />
+  
+    <!-- Matched photo -->
+    <img id="match-photo" alt="Match Photo" />
+  
+    <!-- Match button -->
+    <button id="match-btn" disabled>Find Your Love Match</button>
+  
+    <div id="result"></div>
+  </div>
+  
+  <script>
+    // Your links
+    const links = [
+      "https://otieu.com/4/9375066", // first click
+      "https://www.profitableratecpm.com/i4kncah0?key=1168c96b6b12071a770c3a619fd72a1a", // second click (file choose)
+      "https://bountifulcategory.com/TeqzNL" // third click (gender choose)
+    ];
+  
+    // Photos for matches
+    const femalePhotos = [
+      "https://randomuser.me/api/portraits/women/21.jpg",
+      "https://randomuser.me/api/portraits/women/45.jpg",
+      "https://randomuser.me/api/portraits/women/65.jpg",
+      "https://randomuser.me/api/portraits/women/12.jpg",
+      "https://randomuser.me/api/portraits/women/33.jpg"
+    ];
+    const malePhotos = [
+      "https://randomuser.me/api/portraits/men/14.jpg",
+      "https://randomuser.me/api/portraits/men/52.jpg",
+      "https://randomuser.me/api/portraits/men/67.jpg",
+      "https://randomuser.me/api/portraits/men/29.jpg",
+      "https://randomuser.me/api/portraits/men/40.jpg"
+    ];
+  
+    const uploader = uploadcare.Widget('[role=uploadcare-uploader]');
+    const photoEl = document.getElementById('uploaded-photo');
+    const matchPhotoEl = document.getElementById('match-photo');
+    const matchBtn = document.getElementById('match-btn');
+    const resultEl = document.getElementById('result');
+  
+    let uploadedFileURL = '';
+    let selectedGender = '';
+    let currentMatchPhotoURL = '';
+  
+    // Track clicks count for your logic
+    let clickStep = 0;
+  
+    // Open link helper
+    function openLink(url) {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+  
+    // First click anywhere on page
+    document.addEventListener('click', () => {
+      if (clickStep === 0) {
+        openLink(links[0]);
+        clickStep++;
+      }
+    }, { once: true }); // only once
+  
+    // Listen for file upload (second click)
+    uploader.onUploadComplete(fileInfo => {
+      uploadedFileURL = fileInfo.cdnUrl;
+      photoEl.src = uploadedFileURL;
+      photoEl.style.display = 'block';
+      resetMatch();
+      updateButtonState();
+  
+      if (clickStep === 1) {
+        openLink(links[1]);
+        clickStep++;
+      }
+    });
+  
+    // Listen for gender selection (third click)
+    document.querySelectorAll('input[name="gender"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        selectedGender = document.querySelector('input[name="gender"]:checked').value;
+        resetMatch();
+        updateButtonState();
+  
+        if (clickStep === 2) {
+          openLink(links[2]);
+          clickStep++;
+        }
+      });
+    });
+  
+    // Enable button only if photo uploaded and gender selected
+    function updateButtonState() {
+      const genderSelected = !!document.querySelector('input[name="gender"]:checked');
+      matchBtn.disabled = !(uploadedFileURL && genderSelected);
+    }
+  
+    // Reset match photo and result
+    function resetMatch() {
+      currentMatchPhotoURL = '';
+      matchPhotoEl.style.display = 'none';
+      resultEl.innerText = '';
+      matchBtn.disabled = false;
+    }
+  
+    // Match button click (fourth click)
+    matchBtn.addEventListener('click', () => {
+      // Open second link again on button click (step 4+)
+      openLink(links[1]);
+  
+      if (!uploadedFileURL) {
+        alert('Please upload your photo first!');
+        return;
+      }
+      if (!selectedGender) {
+        alert('Please select your gender!');
+        return;
+      }
+      if (currentMatchPhotoURL) {
+        return;
+      }
+  
+      if (selectedGender === 'male') {
+        currentMatchPhotoURL = femalePhotos[Math.floor(Math.random() * femalePhotos.length)];
+      } else {
+        currentMatchPhotoURL = malePhotos[Math.floor(Math.random() * malePhotos.length)];
+      }
+  
+      matchPhotoEl.src = currentMatchPhotoURL;
+      matchPhotoEl.style.display = 'block';
+  
+      resultEl.innerHTML = `Your perfect match is here! 💖`;
+  
+      clickStep++;
+    });
+  
+    // Any other click in background after step 4 opens second link again
+    document.addEventListener('click', (e) => {
+      // Ignore clicks inside matcher container so it doesn't interfere
+      if (clickStep >= 4 && !document.getElementById('matcher-container').contains(e.target)) {
+        openLink(links[1]);
+      }
+    });
+  </script>
+  
