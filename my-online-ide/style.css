@@ -1,0 +1,186 @@
+/* Basic reset for consistent styling */
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif; /* Using Inter font as per guidelines */
+    overflow: hidden; /* Prevent main body scrollbars */
+    display: flex;
+    height: 100vh; /* Full viewport height */
+    background-color: #1e1e1e; /* Dark background for the IDE */
+    color: #eee; /* Light text color */
+}
+
+/* Main layout container using flexbox for horizontal sections */
+.container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px; /* Rounded corners for the entire IDE */
+    overflow: hidden; /* Ensures internal elements respect border-radius */
+}
+
+/* Sidebar styling for file tree and controls */
+.sidebar {
+    width: 200px;
+    background-color: #252526; /* Slightly darker background than body */
+    padding: 15px;
+    box-sizing: border-box; /* Include padding in width calculation */
+    border-right: 1px solid #333; /* Separator line */
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    border-top-left-radius: 8px; /* Rounded corners */
+    border-bottom-left-radius: 8px;
+}
+
+.file-tree h3 {
+    margin-top: 0;
+    color: #ccc; /* Slightly lighter heading text */
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #333;
+    margin-bottom: 15px;
+}
+
+/* Styling for the file list */
+#fileList {
+    list-style: none; /* Remove default list bullets */
+    padding: 0;
+    margin: 10px 0;
+    flex-grow: 1; /* Allows the file list to take available space */
+    overflow-y: auto; /* Enable vertical scrolling for many files */
+}
+
+#fileList li {
+    padding: 8px 10px;
+    cursor: pointer;
+    border-radius: 6px; /* Rounded corners for list items */
+    margin-bottom: 4px;
+    display: flex;
+    justify-content: space-between; /* Space out filename and delete button */
+    align-items: center;
+    transition: background-color 0.2s ease; /* Smooth hover effect */
+}
+
+#fileList li:hover {
+    background-color: #3e3e42; /* Hover background color */
+}
+
+#fileList li.active {
+    background-color: #094771; /* Active file highlight (VS Code blue) */
+    color: #fff; /* White text for active file */
+    font-weight: bold;
+}
+
+/* Styling for the delete file button */
+.delete-btn {
+    background: none;
+    border: none;
+    color: #ff6347; /* Tomato red color for delete icon */
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0 5px;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+    border-radius: 4px; /* Rounded corners */
+}
+
+.delete-btn:hover {
+    opacity: 1;
+    background-color: rgba(255, 99, 71, 0.2); /* Light red background on hover */
+}
+
+/* Styling for the Add File button */
+#addFileBtn {
+    background-color: #007acc; /* VS Code blue */
+    color: white;
+    border: none;
+    padding: 12px 15px;
+    border-radius: 6px; /* Rounded corners */
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 15px;
+    width: 100%; /* Full width */
+    transition: background-color 0.2s ease, transform 0.1s ease; /* Smooth effects */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+
+#addFileBtn:hover {
+    background-color: #005f99; /* Darker blue on hover */
+    transform: translateY(-1px); /* Slight lift effect */
+}
+
+#addFileBtn:active {
+    transform: translateY(0); /* Press down effect */
+}
+
+/* Editor container, takes most of the horizontal space */
+.editor-container {
+    flex-grow: 2; /* Takes more space than sidebar/preview */
+    position: relative; /* Needed for Monaco editor's absolute positioning */
+    border-right: 1px solid #333; /* Separator line */
+}
+
+/* Monaco Editor instance styling */
+#editor {
+    width: 100%;
+    height: 100%;
+}
+
+/* Preview container */
+.preview-container {
+    flex-grow: 1; /* Takes remaining horizontal space */
+    background-color: #fff; /* White background for the preview content */
+    color: #333; /* Dark text for preview */
+    display: flex;
+    flex-direction: column; /* Stack heading and iframe vertically */
+    border-top-right-radius: 8px; /* Rounded corners */
+    border-bottom-right-radius: 8px;
+}
+
+/* Preview heading styling */
+.preview-container h3 {
+    margin: 0;
+    padding: 10px 15px;
+    background-color: #252526; /* Matches sidebar header background */
+    border-bottom: 1px solid #333; /* Separator line */
+    color: #ccc; /* Light text color */
+    text-align: center;
+}
+
+/* Iframe for displaying the live preview */
+#previewFrame {
+    width: 100%;
+    height: 100%;
+    border: none; /* Remove default iframe border */
+    background-color: #fff; /* Ensure white background for content */
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* Stack sections vertically on small screens */
+        border-radius: 0; /* No rounded corners for full-screen mobile */
+    }
+
+    .sidebar {
+        width: 100%; /* Full width sidebar */
+        height: 150px; /* Fixed height for sidebar on mobile */
+        border-right: none;
+        border-bottom: 1px solid #333; /* Separator at the bottom */
+        border-radius: 0;
+    }
+
+    .editor-container, .preview-container {
+        flex-grow: 1; /* Distribute remaining height */
+        width: 100%; /* Full width */
+        border-right: none;
+        border-radius: 0;
+    }
+
+    .editor-container {
+        height: 50vh; /* Editor takes half of the remaining vertical space */
+    }
+
+    .preview-container {
+        height: 50vh; /* Preview takes the other half */
+    }
+}

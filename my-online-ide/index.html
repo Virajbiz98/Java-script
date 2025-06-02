@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Basic Online IDE</title>
+    <link rel="stylesheet" href="style.css">
+    <!--
+        Monaco Editor requires a specific loader script.
+        This script loads the necessary modules for the editor to function.
+    -->
+    <script src="https://unpkg.com/monaco-editor@0.47.0/min/vs/loader.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="file-tree">
+                <h3>Files</h3>
+                <ul id="fileList">
+                    </ul>
+                <button id="addFileBtn">Add File</button>
+            </div>
+        </div>
+        <div class="editor-container">
+            <div id="editor"></div>
+        </div>
+        <div class="preview-container">
+            <h3>Preview</h3>
+            <iframe id="previewFrame" srcdoc="Loading preview..."></iframe>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
