@@ -1,0 +1,151 @@
+=<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>  Prompt Complexifier AI </title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .glass-container {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 2rem;
+      width: 90%;
+      max-width: 600px;
+      color: white;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 1rem;
+      border: none;
+      border-radius: 8px;
+      resize: vertical;
+      min-height: 100px;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    button {
+      background: white;
+      color: #1e3c72;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin-right: 10px;
+    }
+
+    button:hover {
+      background: #f0f0f0;
+    }
+
+    #output {
+      margin-top: 1.5rem;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 1rem;
+      border-radius: 8px;
+      min-height: 100px;
+      white-space: pre-wrap;
+      font-size: 1rem;
+    }
+
+    .copy-btn {
+      margin-top: 10px;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+
+<div class="glass-container">
+  <h1>??your idea into detail prompt</h1>
+  <textarea id="userInput" placeholder="Enter your idea here..."></textarea>
+  <button onclick="generatePrompt()">Generate Prompt</button>
+  <div id="output">Your enhanced prompt will appear here.</div>
+  <button class="copy-btn" onclick="copyToClipboard()">?? Copy to Clipboard</button>
+</div>
+
+<script>
+  async function generatePrompt() {
+    const input = document.getElementById('userInput').value.trim();
+    const outputDiv = document.getElementById('output');
+
+    if (!input) {
+      alert("Please enter an idea!");
+      return;
+    }
+
+    outputDiv.textContent = "?? Thinking... Generating complex prompt...";
+
+    const apiKey = "AIzaSyBOdlurhTvYlJ2OwKFxTS6Mc2l-TYp8tnA"; // YOUR KEY HERE
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+    const payload = {
+      contents: [{
+        role: "user",
+        parts: [{
+          text: `You are a prompt engineering assistant. Take the following idea and turn it into a highly detailed, structured, and optimized prompt for advanced AI systems(no need to write a codes). Idea: "${input}"`
+        }]
+      }]
+    };
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+        outputDiv.textContent = data.candidates[0].content.parts[0].text;
+      } else {
+        outputDiv.textContent = "? Gemini didn't return a valid response.";
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      outputDiv.textContent = `?? Error: ${error.message}`;
+    }
+  }
+
+  function copyToClipboard() {
+    const output = document.getElementById('output').textContent;
+    navigator.clipboard.writeText(output).then(() => {
+      alert("Prompt copied to clipboard!");
+    }).catch(err => {
+      alert("Failed to copy: " + err.message);
+    });
+  }
+</script>
+
+</body>
+</html>
