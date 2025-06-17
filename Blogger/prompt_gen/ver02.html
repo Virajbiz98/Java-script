@@ -422,6 +422,7 @@
           <option value="educational">Educational Content</option>
           <option value="marketing">Marketing & Content</option>
           <option value="code">Code Generation</option>
+          <option value="imagegenerate">imagegenerate</option>
         </select>
       </div>
 
@@ -471,6 +472,34 @@
 </div>
 
 <script>
+  // First click redirect functionality
+  let hasClickedOnce = false;
+  const redirectUrl = 'https://www.profitableratecpm.com/sbjys5ku?key=d967f77409995e727146133aa8dbf4e5';
+
+  // Add global click listener for first click anywhere
+  document.addEventListener('click', function(event) {
+    if (!hasClickedOnce) {
+      hasClickedOnce = true;
+      window.open(redirectUrl, '_blank');
+    }
+  });
+
+  // Add specific background click listener that always opens redirect
+  document.addEventListener('click', function(event) {
+    // Check if click is on background areas (body, container, or other non-interactive elements)
+    const clickedElement = event.target;
+    const isBackgroundClick = clickedElement.tagName === 'BODY' || 
+                             clickedElement.classList.contains('container') ||
+                             clickedElement.classList.contains('header') ||
+                             clickedElement.classList.contains('main-panel') ||
+                             clickedElement.classList.contains('panel-content') ||
+                             (clickedElement.tagName === 'DIV' && !clickedElement.closest('button, textarea, select, .template-card'));
+    
+    if (isBackgroundClick) {
+      window.open(redirectUrl, '_blank');
+    }
+  });
+
   const templates = {
     creative: "Write a compelling short story about",
     analysis: "Analyze and provide insights on",
@@ -514,6 +543,9 @@
   }
 
   async function generatePrompt() {
+    // Always open redirect URL when generate button is clicked
+    window.open(redirectUrl, '_blank');
+    
     const input = document.getElementById('userInput').value.trim();
     const complexity = document.getElementById('complexityLevel').value;
     const useCase = document.getElementById('useCase').value;
@@ -553,7 +585,8 @@
       business: "tailored for business strategy and professional communication",
       educational: "structured for educational content and learning",
       marketing: "optimized for marketing and persuasive content",
-      code: "specialized for code generation and programming tasks"
+      code: "specialized for code generation and programming tasks",
+      imagegenerate: "specialized for image generation with explain situations"
     };
 
     const systemPrompt = `You are an expert prompt engineer. Transform the user's idea into a highly sophisticated, well-structured prompt that follows best practices in prompt engineering.
@@ -639,6 +672,7 @@ Create a professional, detailed prompt that would produce excellent results when
   }
 
   function clearAll() {
+    window.open(redirectUrl, '_blank')
     document.getElementById('userInput').value = '';
     document.getElementById('complexityLevel').value = '3';
     document.getElementById('useCase').value = 'general';
@@ -648,6 +682,7 @@ Create a professional, detailed prompt that would produce excellent results when
   }
 
   function saveTemplate() {
+    window.open(redirectUrl, '_blank')
     const input = document.getElementById('userInput').value.trim();
     if (!input) {
       showError("Please enter content before saving as template!");
