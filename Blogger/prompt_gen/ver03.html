@@ -4,10 +4,11 @@
   <meta name="google-site-verification" content="gN77n9nbADnVfhWDHI5QVqmvZl4FzeGrE9i19hL38Dk" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Craft Your Perfect AI Prompt with Jen-Prompt</title> <meta name="description" content="Turn simple ideas into powerful AI prompts with Jen-Prompt. Perfect for ChatGPT, Midjourney & more. Fast, smart, and easy prompt builder.">
+  <title>Craft Your Perfect AI Prompt with Jen-Prompt</title>
+  <meta name="description" content="Turn simple ideas into powerful AI prompts with Jen-Prompt. Perfect for ChatGPT, Midjourney & more. Fast, smart, and easy prompt builder.">
 
   <style>
-    /* Your CSS starts here */
+    /* Global Styles */
     * {
       margin: 0;
       padding: 0;
@@ -16,9 +17,10 @@
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      /* Darker gradient for a professional look */
+      background: linear-gradient(135deg, #2c3e50 0%, #000000 100%); /* Dark Blue to Black */
       min-height: 100vh;
-      color: #333;
+      color: #e0e0e0; /* Light gray text for contrast on dark background */
       line-height: 1.6;
     }
 
@@ -28,6 +30,7 @@
       padding: 2rem;
     }
 
+    /* Header Styles */
     .header {
       text-align: center;
       margin-bottom: 3rem;
@@ -38,27 +41,49 @@
       font-size: 3rem;
       font-weight: 700;
       margin-bottom: 0.5rem;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5); /* Stronger text shadow for depth */
     }
 
     .header p {
       font-size: 1.2rem;
-      opacity: 0.9;
+      opacity: 0.8; /* Slightly less opaque to blend with glass */
     }
 
+    /* Main Panel (Glass Effect) */
     .main-panel {
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(0, 0, 0, 0.2); /* Transparent dark background for glass */
       border-radius: 20px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
       overflow: hidden;
+      position: relative;
+      /* Glass Effect Properties */
+      backdrop-filter: blur(18px) saturate(150%) brightness(120%); /* Stronger blur, higher saturation, brighter for contrast */
+      -webkit-backdrop-filter: blur(18px) saturate(150%) brightness(120%);
+      border: 1px solid rgba(255, 255, 255, 0.1); /* Very subtle light border */
+      box-shadow:
+        0 10px 40px 0 rgba(0, 0, 0, 0.5), /* Deeper, darker main shadow */
+        inset 0 0 0 1px rgba(255, 255, 255, 0.05), /* Very subtle inner light border */
+        inset 0 0 0 2px rgba(255, 255, 255, 0.02); /* Even subtler deeper inner light */
     }
 
+    /* Inner highlight for realistic glass look */
+    .main-panel::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(0, 0, 0, 0) 50%); /* Subtle light reflection */
+      border-radius: 20px;
+      pointer-events: none;
+    }
+
+    /* Panel Header */
     .panel-header {
-      background: linear-gradient(135deg, #667eea, #764ba2);
+      background: rgba(0, 0, 0, 0.4); /* Darker, slightly transparent header */
       padding: 1.5rem 2rem;
       color: white;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .panel-header h2 {
@@ -66,8 +91,10 @@
       font-weight: 600;
     }
 
+    /* Panel Content */
     .panel-content {
       padding: 2rem;
+      color: #c0c0c0; /* Lighter gray for general text */
     }
 
     .form-group {
@@ -78,30 +105,38 @@
       display: block;
       font-weight: 600;
       margin-bottom: 0.5rem;
-      color: #374151;
+      color: #f0f0f0; /* Very light gray for labels */
       font-size: 0.95rem;
+      /* To make text clearly visible through glass */
+      background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent dark background for labels */
+      padding: 0.2em 0.5em;
+      border-radius: 6px;
+      display: inline-block; /* Essential for padding/background to fit content */
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2); /* Small shadow for pop-out effect */
     }
 
-    .input-container {
-      position: relative;
-    }
-
+    /* Input Fields (textarea, select) */
     textarea, select {
       width: 100%;
       padding: 1rem;
-      border: 2px solid #e5e7eb;
+      border: 2px solid #555; /* Darker border */
       border-radius: 12px;
       font-size: 1rem;
       font-family: inherit;
       transition: all 0.3s ease;
-      background: #f9fafb;
+      background: rgba(0, 0, 0, 0.3); /* Dark transparent background */
+      color: #f0f0f0; /* Light text for input */
+    }
+
+    textarea::placeholder, select::placeholder { /* Placeholder color */
+      color: #999;
     }
 
     textarea:focus, select:focus {
       outline: none;
-      border-color: #667eea;
-      background: white;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      border-color: #667eea; /* Accent color on focus */
+      background: rgba(0, 0, 0, 0.5); /* Slightly darker on focus */
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2); /* Accent shadow */
     }
 
     textarea {
@@ -114,18 +149,19 @@
       bottom: 8px;
       right: 12px;
       font-size: 0.75rem;
-      color: #6b7280;
+      color: #aaa; /* Lighter gray */
     }
 
+    /* Complexity Slider */
     .complexity-slider {
       margin: 1rem 0;
     }
 
     .slider {
       width: 100%;
-      height: 6px;
-      border-radius: 3px;
-      background: #e5e7eb;
+      height: 8px; /* Slightly thicker slider */
+      border-radius: 4px;
+      background: #555; /* Dark gray track */
       outline: none;
       -webkit-appearance: none;
     }
@@ -133,22 +169,40 @@
     .slider::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 20px;
-      height: 20px;
+      width: 22px; /* Slightly larger thumb */
+      height: 22px;
       border-radius: 50%;
-      background: #667eea;
+      background: #667eea; /* Accent color */
       cursor: pointer;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3); /* Accent shadow */
+      border: 2px solid white; /* White border for pop */
+    }
+
+    /* Complexity Description (Fix for blur) */
+    #complexityDescription {
+      font-size: 0.875rem;
+      color: #f0f0f0; /* Light text */
+      margin-top: 0.5rem;
+      background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent dark background */
+      padding: 0.2em 0.5em;
+      border-radius: 6px;
+      display: inline-block; /* Essential for padding/background to fit content */
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2); /* Small shadow */
     }
 
     .complexity-labels {
       display: flex;
       justify-content: space-between;
       font-size: 0.8rem;
-      color: #6b7280;
+      color: #999; /* Lighter gray for labels */
       margin-top: 0.5rem;
+      /* These were conflicting with #complexityDescription, removed here */
+      /* background-color: rgba(255, 255, 255, 0.8); */
+      /* padding: 0.2em 0.4em; */
+      /* border-radius: 4px; */
     }
 
+    /* Buttons */
     .button-group {
       display: flex;
       gap: 1rem;
@@ -166,37 +220,40 @@
       transition: all 0.3s ease;
       position: relative;
       overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3); /* Button shadow */
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, #667eea, #764ba2);
+      background: linear-gradient(135deg, #667eea, #764ba2); /* Original accent gradient */
       color: white;
       flex: 1;
       min-width: 200px;
     }
 
     .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+      transform: translateY(-3px); /* Deeper hover effect */
+      box-shadow: 0 12px 25px rgba(102, 126, 234, 0.4); /* Stronger hover shadow */
     }
 
     .btn-secondary {
-      background: #f3f4f6;
-      color: #374151;
-      border: 2px solid #e5e7eb;
+      background: #444; /* Dark gray for secondary buttons */
+      color: #f0f0f0; /* Light text */
+      border: 2px solid #666; /* Slightly lighter gray border */
     }
 
     .btn-secondary:hover {
-      background: #e5e7eb;
+      background: #555; /* Lighter gray on hover */
       transform: translateY(-1px);
     }
 
     .btn:disabled {
-      opacity: 0.6;
+      opacity: 0.5; /* Slightly more visible disabled state */
       cursor: not-allowed;
       transform: none;
+      box-shadow: none;
     }
 
+    /* Loading Spinner */
     .loading {
       position: relative;
     }
@@ -206,13 +263,13 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 20px;
-      height: 20px;
-      margin: -10px 0 0 -10px;
-      border: 2px solid transparent;
-      border-top: 2px solid white;
+      width: 24px; /* Larger spinner */
+      height: 24px;
+      margin: -12px 0 0 -12px;
+      border: 3px solid transparent; /* Thicker border */
+      border-top: 3px solid white;
       border-radius: 50%;
-      animation: spin 1s linear infinite;
+      animation: spin 0.8s linear infinite; /* Faster spin */
     }
 
     @keyframes spin {
@@ -220,12 +277,14 @@
       100% { transform: rotate(360deg); }
     }
 
+    /* Output Section */
     .output-section {
-      background: #f8fafc;
+      background: rgba(0, 0, 0, 0.3); /* Transparent dark background for output */
       border-radius: 12px;
-      border: 1px solid #e2e8f0;
+      border: 1px solid rgba(255, 255, 255, 0.15); /* Subtle border */
       padding: 1.5rem;
       margin-top: 2rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3); /* Shadow for output section */
     }
 
     .output-header {
@@ -233,24 +292,24 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 1rem;
+      color: #f0f0f0; /* Light text */
     }
 
     .output-header h3 {
       font-size: 1.25rem;
       font-weight: 600;
-      color: #1f2937;
     }
 
     .output-content {
-      background: white;
+      background: rgba(0, 0, 0, 0.5); /* Even darker transparent background for content */
       border-radius: 8px;
       padding: 1.5rem;
       min-height: 150px;
-      border: 1px solid #e5e7eb;
+      border: 1px solid rgba(255, 255, 255, 0.1);
       font-size: 0.95rem;
       line-height: 1.6;
       white-space: pre-wrap;
-      color: #374151;
+      color: #e0e0e0; /* Light text */
     }
 
     .output-stats {
@@ -258,7 +317,7 @@
       gap: 2rem;
       margin-top: 1rem;
       font-size: 0.875rem;
-      color: #6b7280;
+      color: #aaa; /* Lighter gray for stats */
     }
 
     .stat-item {
@@ -267,6 +326,7 @@
       gap: 0.5rem;
     }
 
+    /* Templates */
     .templates {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -275,37 +335,39 @@
     }
 
     .template-card {
-      background: #f8fafc;
-      border: 2px solid #e5e7eb;
+      background: rgba(0, 0, 0, 0.3); /* Dark transparent background */
+      border: 2px solid rgba(255, 255, 255, 0.15); /* Subtle border */
       border-radius: 12px;
       padding: 1rem;
       cursor: pointer;
       transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
     }
 
     .template-card:hover {
-      border-color: #667eea;
-      background: white;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      border-color: #667eea; /* Accent color on hover */
+      background: rgba(0, 0, 0, 0.4); /* Slightly darker on hover */
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.4);
     }
 
     .template-card h4 {
       font-size: 1rem;
       font-weight: 600;
       margin-bottom: 0.5rem;
-      color: #1f2937;
+      color: #f0f0f0; /* Light text */
     }
 
     .template-card p {
       font-size: 0.875rem;
-      color: #6b7280;
+      color: #aaa; /* Lighter gray */
     }
 
+    /* Messages */
     .success-message {
-      background: #ecfdf5;
-      border: 1px solid #bbf7d0;
-      color: #166534;
+      background: rgba(21, 128, 61, 0.3); /* Green transparent */
+      border: 1px solid #4ade80; /* Green border */
+      color: #d1fae5; /* Light green text */
       padding: 1rem;
       border-radius: 8px;
       margin-top: 1rem;
@@ -313,15 +375,16 @@
     }
 
     .error-message {
-      background: #fef2f2;
-      border: 1px solid #fecaca;
-      color: #dc2626;
+      background: rgba(220, 38, 38, 0.3); /* Red transparent */
+      border: 1px solid #fca5a5; /* Red border */
+      color: #fce7f3; /* Light red text */
       padding: 1rem;
       border-radius: 8px;
       margin-top: 1rem;
       display: none;
     }
 
+    /* Media Queries for Responsiveness */
     @media (max-width: 768px) {
       .container {
         padding: 1rem;
@@ -343,131 +406,248 @@
         grid-template-columns: 1fr;
       }
     }
+    
+    /* Privacy/Contact Section Styles */
+    .privacy-contact-section {
+      margin-top: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .privacy-contact-section .panel-content ul {
+      list-style-type: disc;
+      margin-left: 20px;
+      margin-bottom: 1rem;
+      color: #c0c0c0; /* Match main content color */
+    }
+
+    .privacy-contact-section .panel-content p,
+    .privacy-contact-section .panel-content li {
+      font-size: 0.95rem;
+      color: #c0c0c0; /* Match main content color */
+      margin-bottom: 0.7rem;
+    }
+
+    .privacy-contact-section .panel-content h3 {
+      font-size: 1.15rem;
+      margin-top: 1.5rem;
+      margin-bottom: 0.7rem;
+      color: #f0f0f0; /* Light gray for headings */
+    }
+
+    .privacy-contact-section .panel-content a {
+      font-weight: 500;
+      color: #667eea; /* Keep accent color for links */
+    }
+
+    /* Footer Styles */
+    footer {
+      background: rgba(0, 0, 0, 0.4); /* Darker transparent background for footer */
+      color: #bbb; /* Lighter text for footer */
+      padding: 1.5rem 1rem; /* Increase padding for better look */
+      font-size: 0.85rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05); /* Subtle top border */
+    }
+
+    footer a {
+      color: #bbb; /* Lighter links */
+      text-decoration: none;
+      margin: 0 0.5rem;
+      transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+      color: #667eea; /* Accent color on hover for footer links */
+    }
   </style>
 </head>
 <body>
   <div class="container">
-  <header class="header">
-    <h1>Prompt Engineering Studio</h1>
-    <p>Transform simple ideas into sophisticated, AI-optimized prompts</p>
-  </header>
+    <header class="header">
+      <h1>Prompt Engineering Studio</h1>
+      <p>Transform simple ideas into sophisticated, AI-optimized prompts</p>
+    </header>
 
-  <div class="main-panel">
-    <div class="panel-header">
-      <h2>Craft Your Perfect Prompt</h2>
-    </div>
-    
-    <div class="panel-content">
-      <div class="form-group">
-        <label>Quick Start Templates</label>
-        <div class="templates" id="templates">
-          <div class="template-card" onclick="loadTemplate('creative')">
-            <h4>Creative Writing</h4>
-            <p>Stories, poems, creative content</p>
-          </div>
-          <div class="template-card" onclick="loadTemplate('analysis')">
-            <h4>Data Analysis</h4>
-            <p>Research, analysis, insights</p>
-          </div>
-          <div class="template-card" onclick="loadTemplate('business')">
-            <h4>Business Strategy</h4>
-            <p>Plans, strategies, proposals</p>
-          </div>
-          <div class="template-card" onclick="loadTemplate('technical')">
-            <h4>Technical Documentation</h4>
-            <p>Code, architecture, guides</p>
+    <div class="main-panel">
+      <div class="panel-header">
+        <h2>Craft Your Perfect Prompt</h2>
+      </div>
+      
+      <div class="panel-content">
+        <div class="form-group">
+          <label>Quick Start Templates</label>
+          <div class="templates" id="templates">
+            <div class="template-card" onclick="loadTemplate('creative')">
+              <h4>Creative Writing</h4>
+              <p>Stories, poems, creative content</p>
+            </div>
+            <div class="template-card" onclick="loadTemplate('analysis')">
+              <h4>Data Analysis</h4>
+              <p>Research, analysis, insights</p>
+            </div>
+            <div class="template-card" onclick="loadTemplate('business')">
+              <h4>Business Strategy</h4>
+              <p>Plans, strategies, proposals</p>
+            </div>
+            <div class="template-card" onclick="loadTemplate('technical')">
+              <h4>Technical Documentation</h4>
+              <p>Code, architecture, guides</p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="form-group">
-        <label for="userInput">Your Idea or Concept</label>
-        <div class="input-container">
-          <textarea 
-            id="userInput" 
-            placeholder="Describe your idea, concept, or the task you want to create a prompt for..."
-            oninput="updateCharCount()"
-          ></textarea>
-          <div class="char-counter" id="charCounter">0 characters</div>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="complexityLevel">Complexity Level</label>
-        <div class="complexity-slider">
-          <input type="range" id="complexityLevel" class="slider" min="1" max="5" value="3" oninput="updateComplexityLabel()">
-          <div class="complexity-labels">
-            <span>Simple</span>
-            <span>Moderate</span>
-            <span>Advanced</span>
-            <span>Expert</span>
-            <span>Master</span>
+        <div class="form-group">
+          <label for="userInput">Your Idea or Concept</label>
+          <div class="input-container">
+            <textarea 
+              id="userInput" 
+              placeholder="Describe your idea, concept, or the task you want to create a prompt for..."
+              oninput="updateCharCount()"
+            ></textarea>
+            <div class="char-counter" id="charCounter">0 characters</div>
           </div>
         </div>
-        <p id="complexityDescription" style="font-size: 0.875rem; color: #6b7280; margin-top: 0.5rem;">
-          Moderate complexity with structured approach
-        </p>
-      </div>
 
-      <div class="form-group">
-        <label for="useCase">Primary Use Case</label>
-        <select id="useCase">
-          <option value="general">General Purpose</option>
-          <option value="creative">Creative Writing</option>
-          <option value="analytical">Analysis & Research</option>
-          <option value="technical">Technical Documentation</option>
-          <option value="business">Business & Strategy</option>
-          <option value="educational">Educational Content</option>
-          <option value="marketing">Marketing & Content</option>
-          <option value="code">Code Generation</option>
-          <option value="website"> Web Develop</option>
-          <option value="imagegenerate">Image Generation</option>
-          <option value="videogenerate">Video Generation</option>
-          <option value="storyvideo">Story Video</option>
-        </select>
-      </div>
-
-      <div class="button-group">
-        <button class="btn btn-primary" onclick="generatePrompt()" id="generateBtn">
-          Generate Enhanced Prompt
-        </button>
-        <button class="btn btn-secondary" onclick="clearAll()">Clear All</button>
-        <button class="btn btn-secondary" onclick="saveTemplate()">Save as Template</button>
-      </div>
-
-      <div class="output-section" id="outputSection" style="display: none;">
-        <div class="output-header">
-          <h3>Enhanced Prompt</h3>
-          <button class="btn btn-secondary" onclick="copyToClipboard()">Copy to Clipboard</button>
-        </div>
-        <div class="output-content" id="output">
-          Your enhanced prompt will appear here...
-        </div>
-        <div class="output-stats" id="outputStats">
-          <div class="stat-item">
-            <span>📊</span>
-            <span id="wordCount">0 words</span>
+        <div class="form-group">
+          <label for="complexityLevel">Complexity Level</label>
+          <div class="complexity-slider">
+            <input type="range" id="complexityLevel" class="slider" min="1" max="5" value="3" oninput="updateComplexityLabel()">
+            <div class="complexity-labels">
+              <span>Simple</span>
+              <span>Moderate</span>
+              <span>Advanced</span>
+              <span>Expert</span>
+              <span>Master</span>
+            </div>
           </div>
-          <div class="stat-item">
-            <span>⏱️</span>
-            <span id="readTime">0 min read</span>
+          <p id="complexityDescription">
+            Moderate complexity with structured approach
+          </p>
+        </div>
+
+        <div class="form-group">
+          <label for="useCase">Primary Use Case</label>
+          <select id="useCase">
+            <option value="general">General Purpose</option>
+            <option value="creative">Creative Writing</option>
+            <option value="analytical">Analysis & Research</option>
+            <option value="technical">Technical Documentation</option>
+            <option value="business">Business & Strategy</option>
+            <option value="educational">Educational Content</option>
+            <option value="marketing">Marketing & Content</option>
+            <option value="code">Code Generation</option>
+            <option value="website"> Web Develop</option>
+            <option value="imagegenerate">Image Generation</option>
+            <option value="videogenerate">Video Generation</option>
+            <option value="storyvideo">Story Video</option>
+          </select>
+        </div>
+
+        <div class="button-group">
+          <button class="btn btn-primary" onclick="generatePrompt()" id="generateBtn">
+            Generate Enhanced Prompt
+          </button>
+          <button class="btn btn-secondary" onclick="clearAll()">Clear All</button>
+          <button class="btn btn-secondary" onclick="saveTemplate()">Save as Template</button>
+        </div>
+
+        <div class="output-section" id="outputSection" style="display: none;">
+          <div class="output-header">
+            <h3>Enhanced Prompt</h3>
+            <button class="btn btn-secondary" onclick="copyToClipboard()">Copy to Clipboard</button>
           </div>
-          <div class="stat-item">
-            <span>🎯</span>
-            <span id="complexityBadge">Moderate</span>
+          <div class="output-content" id="output">
+            Your enhanced prompt will appear here...
+          </div>
+          <div class="output-stats" id="outputStats">
+            <div class="stat-item">
+              <span>📊</span>
+              <span id="wordCount">0 words</span>
+            </div>
+            <div class="stat-item">
+              <span>⏱️</span>
+              <span id="readTime">0 min read</span>
+            </div>
+            <div class="stat-item">
+              <span>🎯</span>
+              <span id="complexityBadge">Moderate</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="success-message" id="successMessage">
-        Prompt copied to clipboard successfully!
-      </div>
-      <div class="error-message" id="errorMessage">
-        An error occurred. Please try again.
+        <div class="success-message" id="successMessage">
+          Prompt copied to clipboard successfully!
+        </div>
+        <div class="error-message" id="errorMessage">
+          An error occurred. Please try again.
+        </div>
       </div>
     </div>
   </div>
-</div>
+
+  <div id="privacy-policy" class="container privacy-contact-section">
+    <div class="main-panel">
+      <div class="panel-header">
+        <h2>Privacy Policy</h2>
+      </div>
+      <div class="panel-content">
+        <h3>1. Introduction</h3>
+        <p>Welcome to Jen-Prompt. We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website.</p>
+
+        <h3>2. Information We Collect</h3>
+        <p>We collect information in the following ways:</p>
+        <ul>
+          <li>**Information you provide:** When you use our prompt generation tool, the text you enter into the "Your Idea or Concept" field is processed by the Google Generative AI API to create an enhanced prompt. We do not store this input text or the generated output on our servers.</li>
+          <li>**Automatically Collected Information:** When you access our website, we may collect certain information automatically, including your IP address, browser type, operating system, access times, and the pages you have viewed directly before and after accessing the Site. This is typically collected via third-party services like Google Analytics (if enabled).</li>
+        </ul>
+
+        <h3>3. How We Use Your Information</h3>
+        <p>We use the information we collect to:</p>
+        <ul>
+          <li>Operate and maintain our website.</li>
+          <li>Improve our website, products, and services.</li>
+          <li>Monitor and analyze usage and trends to improve your experience.</li>
+          <li>Generate enhanced AI prompts based on your input (this data is processed by Google's API as described above and is not stored by us).</li>
+        </ul>
+
+        <h3>4. Third-Party Services</h3>
+        <p>We use the following third-party services which may collect information:</p>
+        <ul>
+          <li>**Google Generative AI API:** Your input for prompt generation is sent to Google's API for processing. Google's API data usage policy applies to this processing. We encourage you to review <a href="https://developers.google.com/terms/api-terms" target="_blank">Google's API Terms of Service</a>.</li>
+          <li>**Google AdSense:** (Once enabled) Google, as a third-party vendor, uses cookies to serve ads on our site. Google's use of the DART cookie enables it to serve ads to our users based on their visit to our site and other sites on the Internet. Users may opt out of the use of the DART cookie by visiting the <a href="https://policies.google.com/technologies/ads" target="_blank">Google Ad and Content Network Privacy Policy</a>.</li>
+          <li>**Google Analytics:** (If enabled) This service helps us understand website traffic and webpage usage. Information collected is subject to Google's Privacy Policy.</li>
+        </ul>
+
+        <h3>5. Cookies</h3>
+        <p>We may use cookies and similar tracking technologies to track the activity on our Service and hold certain information. Cookies are files with a small amount of data which may include an anonymous unique identifier. You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent.</p>
+
+        <h3>6. Data Retention</h3>
+        <p>We do not store the prompt input or generated output on our servers. Any automatically collected data through third-party services is retained according to their respective policies.</p>
+
+        <h3>7. Your Data Protection Rights</h3>
+        <p>Depending on your location, you may have rights regarding your personal data, such as the right to access, update, or delete the information we have on you. As we do not store personal input data, direct control over such data is limited to your interaction with third-party services.</p>
+
+        <h3>8. Changes to This Privacy Policy</h3>
+        <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page. You are advised to review this Privacy Policy periodically for any changes.</p>
+
+        <h3>9. Contact Us</h3>
+        <p>If you have any questions about this Privacy Policy, please contact us at virajbiz98@gmail.com.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="contact-us" class="container privacy-contact-section">
+    <div class="main-panel">
+      <div class="panel-header">
+        <h2>Contact Us</h2>
+      </div>
+      <div class="panel-content">
+        <p>If you have any questions, feedback, or require assistance, please feel free to reach out to us.</p>
+        <p><strong>Email:</strong> <a href="mailto:virajbiz98@gmail.com">virajbiz98@gmail.com</a></p>
+        <p>We aim to respond to all inquiries within 24-48 hours.</p>
+        </div>
+    </div>
+  </div>
+
 
 <script>
   // ** IMPORTANT: All aggressive redirect logic has been removed for better UX and AdSense compliance. **
@@ -483,9 +663,9 @@
   const complexityDescriptions = {
     1: "Simple and straightforward approach",
     2: "Basic structure with key elements",
-    3: "Moderate complexity with structured approach",
-    4: "Advanced methodology with detailed requirements",
-    5: "Master-level complexity with comprehensive framework"
+    3: "Packs a punch with solid structure and elements for a focused output.",
+    4: "Delivers a robust prompt with detailed context and specific instructions for advanced AI applications.",
+    5: "Master-level complexity with comprehensive framework, including role-play, detailed constraints, and multi-turn interaction for highly sophisticated AI responses."
   };
 
   const useCaseInstructions = {
@@ -551,7 +731,8 @@
     outputDiv.textContent = "🤖 Analyzing your input and crafting an enhanced prompt...";
 
     // Replace with your actual API key
-    const apiKey = "AIzaSyBOdlurhTvYlJ2OwKFxTS6Mc2l-TYp8tnA"; // YOU MUST REPLACE THIS WITH YOUR ACTUAL GOOGLE GENERATIVE AI API KEY
+    // YOU MUST REPLACE THIS WITH YOUR ACTUAL GOOGLE GENERATIVE AI API KEY
+    const apiKey = "AIzaSyBOdlurhTvYlJ2OwKFxTS6Mc2l-TYp8tnA"; 
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
     const systemPrompt = `You are an expert prompt engineer. Transform the user's idea into a highly sophisticated, well-structured prompt that follows best practices in prompt engineering.
@@ -615,6 +796,7 @@ Create a professional, detailed prompt that would produce excellent results when
     const wordCount = text.split(/\s+/).length;
     const readTime = Math.ceil(wordCount / 200); // Assuming 200 words per minute
     const complexity = document.getElementById('complexityLevel').value;
+    // Updated complexity labels to match descriptions more closely
     const complexityLabels = ['', 'Simple', 'Basic', 'Moderate', 'Advanced', 'Master'];
 
     document.getElementById('wordCount').textContent = `${wordCount} words`;
@@ -682,8 +864,8 @@ Create a professional, detailed prompt that would produce excellent results when
 <footer style="text-align: center; margin-top: 4rem; padding: 1rem; color: #eee; font-size: 0.85rem;">
   <p>&copy; <script>document.write(new Date().getFullYear())</script> Jen-Prompt. All rights reserved.</p>
   <p>
-    <a href="#" style="color: #eee; text-decoration: none; margin: 0 0.5rem;">Privacy Policy</a> | 
-    <a href="#" style="color: #eee; text-decoration: none; margin: 0 0.5rem;">Contact Us</a>
+    <a href="#privacy-policy" style="color: #eee; text-decoration: none; margin: 0 0.5rem;">Privacy Policy</a> | 
+    <a href="#contact-us" style="color: #eee; text-decoration: none; margin: 0 0.5rem;">Contact Us</a>
   </p>
 </footer>
 
