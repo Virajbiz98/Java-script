@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="google-site-verification" content="gN77n9nbADnVfhWDHI5QVqmvZl4FzeGrE9i19hL38Dk" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Craft Your Perfect AI Prompt with Jen-Prompt</title>
+  <meta name="description" content="Turn simple ideas into powerful AI prompts with Jen-Prompt. Perfect for ChatGPT, Cloud, Midjourney & more. Fast, smart, and easy free prompt builder.">
+
+  <style>
+    /* Global Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      /* Darker gradient for a professional look */
+      background: linear-gradient(135deg, #2c3e50 0%, #000000 100%); /* Dark Blue to Black */
+      min-height: 100vh;
+      color: #e0e0e0; /* Light gray text for contrast on dark background */
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    /* Header Styles */
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+      color: white;
+    }
+
+    .header h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5); /* Stronger text shadow for depth */
+    }
+
+    .header p {
+      font-size: 1.2rem;
+      opacity: 0.8; /* Slightly less opaque to blend with glass */
+    }
+
+    /* Main Panel (Glass Effect) */
+    .main-panel {
+      background: rgba(0, 0, 0, 0.2); /* Transparent dark background for glass */
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+      /* Glass Effect Properties */
+      backdrop-filter: blur(18px) saturate(150%) brightness(120%); /* Stronger blur, higher saturation, brighter for contrast */
+      -webkit-backdrop-filter: blur(18px) saturate(150%) brightness(120%);
+      border: 1px solid rgba(255, 255, 255, 0.1); /* Very subtle light border */
+      box-shadow:
+        0 10px 40px 0 rgba(0, 0, 0, 0.5), /* Deeper, darker main shadow */
+        inset 0 0 0 1px rgba(255, 255, 255, 0.05), /* Very subtle inner light border */
+        inset 0 0 0 2px rgba(255, 255, 255, 0.02); /* Even subtler deeper inner light */
+    }
+
+    /* Inner highlight for realistic glass look */
+    .main-panel::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(0, 0, 0, 0) 50%); /* Subtle light reflection */
+      border-radius: 20px;
+      pointer-events: none;
+    }
+
+    /* Panel Header */
+    .panel-header {
+      background: rgba(0, 0, 0, 0.4); /* Darker, slightly transparent header */
+      padding: 1.5rem 2rem;
+      color: white;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .panel-header h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    /* Panel Content */
+    .panel-content {
+      padding: 2rem;
+      color: #c0c0c0; /* Lighter gray for general text */
+    }
+
+    .form-group {
+      margin-bottom: 2rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #f0f0f0; /* Very light gray for labels */
+      font-size: 0.95rem;
+      /* To make text clearly visible through glass */
+      background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent dark background for labels */
+      padding: 0.2em 0.5em;
+      border-radius: 6px;
+      display: inline-block; /* Essential for padding/background to fit content */
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2); /* Small shadow for pop-out effect */
+    }
+
+    /* Input Fields (textarea, select) */
+    textarea, select, input[type="range"] {
+      width: 100%;
+      padding: 1rem; /* Adjust padding for select/range as needed */
+      border: 2px solid #555; /* Darker border */
+      border-radius: 12px;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: all 0.3s ease;
+      background: rgba(0, 0, 0, 0.3); /* Dark transparent background */
+      color: #f0f0f0; /* Light text for input */
+    }
+
+    textarea::placeholder, select::placeholder { /* Placeholder color */
+      color: #999;
+    }
+
+    textarea:focus, select:focus, input[type="range"]:focus {
+      outline: none;
+      border-color: #667eea; /* Accent color on focus */
+      background: rgba(0, 0, 0, 0.5); /* Slightly darker on focus */
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2); /* Accent shadow */
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .char-counter {
+      position: absolute;
+      bottom: 8px;
+      right: 12px;
+      font-size: 0.75rem;
+      color: #aaa; /* Lighter gray */
+    }
+
+    /* Complexity Slider */
+    .complexity-slider, .tone-slider, .creativity-slider {
+      margin: 1rem 0;
+    }
+
+    .slider {
+      width: 100%;
+      height: 8px; /* Slightly thicker slider */
+      border-radius: 4px;
+      background: #555; /* Dark gray track */
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 22px; /* Slightly larger thumb */
+      height: 22px;
+      border-radius: 50%;
+      background: #667eea; /* Accent color */
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3); /* Accent shadow */
+      border: 2px solid white; /* White border for pop */
+    }
+
+    /* Complexity/Tone/Creativity Description (Fix for blur) */
+    #complexityDescription, #toneDescription, #creativityDescription {
+      font-size: 0.875rem;
+      color: #f0f0f0; /* Light text */
+      margin-top: 0.5rem;
+      background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent dark background */
+      padding: 0.2em 0.5em;
+      border-radius: 6px;
+      display: inline-block; /* Essential for padding/background to fit content */
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2); /* Small shadow */
+    }
+
+    .complexity-labels, .tone-labels, .creativity-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: #999; /* Lighter gray for labels */
+      margin-top: 0.5rem;
+    }
+
+    /* Buttons */
+    .button-group {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 0.875rem 1.5rem;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3); /* Button shadow */
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea, #764ba2); /* Original accent gradient */
+      color: white;
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px); /* Deeper hover effect */
+      box-shadow: 0 12px 25px rgba(102, 126, 234, 0.4); /* Stronger hover shadow */
+    }
+
+    .btn-secondary {
+      background: #444; /* Dark gray for secondary buttons */
+      color: #f0f0f0; /* Light text */
+      border: 2px solid #666; /* Slightly lighter gray border */
+    }
+
+    .btn-secondary:hover {
+      background: #555; /* Lighter gray on hover */
+      transform: translateY(-1px);
+    }
+
+    .btn:disabled {
+      opacity: 0.5; /* Slightly more visible disabled state */
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Loading Spinner */
+    .loading {
+      position: relative;
+    }
+
+    .loading::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 24px; /* Larger spinner */
+      height: 24px;
+      margin: -12px 0 0 -12px;
+      border: 3px solid transparent; /* Thicker border */
+      border-top: 3px solid white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite; /* Faster spin */
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Output Section */
+    .output-section {
+      background: rgba(0, 0, 0, 0.3); /* Transparent dark background for output */
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.15); /* Subtle border */
+      padding: 1.5rem;
+      margin-top: 2rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3); /* Shadow for output section */
+    }
+
+    .output-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      color: #f0f0f0; /* Light text */
+    }
+
+    .output-header h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    .output-content {
+      background: rgba(0, 0, 0, 0.5); /* Even darker transparent background for content */
+      border-radius: 8px;
+      padding: 1.5rem;
+      min-height: 150px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      color: #e0e0e0; /* Light text */
+    }
+    
+    .output-content img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+        border-radius: 8px; /* Slightly rounded corners for images */
+        box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+    }
+
+    .output-stats {
+      display: flex;
+      gap: 2rem;
+      margin-top: 1rem;
+      font-size: 0.875rem;
+      color: #aaa; /* Lighter gray for stats */
+    }
+
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Templates */
+    .templates {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .template-card {
+      background: rgba(0, 0, 0, 0.3); /* Dark transparent background */
+      border: 2px solid rgba(255, 255, 255, 0.15); /* Subtle border */
+      border-radius: 12px;
+      padding: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    .template-card:hover {
+      border-color: #667eea; /* Accent color on hover */
+      background: rgba(0, 0, 0, 0.4); /* Slightly darker on hover */
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+    }
+
+    .template-card h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #f0f0f0; /* Light text */
+    }
+
+    .template-card p {
+      font-size: 0.875rem;
+      color: #aaa; /* Lighter gray */
+    }
+
+    /* Messages */
+    .success-message {
+      background: rgba(21, 128, 61, 0.3); /* Green transparent */
+      border: 1px solid #4ade80; /* Green border */
+      color: #d1fae5; /* Light green text */
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+      display: none;
+    }
+
+    .error-message {
+      background: rgba(220, 38, 38, 0.3); /* Red transparent */
+      border: 1px solid #fca5a5; /* Red border */
+      color: #fce7f3; /* Light red text */
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+      display: none;
+    }
+
+    /* Media Queries for Responsiveness */
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+      }
+      
+      .header h1 {
+        font-size: 2rem;
+      }
+      
+      .button-group {
+        flex-direction: column;
+      }
+      
+      .btn-primary {
+        min-width: auto;
+      }
+      
+      .templates {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    /* Privacy/Contact Section Styles */
+    .privacy-contact-section {
+      margin-top: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .privacy-contact-section .panel-content ul {
+      list-style-type: disc;
+      margin-left: 20px;
+      margin-bottom: 1rem;
+      color: #c0c0c0; /* Match main content color */
+    }
+
+    .privacy-contact-section .panel-content p,
+    .privacy-contact-section .panel-content li {
+      font-size: 0.95rem;
+      color: #c0c0c0; /* Match main content color */
+      margin-bottom: 0.7rem;
+    }
+
+    .privacy-contact-section .panel-content h3 {
+      font-size: 1.15rem;
+      margin-top: 1.5rem;
+      margin-bottom: 0.7rem;
+      color: #f0f0f0; /* Light gray for headings */
+    }
+
+    .privacy-contact-section .panel-content a {
+      font-weight: 500;
+      color: #667eea; /* Keep accent color for links */
+    }
+
+    /* Footer Styles */
+    footer {
+      background: rgba(0, 0, 0, 0.4); /* Darker transparent background for footer */
+      color: #bbb; /* Lighter text for footer */
+      padding: 1.5rem 1rem; /* Increase padding for better look */
+      font-size: 0.85rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05); /* Subtle top border */
+    }
+
+    footer a {
+      color: #bbb; /* Lighter links */
+      text-decoration: none;
+      margin: 0 0.5rem;
+      transition: color 0.3s ease;
+    }
+    
+    
+    /* Specific Styles for the "The Crucial Role of Prompt Engineering" Article */
+
+/* Container for the overall article structure (summary + hidden full content) */
+.article-container {
+    max-width: 900px; /* Limits width for better readability on large screens */
+    margin: 50px auto 30px auto; /* Top, auto left/right, bottom margin for spacing */
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.05); /* Slightly transparent white for a subtle frosted look */
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 5px 20px rgba(0,0,0,0.4); /* Soft, deep shadow */
+    color: #e0e0e0; /* Light text for contrast on dark background */
+    line-height: 1.8; /* Increased line height for readability */
+    font-family: 'Inter', sans-serif; /* Consistent font family */
+}
+
+/* Style for the main summary container within the article */
+.article-container .main-container {
+    background-color: transparent; /* Make the inner main-container transparent to blend with .article-container */
+    border: none; /* Remove border from the inner main-container */
+    padding: 0; /* Remove padding if already handled by .article-container */
+    margin-bottom: 0; /* Adjust margin */
+    box-shadow: none; /* Remove shadow */
+    border-radius: 0; /* Remove border radius */
+}
+
+/* Article's main heading */
+.article-container h2 {
+    color: #76c7c0; /* Accent color for main title */
+    font-size: 2.2em; /* Larger font size */
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 700; /* Bold */
+}
+
+/* Subheadings within the article */
+.article-container h3 {
+    color: #88ccee; /* A slightly different accent color for subheadings */
+    font-size: 1.6em;
+    margin-top: 30px; /* Space above subheadings */
+    margin-bottom: 15px;
+    font-weight: 600; /* Semi-bold */
+}
+
+/* Paragraphs within the article */
+.article-container p {
+    margin-bottom: 15px;
+    font-size: 1.05em; /* Slightly larger text */
+}
+
+/* Lists within the article (bullet points and numbered lists) */
+.article-container ul, .article-container ol {
+    margin-left: 25px; /* Indent lists */
+    margin-bottom: 15px;
+    list-style-position: outside;
+}
+
+/* List items */
+.article-container ul li, .article-container ol li {
+    margin-bottom: 8px; /* Space between list items */
+}
+
+/* Strong/bold text within the article */
+.article-container strong {
+    color: #76c7c0; /* Highlight strong text with the accent color */
+    font-weight: bold;
+}
+
+/* Container for the "Read More" button of THIS article */
+.read-more-button-container {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 40px; /* More space after the button */
+}
+
+/* Specific styling for the "Read More" button of THIS article */
+.read-more-article-button {
+    background-color: #007bff; /* A distinct blue color for this button */
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition for hover */
+}
+
+.read-more-article-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+/* Styles for the full article content, which is initially hidden */
+.full-article-content-hidden {
+    display: none; /* Crucial: Hides the content by default */
+    background-color: rgba(255, 255, 255, 0.03); /* Slightly darker transparent background for depth */
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.2); /* Inner shadow for a subtle recessed look */
+    margin-top: 20px; /* Space from the button */
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .article-container {
+        padding: 20px 15px; /* Reduce padding on smaller screens */
+        margin: 30px 10px; /* Adjust margins */
+    }
+
+    .article-container h2 {
+        font-size: 1.8em; /* Smaller title on mobile */
+    }
+
+    .article-container h3 {
+        font-size: 1.4em; /* Smaller subheadings on mobile */
+    }
+
+    .read-more-article-button {
+        padding: 10px 20px; /* Smaller button padding */
+        font-size: 1em; /* Smaller button font */
+    }
+
+    .full-article-content-hidden {
+        padding: 20px 15px; /* Adjust padding for hidden content */
+    }
+}
+    
+    
+
+    footer a:hover {
+      color: #667eea; /* Accent color on hover for footer links */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>Prompt Engineering Studio</h1>
+      <p>Transform simple ideas into sophisticated, AI-optimized prompts</p>
+    </header>
+
+    <div class="main-panel">
+      <div class="panel-header">
+        <h2>Craft Your Perfect Prompt</h2>
+      </div>
+      
+      <div class="panel-content">
+        <div class="form-group">
+          <label>Quick Start Templates</label>
+          <div class="templates" id="templates">
+            <div class="template-card" onclick="loadTemplate('creative')">
+              <h4>Creative Writing</h4>
+              <p>Stories, poems, creative content</p>
+            </div>
+            <div class="template-card" onclick="loadTemplate('analysis')">
+              <h4>Data Analysis</h4>
+              <p>Research, analysis, insights</p>
+            </div>
+            <div class="template-card" onclick="loadTemplate('business')">
+              <h4>Business Strategy</h4>
+              <p>Plans, strategies, proposals</p>
+            </div>
+            <div class="template-card" onclick="loadTemplate('technical')">
+              <h4>Technical Documentation</h4>
+              <p>Code, architecture, guides</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="userInput">Your Idea or Concept</label>
+          <div class="input-container">
+            <textarea 
+              id="userInput" 
+              placeholder="Describe your idea, concept, or the task you want to create a prompt for..."
+              oninput="updateCharCount()"
+            ></textarea>
+            <div class="char-counter" id="charCounter">0 characters</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="complexityLevel">Complexity Level</label>
+          <div class="complexity-slider">
+            <input type="range" id="complexityLevel" class="slider" min="1" max="5" value="3" oninput="updateComplexityLabel()">
+            <div class="complexity-labels">
+              <span>Simple</span>
+              <span>Moderate</span>
+              <span>Advanced</span>
+              <span>Expert</span>
+              <span>Master</span>
+            </div>
+          </div>
+          <p id="complexityDescription">
+            Moderate complexity with structured approach
+          </p>
+        </div>
+
+        <div class="form-group">
+          <label for="useCase">Primary Use Case</label>
+          <select id="useCase">
+            <option value="general">General Purpose</option>
+            <option value="creative">Creative Writing</option>
+            <option value="analytical">Analysis & Research</option>
+            <option value="technical">Technical Documentation</option>
+            <option value="business">Business & Strategy</option>
+            <option value="educational">Educational Content</option>
+            <option value="marketing">Marketing & Content</option>
+            <option value="code">Code Generation</option>
+            <option value="website">Web Develop</option>
+            <option value="imagegenerate">Image Generation</option>
+            <option value="videogenerate">Video Generation</option>
+            <option value="storyvideo">Story Video</option>
+          </select>
+        </div>
+
+        <!-- NEW: Tone Selector -->
+        <div class="form-group">
+          <label for="tone">Tone</label>
+          <select id="tone">
+            <option value="professional">Professional</option>
+            <option value="friendly">Friendly</option>
+            <option value="formal">Formal</option>
+            <option value="casual">Casual</option>
+            <option value="humorous">Humorous</option>
+            <option value="persuasive">Persuasive</option>
+            <option value="informational">Informational</option>
+            <option value="empathetic">Empathetic</option>
+          </select>
+          <p id="toneDescription" style="margin-top: 0.5rem; font-size: 0.875rem; color: #f0f0f0;">
+            Choose the desired tone for the generated prompt.
+          </p>
+        </div>
+
+        <!-- NEW: Creativity Slider -->
+        <div class="form-group">
+          <label for="creativity">Creativity Level</label>
+          <div class="creativity-slider">
+            <input type="range" id="creativity" class="slider" min="1" max="5" value="3" oninput="updateCreativityLabel()">
+            <div class="creativity-labels">
+              <span>Low</span>
+              <span>Moderate</span>
+              <span>High</span>
+              <span>Very High</span>
+              <span>Maximum</span>
+            </div>
+          </div>
+          <p id="creativityDescription">
+            Moderate creativity for balanced output.
+          </p>
+        </div>
+
+
+        <div class="button-group">
+          <!-- REMOVED onclick="generatePrompt()" - now handled by JavaScript event listener -->
+          <button class="btn btn-primary" id="generateBtn">
+            Generate Enhanced Prompt
+          </button>
+          <button class="btn btn-secondary" onclick="clearAll()">Clear All</button>
+          <button class="btn btn-secondary" onclick="saveTemplate()">Save as Template</button>
+        </div>
+
+        <div class="output-section" id="outputSection" style="display: none;">
+          <div class="output-header">
+            <h3>Enhanced Prompt</h3>
+            <button class="btn btn-secondary" onclick="copyToClipboard()">Copy to Clipboard</button>
+          </div>
+          <div class="output-content" id="output">
+            Your enhanced prompt will appear here...
+          </div>
+          
+          <!-- NEW: Button for Image/Video/Website Generation from the generated prompt -->
+          <div style="margin-top: 1rem; text-align: center;">
+            <button class="btn btn-primary" id="generateVisualBtn" style="display: none;">
+              Generate Image/Video/Website
+            </button>
+          </div>
+
+          <div class="output-stats" id="outputStats">
+            <div class="stat-item">
+              <span>📊</span>
+              <span id="wordCount">0 words</span>
+            </div>
+            <div class="stat-item">
+              <span>⏱️</span>
+              <span id="readTime">0 min read</span>
+            </div>
+            <div class="stat-item">
+              <span>🎯</span>
+              <span id="complexityBadge">Moderate</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="success-message" id="successMessage">
+          Prompt copied to clipboard successfully!
+        </div>
+        <div class="error-message" id="errorMessage">
+          An error occurred. Please try again.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="privacy-policy" class="container privacy-contact-section">
+    <div class="main-panel">
+      <div class="panel-header">
+        <h2>Privacy Policy</h2>
+      </div>
+      <div class="panel-content">
+        <h3>1. Introduction</h3>
+        <p>Welcome to Jen-Prompt. We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website.</p>
+
+        <h3>2. Information We Collect</h3>
+        <p>We collect information in the following ways:</p>
+        <ul>
+          <li>**Information you provide:** When you use our prompt generation tool, the text you enter into the "Your Idea or Concept" field is processed by the Google Generative AI API to create an enhanced prompt. We do not store this input text or the generated output on our servers.</li>
+          <li>**Automatically Collected Information:** When you access our website, we may collect certain information automatically, including your IP address, browser type, operating system, access times, and the pages you have viewed directly before and after accessing the Site. This is typically collected via third-party services like Google Analytics (if enabled).</li>
+        </ul>
+
+        <h3>3. How We Use Your Information</h3>
+        <p>We use the information we collect to:</p>
+        <ul>
+          <li>Operate and maintain our website.</li>
+          <li>Improve our website, products, and services.</li>
+          <li>Monitor and analyze usage and trends to improve your experience.</li>
+          <li>Generate enhanced AI prompts based on your input (this data is processed by Google's API as described above and is not stored by us).</li>
+        </ul>
+
+        <h3>4. Third-Party Services</h3>
+        <p>We use the following third-party services which may collect information:</p>
+        <ul>
+          <li>**Google Generative AI API:** Your input for prompt generation is sent to Google's API for processing. Google's API data usage policy applies to this processing. We encourage you to review <a href="https://developers.google.com/terms/api-terms" target="_blank">Google's API Terms of Service</a>.</li>
+          <li>**Google AdSense:** (Once enabled) Google, as a third-party vendor, uses cookies to serve ads on our site. Google's use of the DART cookie enables it to serve ads to our users based on their visit to our site and other sites on the Internet. Users may opt out of the use of the DART cookie by visiting the <a href="https://policies.google.com/technologies/ads" target="_blank">Google Ad and Content Network Privacy Policy</a>.</li>
+          <li>**Google Analytics:** (If enabled) This service helps us understand website traffic and webpage usage. Information collected is subject to Google's Privacy Policy.</li>
+        </ul>
+
+        <h3>5. Cookies</h3>
+        <p>We may use cookies and similar tracking technologies to track the activity on our Service and hold certain information. Cookies are files with a small amount of data which may include an anonymous unique identifier. You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent.</p>
+
+        <h3>6. Data Retention</h3>
+        <p>We do not store the prompt input or generated output on our servers. Any automatically collected data through third-party services is retained according to their respective policies.</p>
+
+        <h3>7. Your Data Protection Rights</h3>
+        <p>Depending on your location, you may have rights regarding your personal data, such as the right to access, update, or delete the information we have on you. As we do not store personal input data, direct control over such data is limited to your interaction with third-party services.</p>
+
+        <h3>8. Changes to This Privacy Policy</h3>
+        <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page. You are advised to review this Privacy Policy periodically for any changes.</p>
+
+        <h3>9. Contact Us</h3>
+        <p>If you have any questions about this Privacy Policy, please contact us at virajbiz98@gmail.com.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="contact-us" class="container privacy-contact-section">
+    <div class="main-panel">
+      <div class="panel-header">
+        <h2>Contact Us</h2>
+      </div>
+      <div class="panel-content">
+        <p>If you have any questions, feedback, or require assistance, please feel free to reach out to us.</p>
+        <p><strong>Email:</strong> <a href="mailto:virajbiz98@gmail.com">virajbiz98@gmail.com</a></p>
+        <p>We aim to respond to all inquiries within 24-48 hours.</p>
+        </div>
+    </div>
+  </div>
+  
+  <div class="article-container">
+  <div class="main-container"> <h2>The Crucial Role of Prompt Engineering: Mastering AI Communication for Future Success</h2>
+    <p>In an age where Artificial Intelligence (AI) is rapidly evolving from a theoretical concept into a tangible, transformative force, its pervasive influence is undeniable. AI is not just automating tasks; it's redefining creativity, driving innovation, and reshaping industries across the globe. However, the true power of AI, particularly Generative AI models, lies in our ability to effectively communicate with them. This is where **Prompt Engineering** emerges as an indispensable skill.</p>
+    <p>This article will delve into what prompt engineering entails, why it has become such a critical competency in the AI era, its foundational principles, and its exciting future, offering a comprehensive understanding for anyone looking to harness AI's full potential.</p>
+  </div>
+
+  <div class="read-more-button-container">
+      <button id="readMorePromptEngineeringBtn" class="read-more-article-button">Read More</button>
+  </div>
+
+  <div id="fullPromptEngineeringArticleContent" class="full-article-content-hidden">
+      <h3>What Exactly is Prompt Engineering?</h3>
+      <p>At its core, prompt engineering is the specialized discipline of designing, refining, and optimizing inputs (known as "prompts") to guide AI models towards generating precise, relevant, and high-quality outputs. It’s the art and science of communicating effectively with AI, especially Large Language Models (LLMs) like ChatGPT, Gemini, and image generation models like Midjourney or DALL-E.</p>
+      <p>Unlike traditional software where you write explicit instructions in code, with AI models, you "prompt" them using natural language. Prompt engineering goes beyond simple questions; it involves structuring your queries, providing context, defining constraints, and strategically employing linguistic cues to steer the AI's vast knowledge base toward a very specific objective. It's about being the architect of AI's response.</p>
+
+      <h3>Why is Prompt Engineering Indispensable in the AI Era?</h3>
+      <p>The escalating importance of prompt engineering is driven by several critical factors that are reshaping how we interact with and benefit from AI:</p>
+      <ul>
+          <li><strong>Unlocking AI's Full Potential:</strong>
+              A generic or poorly constructed prompt will only yield generic or suboptimal results from an AI model. Prompt engineering allows users to bypass superficial interactions and delve deep into the advanced capabilities of AI, enabling the generation of highly nuanced content, complex problem-solving, and achieving precise outcomes that would otherwise be unattainable. It transforms AI from a general tool into a specialized expert.</li>
+          <li><strong>Ensuring Precision and Efficiency in Output Generation:</strong>
+              AI models are highly sensitive to input variations. Even subtle changes in wording or structure within a prompt can lead to vastly different outputs. Prompt engineering minimizes this variability, ensuring that you achieve the desired results with fewer iterations. This efficiency translates directly into saved time, reduced computational costs, and faster project completion, especially in professional environments where every resource counts.</li>
+          <li><strong>Mitigating Algorithmic Bias and Enhancing Robustness:</strong>
+              AI models are trained on immense datasets that often contain societal biases. Without careful prompting, these biases can inadvertently be amplified in generated outputs, leading to unfair or inappropriate content. Prompt engineering serves as a crucial intervention point, allowing practitioners to embed explicit instructions for fairness, inclusivity, and ethical considerations. This proactive approach helps steer AI towards more equitable and robust generations, making it a vital component of responsible AI development.</li>
+          <li><strong>Adapting to Dynamic AI Landscapes:</strong>
+              The field of AI is characterized by relentless innovation, with new models, architectures, and capabilities emerging constantly. Prompt engineering cultivates an adaptable skillset, empowering users to quickly decipher the optimal interaction patterns for novel AI systems. This adaptability ensures sustained utility and competitive advantage, as individuals can remain effective regardless of how AI technology evolves. It's about understanding the "AI psyche" rather than memorizing commands for a specific version.</li>
+          <li><strong>Bridging Human Intuition and Machine Logic:</strong>
+              At its core, prompt engineering is a new form of human-computer interaction that demands a nuanced understanding of both natural language and computational processing. It empowers individuals, even those without deep technical AI knowledge, to effectively command advanced models. This democratizes access to powerful AI capabilities and fosters a new class of "AI whisperers" who can translate human intent into machine-understandable instructions.</li>
+      </ul>
+
+      <h3>Core Principles for Crafting an Effective Prompt</h3>
+      <p>Mastering prompt engineering involves understanding and applying several key principles:</p>
+      <ul>
+          <li><strong>Clarity and Specificity:</strong> Be unambiguous. Clearly state your intent, desired subject, and scope. Avoid vague language.</li>
+          <li><strong>Context Provision:</strong> Furnish relevant background information, a scenario, or necessary data points to set the stage for the AI's response.</li>
+          <li><strong>Role-Playing:</strong> Assign a specific persona to the AI (e.g., "Act as a seasoned marketing expert...", "You are a creative storyteller...") to influence its tone, style, and perspective.</li>
+          <li><strong>Output Format Definition:</strong> Explicitly state the desired structure of the output (e.g., "in bullet points," "as a JSON object," "a 500-word essay," "a 3-act play script").</li>
+          <li><strong>Constraints and Guidelines:</strong> Set clear boundaries, limitations, or rules (e.g., "Max 200 words," "Use active voice," "Avoid jargon," "Include three examples," "Do not mention X").
+          <li><strong>Examples (Few-shot Prompting):</strong> Provide one or more examples of desired input-output pairs. This can significantly improve the AI's understanding of your expectations.</li>
+          <li><strong>Tone and Creativity Levels:</strong> Explicitly specify the desired tone (e.g., formal, friendly, humorous) and the level of creativity expected from the AI (e.g., literal, normal, highly imaginative).</li>
+          <li><strong>Iterative Refinement:</strong> Prompt engineering is rarely a one-shot process. Be prepared to experiment, observe the AI's output, and refine your prompts based on the results.</li>
+      </ul>
+
+      <h3>The Future of Prompt Engineering: An Evolving Symbiosis</h3>
+      <p>As AI models continue to advance, their ability to understand natural language will improve, potentially reducing the need for overtly complex prompt engineering. However, the underlying principles of effective communication with AI will remain paramount. Future developments in this field might include:</p>
+      <ul>
+          <li><strong>AI-Assisted Prompt Optimization:</strong> AI tools that can analyze your intent and automatically suggest or refine prompts for optimal results.</li>
+          <li><strong>Meta-Prompting:</strong> The ability to craft prompts that instruct one AI model to generate or refine prompts for another.</li>
+          <li><strong>Domain-Specific AI Languages:</strong> The emergence of specialized, simplified interfaces or languages tailored for specific industries, abstracting away some of the complexities of prompt construction.</li>
+      </ul>
+      <p>Ultimately, the future relationship between humans and AI is one of evolving symbiosis. Prompt engineering stands as a testament to this, serving as the critical conduit through which human ingenuity and strategic thinking can effectively direct the burgeoning power of artificial intelligence, transforming abstract ideas into tangible, impactful realities. It's not just about asking questions; it's about asking the <i>right</i> questions, in the <i>right</i> way, to unlock the unprecedented potential of our intelligent machines.</p>
+
+      <h3>Enhance Your Prompt Engineering Skills with Jen-Prompt!</h3>
+      <p>Do you want to enhance your AI experience and achieve more effective results? Our <strong>Jen-Prompt</strong> tool allows you to easily apply the prompt engineering principles discussed above. Use Jen-Prompt to effortlessly and efficiently create complex AI prompts, saving time for your AI projects.</p>
+      <p>Use Jen-Prompt now to enhance your AI experience!</p>
+  </div>
+</div>
+
+<!-- Start of JavaScript -->
+<script>
+  // Define templates object here, BEFORE any function that uses it
+  const templates = {
+    creative: "Write a compelling short story about",
+    analysis: "Analyze and provide insights on",
+    business: "Develop a comprehensive business strategy for",
+    technical: "Create detailed technical documentation for"
+  };
+
+  const complexityDescriptions = {
+    1: "Simple and straightforward approach",
+    2: "Basic structure with key elements",
+    3: "Packs a punch with solid structure and elements for a focused output.",
+    4: "Delivers a robust prompt with detailed context and specific instructions for advanced AI applications.",
+    5: "Master-level complexity with comprehensive framework, including role-play, detailed constraints, and multi-turn interaction for highly sophisticated AI responses."
+  };
+
+  const useCaseInstructions = {
+    general: "for general AI assistance",
+    creative: "optimized for creative writing and storytelling",
+    analytical: "designed for analysis, research, and data interpretation",
+    technical: "focused on technical documentation and explanations",
+    business: "tailored for business strategy and professional communication",
+    educational: "structured for educational content and learning",
+    marketing: "optimized for marketing and persuasive content",
+    code: "specialized for code generation and programming tasks",
+    imagegenerate: "specialized for high-quality image generation, including detailed scene descriptions and contextual explanations for various scenarios",
+    videogenerate: "optimized for generating detailed video production prompts, encompassing comprehensive script outlines, precise scene breakdowns, camera angles, lighting, and desired visual aesthetics for AI video models",
+    storyvideo: "designed to craft dynamic video generation prompts, guiding the AI to produce engaging visual narratives with specific actions, character interactions, environmental details, and desired cinematic styles",
+    website: "designed to craft comprehensive website generation prompts, including detailed page layouts, content requirements, interactive elements, and user journey mapping"
+  };
+
+  // Tone descriptions for the slider
+  const toneDescriptions = {
+    1: "Very Formal - Highly professional, objective, and academic.",
+    2: "Formal - Professional and respectful, suitable for business.",
+    3: "Neutral/Informational - Objective and clear, common for news or guides.",
+    4: "Friendly/Conversational - Warm, approachable, engaging.",
+    5: "Enthusiastic/Humorous - Energetic, light-hearted, or witty."
+  };
+
+  // Creativity descriptions for the slider
+  const creativityDescriptions = {
+    1: "Low Creativity - Direct, literal, and highly factual. Minimizes AI's interpretive freedom.",
+    2: "Moderate Creativity - Balanced approach, allowing for some AI interpretation while staying true to the core request.",
+    3: "High Creativity - Encourages the AI to explore more imaginative solutions and novel ideas.",
+    4: "Very High Creativity - Pushes the boundaries for highly original and innovative outputs, suitable for brainstorming.",
+    5: "Maximum Creativity - Unleashes full AI potential for unique, unconventional, and unexpected results."
+  };
+
+  function loadTemplate(type) {
+    const input = document.getElementById('userInput');
+    const currentText = input.value.trim();
+    const templateText = templates[type];
+    
+    if (currentText) {
+      input.value = templateText + " " + currentText;
+    } else {
+      input.value = templateText + " ";
+    }
+    
+    input.focus();
+    updateCharCount();
+  }
+
+  function updateCharCount() {
+    const input = document.getElementById('userInput');
+    const counter = document.getElementById('charCounter');
+    counter.textContent = `${input.value.length} characters`;
+  }
+
+  function updateComplexityLabel() {
+    const slider = document.getElementById('complexityLevel');
+    const description = document.getElementById('complexityDescription');
+    description.textContent = complexityDescriptions[slider.value];
+  }
+
+  // Function to update Tone label
+  function updateToneLabel() {
+    const slider = document.getElementById('tone');
+    const description = document.getElementById('toneDescription');
+    description.textContent = toneDescriptions[slider.value];
+  }
+
+  // Function to update Creativity label
+  function updateCreativityLabel() {
+    const slider = document.getElementById('creativity');
+    const description = document.getElementById('creativityDescription');
+    description.textContent = creativityDescriptions[slider.value];
+  }
+
+  // Define your Cloud Run Function URL here
+  const BACKEND_API_URL = "https://ai-proxy-function-651632520089.europe-west1.run.app"; // **** ඔබේ Cloud Run Function URL එක මෙයයි ****
+
+  async function generatePrompt() {
+    const input = document.getElementById('userInput').value.trim();
+    const complexity = document.getElementById('complexityLevel').value;
+    const useCase = document.getElementById('useCase').value;
+    const outputDiv = document.getElementById('output');
+    const generateBtn = document.getElementById('generateBtn');
+    const generateVisualBtn = document.getElementById('generateVisualBtn'); // Get the new button
+    const outputSection = document.getElementById('outputSection');
+    const tone = document.getElementById('tone').value; // Get the tone value
+    const creativity = document.getElementById('creativity').value; // Get the creativity value
+
+    if (!input) {
+      showError("Please enter your idea or concept!");
+      return;
+    }
+
+    // Show loading state
+    generateBtn.disabled = true;
+    generateBtn.classList.add('loading');
+    generateBtn.textContent = '';
+    
+    // Hide visual generation button initially
+    generateVisualBtn.style.display = 'none';
+
+    outputSection.style.display = 'block';
+    outputDiv.textContent = "🤖 Analyzing your input and crafting an enhanced prompt...";
+    outputDiv.innerHTML = "🤖 Analyzing your input and crafting an enhanced prompt..."; // Use innerHTML for consistency
+
+    // Use your Cloud Run Function URL
+    const url = BACKEND_API_URL;
+
+    // The system prompt logic is now primarily handled by the Cloud Run function.
+    // We send only the necessary user inputs to the backend.
+    const payload = {
+      actionType: 'generatePrompt', // This tells your Cloud Run function what to do
+      userInput: input,
+      useCase: useCase,
+      complexity: complexity, // Pass complexity
+      tone: tone, // Pass tone
+      creativity: creativity // Pass creativity
+    };
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        // If the Cloud Run function returns an error (e.g., 500), handle it here
+        const errorMessage = data.error || `HTTP error! Status: ${response.status}`;
+        throw new Error(errorMessage);
+      }
+
+      if (data?.enhancedPrompt) {
+        const enhancedPrompt = data.enhancedPrompt;
+        outputDiv.textContent = enhancedPrompt;
+        updateOutputStats(enhancedPrompt);
+
+        // Check if the current use case requires visual generation
+        const visualWebUseCases = ['imagegenerate', 'videogenerate', 'storyvideo', 'website'];
+        if (visualWebUseCases.includes(useCase)) {
+            generateVisualBtn.style.display = 'inline-block'; // Show the visual generation button
+            generateVisualBtn.textContent = `Generate ${useCase.replace('generate', '').replace('story', 'story ').replace('web', 'web ')}`;
+        }
+
+      } else {
+        throw new Error("Invalid response from backend service (no enhancedPrompt found)");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      showError(`Error: ${error.message}`);
+      outputDiv.textContent = "An error occurred while generating your prompt. Please check your Cloud Run Function and try again.";
+    } finally {
+      // Reset button state
+      generateBtn.disabled = false;
+      generateBtn.classList.remove('loading');
+      generateBtn.textContent = 'Generate Enhanced Prompt';
+    }
+  }
+
+  // --- Function for Image/Video/Website Generation (Uses the same backend) ---
+  // This function is now called by the new 'generateVisualBtn'
+  async function generateImageVideoWebsite() {
+    // Get the *already generated* prompt from the outputDiv
+    const promptToGenerateFrom = document.getElementById('output').textContent.trim();
+    const useCase = document.getElementById('useCase').value;
+    const outputDiv = document.getElementById('output');
+    const generateVisualBtn = document.getElementById('generateVisualBtn');
+    const outputSection = document.getElementById('outputSection');
+    const tone = document.getElementById('tone').value; // Pass tone
+    const creativity = document.getElementById('creativity').value; // Pass creativity
+
+
+    if (!promptToGenerateFrom || promptToGenerateFrom.includes('Analyzing your input')) {
+      showError("Please generate an enhanced prompt first!");
+      return;
+    }
+    
+    // Check if the selected use case is one of the visual/web generation types
+    const visualWebUseCases = ['imagegenerate', 'videogenerate', 'storyvideo', 'website'];
+    if (!visualWebUseCases.includes(useCase)) {
+        showError("This action is only for Image, Video, or Website generation. Please select a relevant 'Primary Use Case'.");
+        return;
+    }
+
+    // Show loading state for the visual button
+    generateVisualBtn.disabled = true;
+    generateVisualBtn.classList.add('loading');
+    generateVisualBtn.textContent = '';
+    
+    outputDiv.innerHTML = `🎨 Generating your ${useCase.replace('generate', '').replace('story', 'story ').replace('web', 'web ')}...`; // Dynamic message
+
+    const url = BACKEND_API_URL; // Use the same backend URL
+
+    const payload = {
+      actionType: 'generateImage', // This tells your Cloud Run function to generate an image/video/website
+      userInput: promptToGenerateFrom, // Use the generated prompt as input
+      useCase: useCase, // Pass use case for backend logic to differentiate
+      tone: tone, // Pass tone
+      creativity: creativity // Pass creativity
+    };
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        const errorMessage = data.error || `HTTP error! Status: ${response.status}`;
+        throw new Error(errorMessage);
+      }
+
+      if (data?.imageUrl) {
+        outputDiv.innerHTML = `<img src="${data.imageUrl}" alt="Generated Content" style="max-width:100%; height:auto; display:block; margin: 0 auto;">`;
+        updateOutputStats("Generated Visual Content"); // Update stats for image
+      } else {
+        // If it's a non-image visual generation but no imageUrl is returned, display raw text response
+        if (data?.textResponse) { // Assuming your backend might send a 'textResponse' for video/website if no direct image/video URL
+            outputDiv.textContent = data.textResponse;
+            updateOutputStats(data.textResponse);
+        } else {
+            throw new Error("Invalid response from backend service (no imageUrl or textResponse found)");
+        }
+      }
+    } catch (error) {
+      console.error("Error generating visual/web content:", error);
+      showError(`Error generating visual/web content: ${error.message}`);
+      outputDiv.textContent = "An error occurred while generating your content. Please check your Cloud Run Function and try again.";
+    } finally {
+      generateVisualBtn.disabled = false;
+      generateVisualBtn.classList.remove('loading');
+      generateVisualBtn.textContent = `Generate ${useCase.replace('generate', '').replace('story', 'story ').replace('web', 'web ')}`; // Reset button text
+    }
+  }
+
+
+  function updateOutputStats(text) {
+    const wordCount = text.split(/\s+/).filter(word => word.length > 0).length; // Filter empty strings
+    const readTime = Math.ceil(wordCount / 200); // Assuming 200 words per minute
+    const complexity = document.getElementById('complexityLevel').value;
+    // Updated complexity labels to match descriptions more closely
+    const complexityLabels = ['', 'Simple', 'Basic', 'Moderate', 'Advanced', 'Master'];
+
+    document.getElementById('wordCount').textContent = `${wordCount} words`;
+    document.getElementById('readTime').textContent = `${readTime} min read`;
+    document.getElementById('complexityBadge').textContent = complexityLabels[complexity];
+  }
+
+  function copyToClipboard() {
+    const output = document.getElementById('output');
+    // For images, copy the image URL, otherwise copy text content
+    let contentToCopy = '';
+    const imgElement = output.querySelector('img');
+    if (imgElement) {
+        contentToCopy = imgElement.src; // Copy image URL
+    } else {
+        contentToCopy = output.textContent; // Copy text content
+    }
+
+    if (!contentToCopy || contentToCopy.includes('error occurred') || contentToCopy.includes('Analyzing your input') || contentToCopy.includes('Generating your')) {
+      showError("No valid content to copy!");
+      return;
+    }
+
+    navigator.clipboard.writeText(contentToCopy).then(() => {
+      showSuccess("Content copied to clipboard successfully!");
+    }).catch(err => {
+      showError("Failed to copy: " + err.message);
+    });
+  }
+
+  function clearAll() {
+    document.getElementById('userInput').value = '';
+    document.getElementById('complexityLevel').value = '3';
+    document.getElementById('useCase').value = 'general';
+    document.getElementById('tone').value = 'professional'; // Reset tone
+    document.getElementById('creativity').value = '3'; // Reset creativity
+    document.getElementById('outputSection').style.display = 'none';
+    document.getElementById('output').innerHTML = 'Your enhanced prompt will appear here...'; // Clear output content including images
+    
+    // Hide the visual generation button
+    document.getElementById('generateVisualBtn').style.display = 'none';
+
+    updateCharCount();
+    updateComplexityLabel();
+    updateToneLabel(); // Update tone label on clear
+    updateCreativityLabel(); // Update creativity label on clear
+  }
+
+  function saveTemplate() {
+    const input = document.getElementById('userInput').value.trim();
+    if (!input) {
+      showError("Please enter content before saving as template!");
+      return;
+    }
+    
+    // In a real application, you would save this to localStorage or a database
+    // For now, we'll just show a success message
+    showSuccess("Template saved! (Note: This is a demo - actual saving would require backend integration)");
+  }
+
+  function showSuccess(message) {
+    const successDiv = document.getElementById('successMessage');
+    successDiv.textContent = message;
+    successDiv.style.display = 'block';
+    setTimeout(() => {
+      successDiv.style.display = 'none';
+    }, 3000);
+  }
+
+  function showError(message) {
+    const errorDiv = document.getElementById('errorMessage');
+    errorDiv.textContent = message;
+    errorDiv.style.display = 'block';
+    setTimeout(() => {
+      errorDiv.style.display = 'none';
+    }, 5000);
+  }
+
+  // Initialize
+  document.addEventListener('DOMContentLoaded', () => {
+    updateCharCount(); // Initial count
+    updateComplexityLabel();
+    updateToneLabel(); // Initialize tone label
+    updateCreativityLabel(); // Initialize creativity label
+
+    const generateBtn = document.getElementById('generateBtn');
+    const generateVisualBtn = document.getElementById('generateVisualBtn');
+
+    // Make the main generate button ALWAYS call generatePrompt()
+    generateBtn.addEventListener('click', generatePrompt);
+
+    // Make the new visual generation button call generateImageVideoWebsite()
+    generateVisualBtn.addEventListener('click', generateImageVideoWebsite);
+
+    // Add event listeners for tone and creativity sliders to update labels
+    document.getElementById('tone').addEventListener('input', updateToneLabel);
+    document.getElementById('creativity').addEventListener('input', updateCreativityLabel);
+    
+    
+    // NEW: Event listener for the "Read More" button for the Prompt Engineering article
+const readMorePromptEngineeringBtn = document.getElementById('readMorePromptEngineeringBtn');
+const fullPromptEngineeringArticleContent = document.getElementById('fullPromptEngineeringArticleContent');
+
+if (readMorePromptEngineeringBtn && fullPromptEngineeringArticleContent) {
+    readMorePromptEngineeringBtn.addEventListener('click', function() {
+        if (fullPromptEngineeringArticleContent.style.display === 'none' || fullPromptEngineeringArticleContent.style.display === '') {
+            fullPromptEngineeringArticleContent.style.display = 'block'; // Show the content
+            readMorePromptEngineeringBtn.textContent = 'Show Less'; // Change button text
+        } else {
+            fullPromptEngineeringArticleContent.style.display = 'none'; // Hide the content
+            readMorePromptEngineeringBtn.textContent = 'Read More'; // Change button text back
+        }
+    });
+}
+  });
+</script>
+</body>
+</html>
