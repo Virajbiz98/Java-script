@@ -116,9 +116,9 @@
     }
 
     /* Input Fields (textarea, select) */
-    textarea, select {
+    textarea, select, input[type="range"] {
       width: 100%;
-      padding: 1rem;
+      padding: 1rem; /* Adjust padding for select/range as needed */
       border: 2px solid #555; /* Darker border */
       border-radius: 12px;
       font-size: 1rem;
@@ -132,7 +132,7 @@
       color: #999;
     }
 
-    textarea:focus, select:focus {
+    textarea:focus, select:focus, input[type="range"]:focus {
       outline: none;
       border-color: #667eea; /* Accent color on focus */
       background: rgba(0, 0, 0, 0.5); /* Slightly darker on focus */
@@ -153,7 +153,7 @@
     }
 
     /* Complexity Slider */
-    .complexity-slider {
+    .complexity-slider, .tone-slider, .creativity-slider {
       margin: 1rem 0;
     }
 
@@ -178,8 +178,8 @@
       border: 2px solid white; /* White border for pop */
     }
 
-    /* Complexity Description (Fix for blur) */
-    #complexityDescription {
+    /* Complexity/Tone/Creativity Description (Fix for blur) */
+    #complexityDescription, #toneDescription, #creativityDescription {
       font-size: 0.875rem;
       color: #f0f0f0; /* Light text */
       margin-top: 0.5rem;
@@ -190,16 +190,12 @@
       box-shadow: 0 1px 3px rgba(0,0,0,0.2); /* Small shadow */
     }
 
-    .complexity-labels {
+    .complexity-labels, .tone-labels, .creativity-labels {
       display: flex;
       justify-content: space-between;
       font-size: 0.8rem;
       color: #999; /* Lighter gray for labels */
       margin-top: 0.5rem;
-      /* These were conflicting with #complexityDescription, removed here */
-      /* background-color: rgba(255, 255, 255, 0.8); */
-      /* padding: 0.2em 0.4em; */
-      /* border-radius: 4px; */
     }
 
     /* Buttons */
@@ -310,6 +306,15 @@
       line-height: 1.6;
       white-space: pre-wrap;
       color: #e0e0e0; /* Light text */
+    }
+    
+    .output-content img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+        border-radius: 8px; /* Slightly rounded corners for images */
+        box-shadow: 0 4px 8px rgba(0,0,0,0.4);
     }
 
     .output-stats {
@@ -535,15 +540,53 @@
             <option value="educational">Educational Content</option>
             <option value="marketing">Marketing & Content</option>
             <option value="code">Code Generation</option>
-            <option value="website"> Web Develop</option>
+            <option value="website">Web Develop</option>
             <option value="imagegenerate">Image Generation</option>
             <option value="videogenerate">Video Generation</option>
             <option value="storyvideo">Story Video</option>
           </select>
         </div>
 
+        <!-- NEW: Tone Selector -->
+        <div class="form-group">
+          <label for="tone">Tone</label>
+          <select id="tone">
+            <option value="professional">Professional</option>
+            <option value="friendly">Friendly</option>
+            <option value="formal">Formal</option>
+            <option value="casual">Casual</option>
+            <option value="humorous">Humorous</option>
+            <option value="persuasive">Persuasive</option>
+            <option value="informational">Informational</option>
+            <option value="empathetic">Empathetic</option>
+          </select>
+          <p id="toneDescription" style="margin-top: 0.5rem; font-size: 0.875rem; color: #f0f0f0;">
+            Choose the desired tone for the generated prompt.
+          </p>
+        </div>
+
+        <!-- NEW: Creativity Slider -->
+        <div class="form-group">
+          <label for="creativity">Creativity Level</label>
+          <div class="creativity-slider">
+            <input type="range" id="creativity" class="slider" min="1" max="5" value="3" oninput="updateCreativityLabel()">
+            <div class="creativity-labels">
+              <span>Low</span>
+              <span>Moderate</span>
+              <span>High</span>
+              <span>Very High</span>
+              <span>Maximum</span>
+            </div>
+          </div>
+          <p id="creativityDescription">
+            Moderate creativity for balanced output.
+          </p>
+        </div>
+
+
         <div class="button-group">
-          <button class="btn btn-primary" onclick="generatePrompt()" id="generateBtn">
+          <!-- REMOVED onclick="generatePrompt()" - now handled by JavaScript event listener -->
+          <button class="btn btn-primary" id="generateBtn">
             Generate Enhanced Prompt
           </button>
           <button class="btn btn-secondary" onclick="clearAll()">Clear All</button>
@@ -558,6 +601,14 @@
           <div class="output-content" id="output">
             Your enhanced prompt will appear here...
           </div>
+          
+          <!-- NEW: Button for Image/Video/Website Generation from the generated prompt -->
+          <div style="margin-top: 1rem; text-align: center;">
+            <button class="btn btn-primary" id="generateVisualBtn" style="display: none;">
+              Generate Image/Video/Website
+            </button>
+          </div>
+
           <div class="output-stats" id="outputStats">
             <div class="stat-item">
               <span>📊</span>
@@ -648,10 +699,8 @@
     </div>
   </div>
 
-
+<!-- Start of JavaScript -->
 <script>
-  // ** IMPORTANT: All aggressive redirect logic has been removed for better UX and AdSense compliance. **
-
   // Define templates object here, BEFORE any function that uses it
   const templates = {
     creative: "Write a compelling short story about",
@@ -677,10 +726,28 @@
     educational: "structured for educational content and learning",
     marketing: "optimized for marketing and persuasive content",
     code: "specialized for code generation and programming tasks",
-    imagegenerate: "specialized for high-quality image generation, including detailed scene descriptions and contextual explanations for various scenarios", // Updated instruction
-    videogenerate: "optimized for generating detailed video production prompts, encompassing comprehensive script outlines, precise scene breakdowns, camera angles, lighting, and desired visual aesthetics for AI video models", // Updated instruction
+    imagegenerate: "specialized for high-quality image generation, including detailed scene descriptions and contextual explanations for various scenarios",
+    videogenerate: "optimized for generating detailed video production prompts, encompassing comprehensive script outlines, precise scene breakdowns, camera angles, lighting, and desired visual aesthetics for AI video models",
     storyvideo: "designed to craft dynamic video generation prompts, guiding the AI to produce engaging visual narratives with specific actions, character interactions, environmental details, and desired cinematic styles",
     website: "designed to craft comprehensive website generation prompts, including detailed page layouts, content requirements, interactive elements, and user journey mapping"
+  };
+
+  // Tone descriptions for the slider
+  const toneDescriptions = {
+    1: "Very Formal - Highly professional, objective, and academic.",
+    2: "Formal - Professional and respectful, suitable for business.",
+    3: "Neutral/Informational - Objective and clear, common for news or guides.",
+    4: "Friendly/Conversational - Warm, approachable, engaging.",
+    5: "Enthusiastic/Humorous - Energetic, light-hearted, or witty."
+  };
+
+  // Creativity descriptions for the slider
+  const creativityDescriptions = {
+    1: "Low Creativity - Direct, literal, and highly factual. Minimizes AI's interpretive freedom.",
+    2: "Moderate Creativity - Balanced approach, allowing for some AI interpretation while staying true to the core request.",
+    3: "High Creativity - Encourages the AI to explore more imaginative solutions and novel ideas.",
+    4: "Very High Creativity - Pushes the boundaries for highly original and innovative outputs, suitable for brainstorming.",
+    5: "Maximum Creativity - Unleashes full AI potential for unique, unconventional, and unexpected results."
   };
 
   function loadTemplate(type) {
@@ -710,13 +777,33 @@
     description.textContent = complexityDescriptions[slider.value];
   }
 
+  // Function to update Tone label
+  function updateToneLabel() {
+    const slider = document.getElementById('tone');
+    const description = document.getElementById('toneDescription');
+    description.textContent = toneDescriptions[slider.value];
+  }
+
+  // Function to update Creativity label
+  function updateCreativityLabel() {
+    const slider = document.getElementById('creativity');
+    const description = document.getElementById('creativityDescription');
+    description.textContent = creativityDescriptions[slider.value];
+  }
+
+  // Define your Cloud Run Function URL here
+  const BACKEND_API_URL = "https://ai-proxy-function-651632520089.europe-west1.run.app"; // **** ඔබේ Cloud Run Function URL එක මෙයයි ****
+
   async function generatePrompt() {
     const input = document.getElementById('userInput').value.trim();
     const complexity = document.getElementById('complexityLevel').value;
     const useCase = document.getElementById('useCase').value;
     const outputDiv = document.getElementById('output');
     const generateBtn = document.getElementById('generateBtn');
+    const generateVisualBtn = document.getElementById('generateVisualBtn'); // Get the new button
     const outputSection = document.getElementById('outputSection');
+    const tone = document.getElementById('tone').value; // Get the tone value
+    const creativity = document.getElementById('creativity').value; // Get the creativity value
 
     if (!input) {
       showError("Please enter your idea or concept!");
@@ -727,35 +814,26 @@
     generateBtn.disabled = true;
     generateBtn.classList.add('loading');
     generateBtn.textContent = '';
+    
+    // Hide visual generation button initially
+    generateVisualBtn.style.display = 'none';
+
     outputSection.style.display = 'block';
     outputDiv.textContent = "🤖 Analyzing your input and crafting an enhanced prompt...";
+    outputDiv.innerHTML = "🤖 Analyzing your input and crafting an enhanced prompt..."; // Use innerHTML for consistency
 
-    // Replace with your actual API key
-    // YOU MUST REPLACE THIS WITH YOUR ACTUAL GOOGLE GENERATIVE AI API KEY
-    const apiKey = "AIzaSyBOdlurhTvYlJ2OwKFxTS6Mc2l-TYp8tnA"; 
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+    // Use your Cloud Run Function URL
+    const url = BACKEND_API_URL;
 
-    const systemPrompt = `You are an expert prompt engineer. Transform the user's idea into a highly sophisticated, well-structured prompt that follows best practices in prompt engineering.
-
-Requirements:
-- ${complexityDescriptions[complexity]}
-- Make it ${useCaseInstructions[useCase]}
-- Include clear context, role definition, task description, and output format
-- Add relevant constraints and quality criteria
-- Use professional language and structure
-- Ensure the prompt is actionable and specific
-
-Original idea: "${input}"
-
-Create a professional, detailed prompt that would produce excellent results when used with advanced AI systems.`;
-
+    // The system prompt logic is now primarily handled by the Cloud Run function.
+    // We send only the necessary user inputs to the backend.
     const payload = {
-      contents: [{
-        role: "user",
-        parts: [{
-          text: systemPrompt
-        }]
-      }]
+      actionType: 'generatePrompt', // This tells your Cloud Run function what to do
+      userInput: input,
+      useCase: useCase,
+      complexity: complexity, // Pass complexity
+      tone: tone, // Pass tone
+      creativity: creativity // Pass creativity
     };
 
     try {
@@ -770,20 +848,30 @@ Create a professional, detailed prompt that would produce excellent results when
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        // If the Cloud Run function returns an error (e.g., 500), handle it here
+        const errorMessage = data.error || `HTTP error! Status: ${response.status}`;
+        throw new Error(errorMessage);
       }
 
-      if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
-        const enhancedPrompt = data.candidates[0].content.parts[0].text;
+      if (data?.enhancedPrompt) {
+        const enhancedPrompt = data.enhancedPrompt;
         outputDiv.textContent = enhancedPrompt;
         updateOutputStats(enhancedPrompt);
+
+        // Check if the current use case requires visual generation
+        const visualWebUseCases = ['imagegenerate', 'videogenerate', 'storyvideo', 'website'];
+        if (visualWebUseCases.includes(useCase)) {
+            generateVisualBtn.style.display = 'inline-block'; // Show the visual generation button
+            generateVisualBtn.textContent = `Generate ${useCase.replace('generate', '').replace('story', 'story ').replace('web', 'web ')}`;
+        }
+
       } else {
-        throw new Error("Invalid response from AI service");
+        throw new Error("Invalid response from backend service (no enhancedPrompt found)");
       }
     } catch (error) {
       console.error("Error:", error);
       showError(`Error: ${error.message}`);
-      outputDiv.textContent = "An error occurred while generating your prompt. Please check your API key and try again.";
+      outputDiv.textContent = "An error occurred while generating your prompt. Please check your Cloud Run Function and try again.";
     } finally {
       // Reset button state
       generateBtn.disabled = false;
@@ -792,8 +880,90 @@ Create a professional, detailed prompt that would produce excellent results when
     }
   }
 
+  // --- Function for Image/Video/Website Generation (Uses the same backend) ---
+  // This function is now called by the new 'generateVisualBtn'
+  async function generateImageVideoWebsite() {
+    // Get the *already generated* prompt from the outputDiv
+    const promptToGenerateFrom = document.getElementById('output').textContent.trim();
+    const useCase = document.getElementById('useCase').value;
+    const outputDiv = document.getElementById('output');
+    const generateVisualBtn = document.getElementById('generateVisualBtn');
+    const outputSection = document.getElementById('outputSection');
+    const tone = document.getElementById('tone').value; // Pass tone
+    const creativity = document.getElementById('creativity').value; // Pass creativity
+
+
+    if (!promptToGenerateFrom || promptToGenerateFrom.includes('Analyzing your input')) {
+      showError("Please generate an enhanced prompt first!");
+      return;
+    }
+    
+    // Check if the selected use case is one of the visual/web generation types
+    const visualWebUseCases = ['imagegenerate', 'videogenerate', 'storyvideo', 'website'];
+    if (!visualWebUseCases.includes(useCase)) {
+        showError("This action is only for Image, Video, or Website generation. Please select a relevant 'Primary Use Case'.");
+        return;
+    }
+
+    // Show loading state for the visual button
+    generateVisualBtn.disabled = true;
+    generateVisualBtn.classList.add('loading');
+    generateVisualBtn.textContent = '';
+    
+    outputDiv.innerHTML = `🎨 Generating your ${useCase.replace('generate', '').replace('story', 'story ').replace('web', 'web ')}...`; // Dynamic message
+
+    const url = BACKEND_API_URL; // Use the same backend URL
+
+    const payload = {
+      actionType: 'generateImage', // This tells your Cloud Run function to generate an image/video/website
+      userInput: promptToGenerateFrom, // Use the generated prompt as input
+      useCase: useCase, // Pass use case for backend logic to differentiate
+      tone: tone, // Pass tone
+      creativity: creativity // Pass creativity
+    };
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        const errorMessage = data.error || `HTTP error! Status: ${response.status}`;
+        throw new Error(errorMessage);
+      }
+
+      if (data?.imageUrl) {
+        outputDiv.innerHTML = `<img src="${data.imageUrl}" alt="Generated Content" style="max-width:100%; height:auto; display:block; margin: 0 auto;">`;
+        updateOutputStats("Generated Visual Content"); // Update stats for image
+      } else {
+        // If it's a non-image visual generation but no imageUrl is returned, display raw text response
+        if (data?.textResponse) { // Assuming your backend might send a 'textResponse' for video/website if no direct image/video URL
+            outputDiv.textContent = data.textResponse;
+            updateOutputStats(data.textResponse);
+        } else {
+            throw new Error("Invalid response from backend service (no imageUrl or textResponse found)");
+        }
+      }
+    } catch (error) {
+      console.error("Error generating visual/web content:", error);
+      showError(`Error generating visual/web content: ${error.message}`);
+      outputDiv.textContent = "An error occurred while generating your content. Please check your Cloud Run Function and try again.";
+    } finally {
+      generateVisualBtn.disabled = false;
+      generateVisualBtn.classList.remove('loading');
+      generateVisualBtn.textContent = `Generate ${useCase.replace('generate', '').replace('story', 'story ').replace('web', 'web ')}`; // Reset button text
+    }
+  }
+
+
   function updateOutputStats(text) {
-    const wordCount = text.split(/\s+/).length;
+    const wordCount = text.split(/\s+/).filter(word => word.length > 0).length; // Filter empty strings
     const readTime = Math.ceil(wordCount / 200); // Assuming 200 words per minute
     const complexity = document.getElementById('complexityLevel').value;
     // Updated complexity labels to match descriptions more closely
@@ -805,14 +975,23 @@ Create a professional, detailed prompt that would produce excellent results when
   }
 
   function copyToClipboard() {
-    const output = document.getElementById('output').textContent;
-    if (!output || output.includes('error occurred')) {
-      showError("No content to copy!");
+    const output = document.getElementById('output');
+    // For images, copy the image URL, otherwise copy text content
+    let contentToCopy = '';
+    const imgElement = output.querySelector('img');
+    if (imgElement) {
+        contentToCopy = imgElement.src; // Copy image URL
+    } else {
+        contentToCopy = output.textContent; // Copy text content
+    }
+
+    if (!contentToCopy || contentToCopy.includes('error occurred') || contentToCopy.includes('Analyzing your input') || contentToCopy.includes('Generating your')) {
+      showError("No valid content to copy!");
       return;
     }
 
-    navigator.clipboard.writeText(output).then(() => {
-      showSuccess("Prompt copied to clipboard successfully!");
+    navigator.clipboard.writeText(contentToCopy).then(() => {
+      showSuccess("Content copied to clipboard successfully!");
     }).catch(err => {
       showError("Failed to copy: " + err.message);
     });
@@ -822,9 +1001,18 @@ Create a professional, detailed prompt that would produce excellent results when
     document.getElementById('userInput').value = '';
     document.getElementById('complexityLevel').value = '3';
     document.getElementById('useCase').value = 'general';
+    document.getElementById('tone').value = 'professional'; // Reset tone
+    document.getElementById('creativity').value = '3'; // Reset creativity
     document.getElementById('outputSection').style.display = 'none';
+    document.getElementById('output').innerHTML = 'Your enhanced prompt will appear here...'; // Clear output content including images
+    
+    // Hide the visual generation button
+    document.getElementById('generateVisualBtn').style.display = 'none';
+
     updateCharCount();
     updateComplexityLabel();
+    updateToneLabel(); // Update tone label on clear
+    updateCreativityLabel(); // Update creativity label on clear
   }
 
   function saveTemplate() {
@@ -858,16 +1046,25 @@ Create a professional, detailed prompt that would produce excellent results when
   }
 
   // Initialize
-  updateComplexityLabel();
+  document.addEventListener('DOMContentLoaded', () => {
+    updateCharCount(); // Initial count
+    updateComplexityLabel();
+    updateToneLabel(); // Initialize tone label
+    updateCreativityLabel(); // Initialize creativity label
+
+    const generateBtn = document.getElementById('generateBtn');
+    const generateVisualBtn = document.getElementById('generateVisualBtn');
+
+    // Make the main generate button ALWAYS call generatePrompt()
+    generateBtn.addEventListener('click', generatePrompt);
+
+    // Make the new visual generation button call generateImageVideoWebsite()
+    generateVisualBtn.addEventListener('click', generateImageVideoWebsite);
+
+    // Add event listeners for tone and creativity sliders to update labels
+    document.getElementById('tone').addEventListener('input', updateToneLabel);
+    document.getElementById('creativity').addEventListener('input', updateCreativityLabel);
+  });
 </script>
-
-<footer style="text-align: center; margin-top: 4rem; padding: 1rem; color: #eee; font-size: 0.85rem;">
-  <p>&copy; <script>document.write(new Date().getFullYear())</script> Jen-Prompt. All rights reserved.</p>
-  <p>
-    <a href="#privacy-policy" style="color: #eee; text-decoration: none; margin: 0 0.5rem;">Privacy Policy</a> | 
-    <a href="#contact-us" style="color: #eee; text-decoration: none; margin: 0 0.5rem;">Contact Us</a>
-  </p>
-</footer>
-
 </body>
 </html>
