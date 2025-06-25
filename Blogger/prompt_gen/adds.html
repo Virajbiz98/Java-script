@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="google-site-verification" content="gN77n9nbADnVfhWDHI5QVqmvZl4FzeGrE9i19hL38Dk" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Craft Your Perfect AI Prompt with Jen-Prompt</title> <meta name="description" content="Turn simple ideas into powerful AI prompts with Jen-Prompt. Perfect for ChatGPT, Midjourney & more. Fast, smart, and easy prompt builder.">
+  <style>
+    /* ... your CSS ... */
+  </style>
+  <script type='text/javascript' src='//pl26939312.profitableratecpm.com/0f/af/e4/0fafe43083946bd824a5a98105f24c83.js'></script>
+</head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+      color: white;
+    }
+
+    .header h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .header p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+
+    .main-panel {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      overflow: hidden;
+    }
+
+    .panel-header {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      padding: 1.5rem 2rem;
+      color: white;
+    }
+
+    .panel-header h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .panel-content {
+      padding: 2rem;
+    }
+
+    .form-group {
+      margin-bottom: 2rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #374151;
+      font-size: 0.95rem;
+    }
+
+    .input-container {
+      position: relative;
+    }
+
+    textarea, select {
+      width: 100%;
+      padding: 1rem;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: all 0.3s ease;
+      background: #f9fafb;
+    }
+
+    textarea:focus, select:focus {
+      outline: none;
+      border-color: #667eea;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .char-counter {
+      position: absolute;
+      bottom: 8px;
+      right: 12px;
+      font-size: 0.75rem;
+      color: #6b7280;
+    }
+
+    .complexity-slider {
+      margin: 1rem 0;
+    }
+
+    .slider {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: #e5e7eb;
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #667eea;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .complexity-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: #6b7280;
+      margin-top: 0.5rem;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 0.875rem 1.5rem;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-secondary {
+      background: #f3f4f6;
+      color: #374151;
+      border: 2px solid #e5e7eb;
+    }
+
+    .btn-secondary:hover {
+      background: #e5e7eb;
+      transform: translateY(-1px);
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .loading {
+      position: relative;
+    }
+
+    .loading::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 20px;
+      height: 20px;
+      margin: -10px 0 0 -10px;
+      border: 2px solid transparent;
+      border-top: 2px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .output-section {
+      background: #f8fafc;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      padding: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .output-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .output-header h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #1f2937;
+    }
+
+    .output-content {
+      background: white;
+      border-radius: 8px;
+      padding: 1.5rem;
+      min-height: 150px;
+      border: 1px solid #e5e7eb;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      color: #374151;
+    }
+
+    .output-stats {
+      display: flex;
+      gap: 2rem;
+      margin-top: 1rem;
+      font-size: 0.875rem;
+      color: #6b7280;
+    }
+
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .templates {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .template-card {
+      background: #f8fafc;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .template-card:hover {
+      border-color: #667eea;
+      background: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .template-card h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #1f2937;
+    }
+
+    .template-card p {
+      font-size: 0.875rem;
+      color: #6b7280;
+    }
+
+    .success-message {
+      background: #ecfdf5;
+      border: 1px solid #bbf7d0;
+      color: #166534;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+      display: none;
+    }
+
+    .error-message {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #dc2626;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+      }
+      
+      .header h1 {
+        font-size: 2rem;
+      }
+      
+      .button-group {
+        flex-direction: column;
+      }
+      
+      .btn-primary {
+        min-width: auto;
+      }
+      
+      .templates {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+  <script type='text/javascript' src='//pl26939312.profitableratecpm.com/0f/af/e4/0fafe43083946bd824a5a98105f24c83.js'></script>
+</head>
+<body>
+  
+  
+  <script async="async" data-cfasync="false" src="//pl26939478.profitableratecpm.com/5b090c1ac8d6c5df8f69ea37b045bb2f/invoke.js"></script>
+  <script type="text/javascript">
+	atOptions = {
+		'key' : 'a2fc6474eed4dfa55a03a9abacc2c7d7',
+		'format' : 'iframe',
+		'height' : 70,
+		'width' : 1720,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/a2fc6474eed4dfa55a03a9abacc2c7d7/invoke.js"></script>
+  
+<div id="container-5b090c1ac8d6c5df8f69ea37b045bb2f"></div>
+
+<div class="container">
+  <header class="header">
+    <h1>Prompt Engineering Studio</h1>
+    <p>Transform simple ideas into sophisticated, AI-optimized prompts</p>
+  </header>
+
+  <div class="main-panel">
+    <div class="panel-header">
+      <h2>Craft Your Perfect Prompt</h2>
+    </div>
+    
+    <div class="panel-content">
+      <!-- Quick Templates -->
+      <div class="form-group">
+        <label>Quick Start Templates</label>
+        <div class="templates" id="templates">
+          <div class="template-card" onclick="loadTemplate('creative')">
+            <h4>Creative Writing</h4>
+            <p>Stories, poems, creative content</p>
+          </div>
+          <div class="template-card" onclick="loadTemplate('analysis')">
+            <h4>Data Analysis</h4>
+            <p>Research, analysis, insights</p>
+          </div>
+          <div class="template-card" onclick="loadTemplate('business')">
+            <h4>Business Strategy</h4>
+            <p>Plans, strategies, proposals</p>
+          </div>
+          <div class="template-card" onclick="loadTemplate('technical')">
+            <h4>Technical Documentation</h4>
+            <p>Code, architecture, guides</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Input -->
+      <div class="form-group">
+        <label for="userInput">Your Idea or Concept</label>
+        <div class="input-container">
+          <textarea 
+            id="userInput" 
+            placeholder="Describe your idea, concept, or the task you want to create a prompt for..."
+            oninput="updateCharCount()"
+          ></textarea>
+          <div class="char-counter" id="charCounter">0 characters</div>
+        </div>
+      </div>
+
+      <!-- Complexity Level -->
+      <div class="form-group">
+        <label for="complexityLevel">Complexity Level</label>
+        <div class="complexity-slider">
+          <input type="range" id="complexityLevel" class="slider" min="1" max="5" value="3" oninput="updateComplexityLabel()">
+          <div class="complexity-labels">
+            <span>Simple</span>
+            <span>Moderate</span>
+            <span>Advanced</span>
+            <span>Expert</span>
+            <span>Master</span>
+          </div>
+        </div>
+        <p id="complexityDescription" style="font-size: 0.875rem; color: #6b7280; margin-top: 0.5rem;">
+          Moderate complexity with structured approach
+        </p>
+      </div>
+
+      <!-- Use Case -->
+      <div class="form-group">
+        <label for="useCase">Primary Use Case</label>
+        <select id="useCase">
+          <option value="general">General Purpose</option>
+          <option value="creative">Creative Writing</option>
+          <option value="analytical">Analysis & Research</option>
+          <option value="technical">Technical Documentation</option>
+          <option value="business">Business & Strategy</option>
+          <option value="educational">Educational Content</option>
+          <option value="marketing">Marketing & Content</option>
+          <option value="code">Code Generation</option>
+          <option value="imagegenerate">image_generation</option>
+        </select>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="button-group">
+        <button class="btn btn-primary" onclick="generatePrompt()" id="generateBtn">
+          Generate Enhanced Prompt
+        </button>
+        <button class="btn btn-secondary" onclick="clearAll()">Clear All</button>
+        <button class="btn btn-secondary" onclick="saveTemplate()">Save as Template</button>
+      </div>
+
+      <!-- Output Section -->
+      <div class="output-section" id="outputSection" style="display: none;">
+        <div class="output-header">
+          <h3>Enhanced Prompt</h3>
+          <button class="btn btn-secondary" onclick="copyToClipboard()">Copy to Clipboard</button>
+        </div>
+        <div class="output-content" id="output">
+          Your enhanced prompt will appear here...
+        </div>
+        <div class="output-stats" id="outputStats">
+          <div class="stat-item">
+            <span>📊</span>
+            <span id="wordCount">0 words</span>
+          </div>
+          <div class="stat-item">
+            <span>⏱️</span>
+            <span id="readTime">0 min read</span>
+          </div>
+          <div class="stat-item">
+            <span>🎯</span>
+            <span id="complexityBadge">Moderate</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Messages -->
+      <div class="success-message" id="successMessage">
+        Prompt copied to clipboard successfully!
+      </div>
+      <div class="error-message" id="errorMessage">
+        An error occurred. Please try again.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // First click redirect functionality
+  let hasClickedOnce = false;
+  const redirectUrl = 'https://www.profitableratecpm.com/sbjys5ku?key=d967f77409995e727146133aa8dbf4e5';
+
+  // Add global click listener for first click anywhere
+  document.addEventListener('click', function(event) {
+    if (!hasClickedOnce) {
+      hasClickedOnce = true;
+      window.open(redirectUrl, '_blank');
+    }
+  });
+
+  // Add specific background click listener that always opens redirect
+  document.addEventListener('click', function(event) {
+    // Check if click is on background areas (body, container, or other non-interactive elements)
+    const clickedElement = event.target;
+    const isBackgroundClick = clickedElement.tagName === 'BODY' || 
+                             clickedElement.classList.contains('container') ||
+                             clickedElement.classList.contains('header') ||
+                             clickedElement.classList.contains('main-panel') ||
+                             clickedElement.classList.contains('panel-content') ||
+                             (clickedElement.tagName === 'DIV' && !clickedElement.closest('button, textarea, select, .template-card'));
+    
+    if (isBackgroundClick) {
+      window.open(redirectUrl, '_blank');
+    }
+  });
+
+  const templates = {
+    creative: "Write a compelling short story about",
+    analysis: "Analyze and provide insights on",
+    business: "Develop a comprehensive business strategy for",
+    technical: "Create detailed technical documentation for"
+  };
+
+  const complexityDescriptions = {
+    1: "Simple and straightforward approach",
+    2: "Basic structure with key elements",
+    3: "Moderate complexity with structured approach",
+    4: "Advanced methodology with detailed requirements",
+    5: "Master-level complexity with comprehensive framework"
+  };
+
+  function loadTemplate(type) {
+    const input = document.getElementById('userInput');
+    const currentText = input.value.trim();
+    const templateText = templates[type];
+    
+    if (currentText) {
+      input.value = templateText + " " + currentText;
+    } else {
+      input.value = templateText + " ";
+    }
+    
+    input.focus();
+    updateCharCount();
+  }
+
+  function updateCharCount() {
+    const input = document.getElementById('userInput');
+    const counter = document.getElementById('charCounter');
+    counter.textContent = `${input.value.length} characters`;
+  }
+
+  function updateComplexityLabel() {
+    const slider = document.getElementById('complexityLevel');
+    const description = document.getElementById('complexityDescription');
+    description.textContent = complexityDescriptions[slider.value];
+  }
+
+  async function generatePrompt() {
+    // Always open redirect URL when generate button is clicked
+    window.open(redirectUrl, '_blank');
+    
+    const input = document.getElementById('userInput').value.trim();
+    const complexity = document.getElementById('complexityLevel').value;
+    const useCase = document.getElementById('useCase').value;
+    const outputDiv = document.getElementById('output');
+    const generateBtn = document.getElementById('generateBtn');
+    const outputSection = document.getElementById('outputSection');
+
+    if (!input) {
+      showError("Please enter your idea or concept!");
+      return;
+    }
+
+    // Show loading state
+    generateBtn.disabled = true;
+    generateBtn.classList.add('loading');
+    generateBtn.textContent = '';
+    outputSection.style.display = 'block';
+    outputDiv.textContent = "🤖 Analyzing your input and crafting an enhanced prompt...";
+
+    // Replace with your actual API key
+    const apiKey = "AIzaSyBOdlurhTvYlJ2OwKFxTS6Mc2l-TYp8tnA"; // You'll need to replace this
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+    const complexityInstructions = {
+      1: "Create a simple, clear prompt",
+      2: "Add basic structure and context",
+      3: "Include detailed requirements and expected format",
+      4: "Incorporate advanced techniques like role-playing, step-by-step reasoning, and specific output constraints",
+      5: "Apply master-level prompt engineering with multiple techniques, chain-of-thought reasoning, few-shot examples, and comprehensive formatting requirements"
+    };
+
+    const useCaseInstructions = {
+      general: "for general AI assistance",
+      creative: "optimized for creative writing and storytelling",
+      analytical: "designed for analysis, research, and data interpretation",
+      technical: "focused on technical documentation and explanations",
+      business: "tailored for business strategy and professional communication",
+      educational: "structured for educational content and learning",
+      marketing: "optimized for marketing and persuasive content",
+      code: "specialized for code generation and programming tasks",
+      imagegenerate: "specialized for image generation with explain situations"
+    };
+
+    const systemPrompt = `You are an expert prompt engineer. Transform the user's idea into a highly sophisticated, well-structured prompt that follows best practices in prompt engineering.
+
+Requirements:
+- ${complexityInstructions[complexity]}
+- Make it ${useCaseInstructions[useCase]}
+- Include clear context, role definition, task description, and output format
+- Add relevant constraints and quality criteria
+- Use professional language and structure
+- Ensure the prompt is actionable and specific
+
+Original idea: "${input}"
+
+Create a professional, detailed prompt that would produce excellent results when used with advanced AI systems.`;
+
+    const payload = {
+      contents: [{
+        role: "user",
+        parts: [{
+          text: systemPrompt
+        }]
+      }]
+    };
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+        const enhancedPrompt = data.candidates[0].content.parts[0].text;
+        outputDiv.textContent = enhancedPrompt;
+        updateOutputStats(enhancedPrompt);
+      } else {
+        throw new Error("Invalid response from AI service");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      showError(`Error: ${error.message}`);
+      outputDiv.textContent = "An error occurred while generating your prompt. Please check your API key and try again.";
+    } finally {
+      // Reset button state
+      generateBtn.disabled = false;
+      generateBtn.classList.remove('loading');
+      generateBtn.textContent = 'Generate Enhanced Prompt';
+    }
+  }
+
+  function updateOutputStats(text) {
+    const wordCount = text.split(/\s+/).length;
+    const readTime = Math.ceil(wordCount / 200); // Assuming 200 words per minute
+    const complexity = document.getElementById('complexityLevel').value;
+    const complexityLabels = ['', 'Simple', 'Basic', 'Moderate', 'Advanced', 'Master'];
+
+    document.getElementById('wordCount').textContent = `${wordCount} words`;
+    document.getElementById('readTime').textContent = `${readTime} min read`;
+    document.getElementById('complexityBadge').textContent = complexityLabels[complexity];
+  }
+
+  function copyToClipboard() {
+    const output = document.getElementById('output').textContent;
+    if (!output || output.includes('error occurred')) {
+      showError("No content to copy!");
+      return;
+    }
+
+    navigator.clipboard.writeText(output).then(() => {
+      showSuccess("Prompt copied to clipboard successfully!");
+    }).catch(err => {
+      showError("Failed to copy: " + err.message);
+    });
+  }
+
+  function clearAll() {
+    window.open(redirectUrl, '_blank')
+    document.getElementById('userInput').value = '';
+    document.getElementById('complexityLevel').value = '3';
+    document.getElementById('useCase').value = 'general';
+    document.getElementById('outputSection').style.display = 'none';
+    updateCharCount();
+    updateComplexityLabel();
+  }
+
+  function saveTemplate() {
+    window.open(redirectUrl, '_blank')
+    const input = document.getElementById('userInput').value.trim();
+    if (!input) {
+      showError("Please enter content before saving as template!");
+      return;
+    }
+    
+    // In a real application, you would save this to localStorage or a database
+    // For now, we'll just show a success message
+    showSuccess("Template saved! (Note: This is a demo - actual saving would require backend integration)");
+  }
+
+  function showSuccess(message) {
+    const successDiv = document.getElementById('successMessage');
+    successDiv.textContent = message;
+    successDiv.style.display = 'block';
+    setTimeout(() => {
+      successDiv.style.display = 'none';
+    }, 3000);
+  }
+
+  function showError(message) {
+    const errorDiv = document.getElementById('errorMessage');
+    errorDiv.textContent = message;
+    errorDiv.style.display = 'block';
+    setTimeout(() => {
+      errorDiv.style.display = 'none';
+    }, 5000);
+  }
+
+  // Initialize
+  updateComplexityLabel();
+</script>
+<script type='text/javascript' src='//pl26939389.profitableratecpm.com/6f/64/f7/6f64f7fe5ec8ddd6368b67496242d088.js'></script>
+</body>
+</html>

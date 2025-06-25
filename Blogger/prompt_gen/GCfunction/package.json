@@ -1,0 +1,18 @@
+{
+    "name": "ai-proxy-function",
+    "version": "1.0.0",
+    "description": "Proxy for AI API calls to hide API key",
+    "main": "index.js",
+    "dependencies": {
+      "@google/generative-ai": "^0.14.0",
+      "@google-cloud/aiplatform": "^3.x.x",
+      "node-fetch": "^3.3.2" 
+    },
+    "devDependencies": {},
+    "scripts": {
+      "start": "node index.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
+  }
