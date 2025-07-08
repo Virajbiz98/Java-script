@@ -1,0 +1,1638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnimaGen - Create Stunning Animations Effortlessly | Professional Animation Generator</title>
+    <meta name="description" content="Create professional animations with our intuitive drag-and-drop animation generator. Perfect for designers, marketers, and educators. Start your free trial today!">
+    <meta name="keywords" content="animation generator, create animations, drag and drop animation, professional animations, video animation tool, online animation, animation software, free animation tool, animation for beginners">
+    <meta name="author" content="AnimaGen Team">
+
+    <!-- Favicon - Add your favicon.ico file to the root directory -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <!-- Google Fonts - Inter for modern typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://animagen.com/">
+    <meta property="og:title" content="AnimaGen - Create Stunning Animations Effortlessly">
+    <meta property="og:description" content="Professional animation generator with drag-and-drop interface. Create stunning animations in minutes.">
+    <meta property="og:image" content="https://animagen.com/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://animagen.com/">
+    <meta property="twitter:title" content="AnimaGen - Create Stunning Animations Effortlessly">
+    <meta property="twitter:description" content="Professional animation generator with drag-and-drop interface. Create stunning animations in minutes.">
+    <meta property="twitter:image" content="https://animagen.com/twitter-image.jpg">
+
+    <!-- Schema.org markup for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "AnimaGen",
+        "description": "Professional animation generator tool with drag-and-drop interface, offering free animation creation.",
+        "url": "https://animagen.com",
+        "applicationCategory": "DesignApplication",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock"
+        },
+        "creator": {
+            "@type": "Organization",
+            "name": "AnimaGen Team"
+        }
+    }
+    </script>
+
+    <!-- AdSense Auto Ads Code - Replace 'ca-pub-xxxxxxxxxxxxxxxx' with your actual AdSense publisher ID -->
+    <!-- Once your site is approved, paste the full AdSense auto ads code here -->
+    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx" crossorigin="anonymous"></script> -->
+
+    <style>
+        /* General Reset & Variables */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #008080; /* Teal */
+            --secondary-color: #FF7F50; /* Coral */
+            --accent-color: #E0E0E0; /* Light Gray for accents */
+            --text-color: #333333; /* Dark Gray for main text */
+            --white: #ffffff;
+            --light-gray: #f8f9fa; /* Very Light Gray for backgrounds */
+            --border-color: #e1e5e9; /* Light border color */
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Softer shadow */
+            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12); /* Slightly larger hover shadow */
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: var(--white);
+            -webkit-font-smoothing: antialiased; /* Smoother font rendering */
+            scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Reusable Components */
+        .section-heading {
+            text-align: center;
+            font-size: 2.8rem; /* Slightly larger heading */
+            margin-bottom: 3.5rem; /* More spacing below heading */
+            color: var(--primary-color);
+            font-weight: 800; /* Bolder headings */
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--white);
+            padding: 0.9rem 2rem; /* Slightly larger padding */
+            border: none;
+            border-radius: 50px;
+            font-weight: 700; /* Bolder text */
+            text-decoration: none;
+            display: inline-block;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 128, 128, 0.35); /* More pronounced shadow */
+            text-transform: uppercase; /* Uppercase for CTA */
+            letter-spacing: 0.5px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px); /* Increased lift on hover */
+            box-shadow: 0 8px 25px rgba(0, 128, 128, 0.45);
+        }
+
+        /* Secondary Button Style for Blog/Category Cards */
+        .btn-primary-alt {
+            display: inline-block;
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn-primary-alt:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+
+        /* Header */
+        header {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 2rem; /* Slightly larger logo */
+            font-weight: 800;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem; /* Increased gap */
+        }
+
+        .logo::before {
+            content: "⚡"; /* Unicode lightning bolt */
+            animation: pulse 2s infinite;
+            font-size: 1.5rem; /* Adjust icon size */
+            line-height: 1; /* Align with text */
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem; /* Increased gap between links */
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 600; /* Slightly bolder nav links */
+            transition: color 0.3s ease;
+            position: relative;
+            padding: 0.25rem 0; /* Add vertical padding for hover effect */
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px; /* Thicker underline */
+            bottom: -8px; /* Further below the text */
+            left: 0;
+            background: var(--primary-color);
+            transition: width 0.3s ease-out;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color), #006666);
+            color: var(--white);
+            padding: 8rem 0; /* More vertical padding */
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" patternUnits="userSpaceOnUse" width="100" height="100"><circle cx="50" cy="50" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>'); /* Slightly denser grain */
+            opacity: 0.15; /* Slightly more visible grain */
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 4.2rem; /* Larger hero title */
+            font-weight: 900; /* Extra bold */
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--white), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease-out;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.4rem; /* Larger hero subtitle */
+            margin-bottom: 3rem;
+            opacity: 0.95;
+            animation: fadeInUp 1s ease-out 0.2s both;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-animation {
+            width: 350px; /* Slightly larger animation box */
+            height: 250px;
+            background: rgba(255, 255, 255, 0.15); /* More transparent */
+            border-radius: 25px; /* More rounded corners */
+            margin: 3rem auto;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(15px); /* Stronger blur */
+            border: 1px solid rgba(255, 255, 255, 0.3); /* Stronger border */
+            animation: ScaleIn ;
+            box-shadow: var(--shadow-hover); /* Add shadow to animation box */
+        }
+
+
+        .animation-element {
+            position: absolute;
+            width: 70px; /* Larger elements */
+            height: 70px;
+            background: var(--secondary-color);
+            border-radius: 50%;
+            animation: rubberBand 1s infinite; /* Changed to rubberBand */
+            opacity: 0.8; /* Slight transparency */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .animation-element:nth-child(1) {
+            top: 25px;
+            left: 25px;
+            animation-delay: 0s;
+        }
+
+        .animation-element:nth-child(2) {
+            top: 70px;
+            right: 40px;
+            background: var(--white);
+            animation-delay: 1.2s; /* Adjusted delay */
+            width: 50px;
+            height: 50px;
+        }
+
+        .animation-element:nth-child(3) {
+            bottom: 40px;
+            left: 55%; /* Adjusted position */
+            transform: translateX(-50%);
+            background: var(--accent-color);
+            animation-delay: 2.4s; /* Adjusted delay */
+            width: 80px;
+            height: 80px;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        @keyframes rubberBand {
+            0% { transform: scale(1, 1); }
+            30% { transform: scale(1.25, 0.75); }
+            40% { transform: scale(0.75, 1.25); }
+            50% { transform: scale(1.15, 0.85); }
+            65% { transform: scale(0.95, 1.05); }
+            75% { transform: scale(1.05, 0.95); }
+            100% { transform: scale(1, 1); }
+        }
+
+        /* Features Section */
+        .features {
+            padding: 7rem 0; /* Consistent padding */
+            background: var(--light-gray);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Min width for cards */
+            gap: 2.5rem; /* Increased gap */
+        }
+
+        .feature-card {
+            background: var(--white);
+            padding: 2.5rem; /* More padding */
+            border-radius: 18px; /* More rounded */
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            display: flex; /* Flexbox for aligning content */
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px); /* More pronounced lift */
+            box-shadow: var(--shadow-hover);
+        }
+
+        .feature-icon {
+            font-size: 3.5rem; /* Larger icons */
+            margin-bottom: 1.2rem;
+            display: block;
+            color: var(--primary-color); /* Color the icons */
+        }
+
+        .feature-card h3 {
+            font-size: 1.6rem; /* Larger heading */
+            margin-bottom: 0.8rem;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .feature-card p {
+            font-size: 1.05rem;
+            color: var(--text-color);
+            opacity: 0.9;
+        }
+
+        /* Animation Categories Section (formerly Templates) */
+        .animation-categories {
+            padding: 7rem 0;
+            background: var(--white); /* Ensure distinct background */
+        }
+
+        .category-card {
+            background: var(--light-gray); /* Lighter background for category cards */
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .category-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .category-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .category-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .category-card p {
+            font-size: 1.05rem;
+            margin-bottom: 2rem;
+            color: var(--text-color);
+            opacity: 0.9;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 7rem 0;
+            background: var(--light-gray);
+        }
+
+        .testimonials-slider {
+            display: flex;
+            gap: 2rem;
+            overflow-x: auto;
+            padding: 1.5rem 0; /* More padding for scroll area */
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            scrollbar-width: thin; /* Firefox scrollbar */
+            scrollbar-color: var(--primary-color) var(--light-gray); /* Firefox scrollbar color */
+        }
+
+        /* Custom scrollbar for Webkit browsers */
+        .testimonials-slider::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .testimonials-slider::-webkit-scrollbar-track {
+            background: var(--border-color);
+            border-radius: 10px;
+        }
+
+        .testimonials-slider::-webkit-scrollbar-thumb {
+            background-color: var(--primary-color);
+            border-radius: 10px;
+            border: 2px solid var(--border-color);
+        }
+
+
+        .testimonial-card {
+            flex-shrink: 0; /* Prevent cards from shrinking */
+            width: 320px; /* Fixed width for better slider experience */
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            scroll-snap-align: start; /* Align to start for smooth snapping */
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .testimonial-avatar {
+            width: 70px; /* Larger avatar */
+            height: 70px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            margin: 0 auto 1.5rem; /* More margin below */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.8rem; /* Larger initial */
+            font-weight: 700;
+            box-shadow: 0 4px 10px rgba(0, 128, 128, 0.2);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .testimonial-author {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+
+        /* Blog/Articles Section */
+        .blog-section {
+            padding: 7rem 0;
+            background: var(--white);
+        }
+
+        .article-card {
+            background: var(--light-gray);
+            padding: 1.5rem;
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .article-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
+
+        .article-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .article-card h3 a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s ease;
+        }
+
+        .article-card h3 a:hover {
+            color: var(--secondary-color);
+        }
+
+        .article-meta {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            opacity: 0.7;
+            margin-bottom: 1rem;
+        }
+
+        .article-summary {
+            font-size: 1rem;
+            color: var(--text-color);
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+            flex-grow: 1; /* Ensures cards have consistent height */
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text-color);
+            color: var(--white);
+            padding: 4rem 0 2rem; /* More padding */
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Adjusted min-width for footer columns */
+            gap: 2.5rem;
+            margin-bottom: 3rem; /* More margin */
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1.2rem;
+            color: var(--primary-color);
+            font-size: 1.3rem; /* Larger footer headings */
+            font-weight: 700;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.8rem; /* More spacing */
+        }
+
+        .footer-section ul li a {
+            color: var(--white);
+            text-decoration: none;
+            opacity: 0.85;
+            transition: opacity 0.3s ease, color 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .footer-section ul li a:hover {
+            opacity: 1;
+            color: var(--secondary-color); /* Accent color on hover */
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.15); /* Slightly more visible separator */
+            opacity: 0.85;
+            font-size: 0.95rem;
+        }
+
+        /* Animation Generator Page (New Simplified UI) */
+        .animation-generator-page {
+            display: none; /* Hidden by default */
+            min-height: 100vh; /* Ensure it takes full height */
+            background: #282c34; /* Dark background for generator */
+            color: #f0f0f0;
+            padding: 4rem 20px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .animation-generator-page.active {
+            display: block;
+        }
+
+        .generator-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .generator-container {
+                grid-template-columns: 1fr 1fr; /* Two columns on larger screens */
+            }
+        }
+
+        .generator-panel {
+            background: #3c4048; /* Slightly lighter dark panel */
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            padding: 2rem;
+        }
+
+        .generator-panel h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: #b0b0b0;
+        }
+
+        .form-group select,
+        .form-group input[type="range"],
+        .form-group input[type="number"] {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid #555;
+            background-color: #444;
+            color: #f0f0f0;
+            font-size: 1rem;
+            -webkit-appearance: none; /* Remove default styling for range input */
+            appearance: none;
+        }
+
+        .form-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--secondary-color);
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-group input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--secondary-color);
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .live-preview-box {
+            width: 180px;
+            height: 180px;
+            background: #555;
+            border-radius: 10px;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid var(--primary-color);
+        }
+
+        .preview-element {
+            width: 80px;
+            height: 80px;
+            background-color: var(--secondary-color);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--white);
+            /* Initial state for animation */
+            transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+            opacity: 1;
+        }
+
+        .preview-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .preview-controls button {
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .preview-controls button:hover {
+            background: var(--secondary-color);
+        }
+
+        .generated-code-box {
+            background: #1e1e1e; /* Darker background for code */
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            color: #c0c0c0;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-tabs {
+            display: flex;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #555;
+        }
+
+        .code-tab {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-bottom: none;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            color: #b0b0b0;
+            transition: all 0.3s ease;
+        }
+
+        .code-tab.active {
+            background: #3c4048;
+            border-color: #555;
+            color: var(--white);
+        }
+
+        .code-content {
+            white-space: pre-wrap; /* Preserve whitespace and wrap */
+            word-break: break-all; /* Break long words */
+        }
+
+        .copy-code-btn {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: var(--secondary-color);
+            color: var(--white);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .copy-code-btn:hover {
+            background: var(--primary-color);
+        }
+
+        /* Loading states - simplified as generator page is removed */
+        .loading-overlay {
+            display: none; /* Hide loading overlay as it's not needed for page transitions now */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <a href="#home" class="logo">AnimaGen</a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#categories">Animation Styles</a></li>
+                <li><a href="#blog">Blog</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#animation-generator" class="generator-link" role="button" aria-label="Open Animation Guide">Get Started</a></li>
+            </ul>
+            <a href="#animation-generator" class="cta-button generator-link" role="button" aria-label="Start Creating Animations">Start Creating</a>
+        </nav>
+    </header>
+
+    <!-- Main Content for Homepage -->
+    <main id="homepage">
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Create Stunning Animations Effortlessly</h1>
+                    <p>Empower Your Storytelling with Our Intuitive Drag-and-Drop Animation Generator</p>
+                    <div class="hero-animation">
+                        <div class="animation-element"></div>
+                        <div class="animation-element"></div>
+                        <div class="animation-element"></div>
+                    </div>
+                    <a href="#animation-generator" class="cta-button generator-link" role="button" aria-label="Start Animating Now">Start Animating Now</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features" id="features">
+            <div class="container">
+                <h2 class="section-heading">Powerful Features for Every Creator</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <span class="feature-icon">🎨</span>
+                        <h3>Drag-and-Drop Interface</h3>
+                        <p>Intuitive design tools that make animation creation as simple as dragging elements onto your canvas.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">📚</span>
+                        <h3>Pre-built Templates</h3>
+                        <p>Hundreds of professionally designed templates to jumpstart your animation projects, saving you time and effort.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">⚡</span>
+                        <h3>Real-time Preview</h3>
+                        <p>See your animations come to life instantly as you design, ensuring perfect timing and flow.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">🎭</span>
+                        <h3>Customizable Elements</h3>
+                        <p>Modify colors, sizes, positions, and effects to match your unique creative vision and brand identity.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">⏱️</span>
+                        <h3>Timeline Control</h3>
+                        <p>Gain precise timing control with keyframe manipulation for professional-grade, smooth animations.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">📁</span>
+                        <h3>Multiple Export Formats</h3>
+                        <p>Export your finished animations in popular formats like GIF, MP4, WEBM, and more for versatile use.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Animation Categories Section (formerly Templates) -->
+        <section id="categories" class="animation-categories">
+            <div class="container">
+                <h2 class="section-heading">Choose Your Animation Style</h2>
+                <p class="text-center text-lg text-gray-700 mb-12 max-w-2xl mx-auto">Select a category below to explore different animation possibilities and start your creative journey. Our tools support various mediums for stunning results.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Text Animation Card -->
+                    <div class="category-card">
+                        <h3 class="text-blue-600">Text Animations</h3>
+                        <img src="images/text-animation.png" alt="Text Animation" class="w-full h-48 object-cover rounded-lg mb-4">
+                        <p>Create dynamic text effects, kinetic typography, intros, and outros for your videos. Make your words come alive!</p>
+                        <a href="#animation-generator" class="btn-primary-alt mt-auto" role="button" aria-label="Create Text Animation">Learn More</a>
+                    </div>
+
+                    <!-- Photo/Image Animation Card -->
+                    <div class="category-card">
+                        <h3 class="text-green-600">Photo & Image Animations</h3>
+                        <img src="images/photo-animation.png" alt="Photo Animation" class="w-full h-48 object-cover rounded-lg mb-4">
+                        <p>Bring your static images to life with parallax effects, motion graphics, and engaging transitions. Perfect for slideshows and social media.</p>
+                        <a href="#animation-generator" class="btn-primary-alt mt-auto" role="button" aria-label="Create Photo Animation">Learn More</a>
+                    </div>
+
+                    <!-- Other Variations Animation Card -->
+                    <div class="category-card">
+                        <h3 class="text-purple-600">Custom Animations & VFX</h3>
+                        <img src="images/custom-animation.png" alt="Custom Animation" class="w-full h-48 object-cover rounded-lg mb-4">
+                        <p>Explore a wide range of custom effects including particle systems, abstract motions, and visual effects to make your projects unique.</p>
+                        <a href="#animation-generator" class="btn-primary-alt mt-auto" role="button" aria-label="Create Custom Animation">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog/Articles Section -->
+        <section id="blog" class="blog-section">
+            <div class="container">
+                <h2 class="section-heading">Latest Articles & Tutorials</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Article Card 1 -->
+                    <div class="article-card">
+                        <img src="images/article-thumb1.jpg" alt="Article Thumbnail" class="w-full h-48 object-cover rounded-lg mb-4">
+                        <h3>
+                            <a href="articles/article1.html">Mastering Text Animations in 5 Steps</a>
+                        </h3>
+                        <p class="article-meta">By AnimaGen Team | July 1, 2025</p>
+                        <p class="article-summary">Learn how to create captivating text animations using our free tools. This guide covers basic to advanced techniques for stunning results.</p>
+                        <a href="articles/article1.html" class="btn-primary-alt mt-auto">Read More</a>
+                    </div>
+
+                    <!-- Article Card 2 -->
+                    <div class="article-card">
+                        <img src="images/article-thumb2.jpg" alt="Article Thumbnail" class="w-full h-48 object-cover rounded-lg mb-4">
+                        <h3>
+                            <a href="articles/article2.html">Transforming Photos into Dynamic Videos</a>
+                        </h3>
+                        <p class="article-meta">By AnimaGen Team | June 25, 2025</p>
+                        <p class="article-summary">Discover the secrets to animating your static photos and making them tell a story. A step-by-step tutorial for impactful visual content.</p>
+                        <a href="articles/article2.html" class="btn-primary-alt mt-auto">Read More</a>
+                    </div>
+
+                    <!-- Article Card 3 -->
+                    <div class="article-card">
+                        <img src="images/article-thumb3.jpg" alt="Article Thumbnail" class="w-full h-48 object-cover rounded-lg mb-4">
+                        <h3>
+                            <a href="articles/article3.html">Understanding Keyframe Animation Basics</a>
+                        </h3>
+                        <p class="article-meta">By AnimaGen Team | June 18, 2025</p>
+                        <p class="article-summary">Dive deep into the fundamentals of keyframe animation. Essential knowledge for every aspiring animator and designer.</p>
+                        <a href="articles/article3.html" class="btn-primary-alt mt-auto">Read More</a>
+                    </div>
+
+                    <!-- Add more article cards here following the same structure -->
+                    <div class="article-card">
+                        <img src="images/article-thumb4.jpg" alt="Article Thumbnail" class="w-full h-48 object-cover rounded-lg mb-4">
+                        <h3>
+                            <a href="articles/article4.html">Top 10 Trends in Motion Graphics for 2025</a>
+                        </h3>
+                        <p class="article-meta">By AnimaGen Team | June 10, 2025</p>
+                        <p class="article-summary">Stay ahead of the curve with our insights into the hottest trends shaping the world of motion graphics this year.</p>
+                        <a href="articles/article4.html" class="btn-primary-alt mt-auto">Read More</a>
+                    </div>
+                    <div class="article-card">
+                        <img src="images/article-thumb5.jpg" alt="Article Thumbnail" class="w-full h-48 object-cover rounded-lg mb-4">
+                        <h3>
+                            <a href="articles/article5.html">Creating Engaging Explainer Videos with Ease</a>
+                        </h3>
+                        <p class="article-meta">By AnimaGen Team | June 3, 2025</p>
+                        <p class="article-summary">A comprehensive guide to crafting compelling explainer videos that captivate your audience and convey your message effectively.</p>
+                        <a href="articles/article5.html" class="btn-primary-alt mt-auto">Read More</a>
+                    </div>
+                     <div class="article-card">
+                        <img src="images/article-thumb6.jpg" alt="Article Thumbnail" class="w-full h-48 object-cover rounded-lg mb-4">
+                        <h3>
+                            <a href="articles/article6.html">The Power of Visual Storytelling in Marketing</a>
+                        </h3>
+                        <p class="article-meta">By AnimaGen Team | May 28, 2025</p>
+                        <p class="article-summary">Explore how animated visuals can significantly boost your marketing efforts and connect with your target audience on a deeper level.</p>
+                        <a href="articles/article6.html" class="btn-primary-alt mt-auto">Read More</a>
+                    </div>
+                </div>
+                <div class="text-center mt-12">
+                    <a href="articles.html" class="cta-button">View All Articles</a>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Testimonials Section -->
+        <section class="testimonials" id="testimonials">
+            <div class="container">
+                <h2 class="section-heading">What Our Users Say About AnimaGen</h2>
+                <div class="testimonials-slider">
+                    <div class="testimonial-card">
+                        <div class="testimonial-avatar">JS</div>
+                        <div class="testimonial-text">"AnimaGen transformed how I create marketing videos! The drag-and-drop interface is a game-changer, and the pre-built templates saved me hours. Highly recommend!"</div>
+                        <div class="testimonial-author">- Jane Smith, Marketing Manager</div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-avatar">AL</div>
+                        <div class="testimonial-text">"As an educator, I needed a simple tool to create engaging explainer videos. AnimaGen delivered beyond my expectations. The timeline control gives me all the precision I need."</div>
+                        <div class="testimonial-author">- Alex Lee, University Professor</div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-avatar">MP</div>
+                        <div class="testimonial-text">"I'm not a professional animator, but AnimaGen makes me feel like one! The results are polished and professional, and the learning curve was surprisingly shallow. Fantastic product!"</div>
+                        <div class="testimonial-author">- Maria Petrov, Small Business Owner</div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-avatar">CD</div>
+                        <div class="testimonial-text">"The real-time preview is incredibly helpful, and the export options cover all my needs. AnimaGen is now an indispensable part of my creative toolkit for social media content."</div>
+                        <div class="testimonial-author">- Chris Davies, Content Creator</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact" id="contact">
+            <div class="container">
+                <h2 class="section-heading">Get in Touch with AnimaGen</h2>
+                <p style="text-align: center; margin-bottom: 2.5rem; font-size: 1.1rem; color: var(--text-color);">Have questions or need support? We're here to help!</p>
+                <div style="max-width: 600px; margin: 0 auto; background: var(--white); padding: 3rem; border-radius: 18px; box-shadow: var(--shadow);">
+                    <form action="#" method="POST">
+                        <div style="margin-bottom: 1.5rem;">
+                            <label for="name" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-color);">Your Name</label>
+                            <input type="text" id="name" name="name" placeholder="John Doe" required style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 8px; font-size: 1rem;">
+                        </div>
+                        <div style="margin-bottom: 1.5rem;">
+                            <label for="email" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-color);">Your Email</label>
+                            <input type="email" id="email" name="email" placeholder="john.doe@example.com" required style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 8px; font-size: 1rem;">
+                        </div>
+                        <div style="margin-bottom: 2rem;">
+                            <label for="message" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-color);">Your Message</label>
+                            <textarea id="message" name="message" rows="5" placeholder="Tell us how we can help..." required style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 8px; font-size: 1rem; resize: vertical;"></textarea>
+                        </div>
+                        <button type="submit" class="cta-button" style="width: 100%;" aria-label="Send Your Message">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Animation Generator Page (New Simplified UI) -->
+    <div class="animation-generator-page" id="animation-generator">
+        <div class="generator-container">
+            <!-- Animation Controls Panel -->
+            <div class="generator-panel">
+                <h2>Animation Controls</h2>
+
+                <div class="form-group">
+                    <label for="animationType">Animation Type</label>
+                    <select id="animationType">
+                        <option value="rotateIn">Rotate In</option>
+                        <option value="fadeIn">Fade In</option>
+                        <option value="slideIn">Slide In</option>
+                        <option value="bounce">Bounce</option>
+                        <option value="slideInRight">Slide In Right</option>
+                        <option value="slideInLeft">Slide In Left</option>
+                        <option value="slideInUp">Slide In Up</option>
+                        <option value="slideInDown">Slide In Down</option>
+                        <option value="scaleIn">Scale In</option>
+                        <option value="shake">Shake</option>
+                        <option value="flip">Flip</option>
+                        <option value="rubberBand">Rubber Band</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="duration">Duration (seconds)</label>
+                    <input type="range" id="duration" min="0.5" max="5" value="2.7" step="0.1">
+                    <span id="durationValue">2.7s</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="delay">Delay (seconds)</label>
+                    <input type="range" id="delay" min="0" max="3" value="0.1" step="0.1">
+                    <span id="delayValue">0.1s</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="iterationCount">Iteration Count</label>
+                    <select id="iterationCount">
+                        <option value="1">1 (Once)</option>
+                        <option value="2">2 (Twice)</option>
+                        <option value="3" selected>3 (Three times)</option>
+                        <option value="infinite">Infinite</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="easingFunction">Easing Function</label>
+                    <select id="easingFunction">
+                        <option value="linear" selected>Linear</option>
+                        <option value="ease">Ease</option>
+                        <option value="ease-in">Ease-in</option>
+                        <option value="ease-out">Ease-out</option>
+                        <option value="ease-in-out">Ease-in-out</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="direction">Direction</label>
+                    <select id="direction">
+                        <option value="normal" selected>Normal</option>
+                        <option value="reverse">Reverse</option>
+                        <option value="alternate">Alternate</option>
+                        <option value="alternate-reverse">Alternate-Reverse</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="fillMode">Fill Mode</label>
+                    <select id="fillMode">
+                        <option value="none" selected>None</option>
+                        <option value="forwards">Forwards</option>
+                        <option value="backwards">Backwards</option>
+                        <option value="both">Both</option>
+                    </select>
+                </div>
+
+                <div class="preview-controls">
+                    <button id="previewAnimationBtn">Preview Animation</button>
+                    <button id="resetAnimationBtn">Reset</button>
+                </div>
+            </div>
+
+            <!-- Live Preview Panel -->
+            <div class="generator-panel">
+                <h2>Live Preview</h2>
+                <div class="live-preview-box">
+                    <div class="preview-element" id="livePreviewElement">CSS</div>
+                </div>
+            </div>
+
+            <!-- Generated Code Panel -->
+            <div class="generator-panel">
+                <h2>Generated Code</h2>
+                <div class="code-tabs">
+                    <div class="code-tab active" data-lang="css">CSS</div>
+                    <div class="code-tab" data-lang="html">HTML</div>
+                    <div class="code-tab" data-lang="js">JavaScript</div>
+                </div>
+                <div class="generated-code-box">
+                    <pre id="generatedCode" class="code-content"></pre>
+                    <button class="copy-code-btn" id="copyCodeBtn">Copy Code</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AnimaGen</h3>
+                    <p style="font-size: 0.95rem; opacity: 0.9;">Your go-to platform for creating stunning animations effortlessly. Simplify your creative process.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#categories">Animation Styles</a></li>
+                        <li><a href="#blog">Blog</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="refund.html">Refund Policy</a></li>
+                        <li><a href="about.html">About Us</a></li> <!-- Added About Us link -->
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <ul style="display: flex; gap: 1rem; justify-content: center;">
+                        <li><a href="#" aria-label="Follow us on Facebook">f</a></li>
+                        <li><a href="#" aria-label="Follow us on Twitter">t</a></li>
+                        <li><a href="#" aria-label="Follow us on LinkedIn">in</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2025 AnimaGen. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                // Only attempt to scroll if href is not just '#'
+                if (href && href !== '#') {
+                    e.preventDefault();
+                    const targetElement = document.querySelector(href);
+
+                    // If the target is on the homepage and the generator is active, switch to homepage first
+                    if (animationGeneratorPage.classList.contains('active') && homepage.contains(targetElement)) {
+                        showHomepage();
+                        // Give a small delay for the display change to take effect before scrolling
+                        setTimeout(() => {
+                            targetElement.scrollIntoView({
+                                behavior: 'smooth'
+                            });
+                        }, 100);
+                    } else if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                } else if (href === '#') {
+                    // Prevent default behavior for href="#" if it's not meant for scrolling
+                    e.preventDefault();
+                    // Optionally, scroll to top if href is just '#'
+                    // window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Toggle between homepage and animation generator
+        const homepage = document.getElementById('homepage');
+        const animationGeneratorPage = document.getElementById('animation-generator');
+        const generatorLinks = document.querySelectorAll('.generator-link');
+        const logoLink = document.querySelector('.logo'); // Get the logo link
+
+        // Function to restart the hero animation
+        function restartHeroAnimation() {
+            const heroAnimationElements = document.querySelectorAll('.hero-animation .animation-element');
+            heroAnimationElements.forEach(element => {
+                // Remove the animation property
+                element.style.animation = 'none';
+                // Trigger a reflow to ensure the browser registers the removal
+                void element.offsetWidth; // This forces a reflow
+                // Re-add the animation property to restart it
+                element.style.animation = 'float 3.5s ease-in-out infinite';
+            });
+        }
+
+        function showAnimationGenerator() {
+            homepage.style.display = 'none';
+            animationGeneratorPage.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top of generator page
+        }
+
+        function showHomepage() {
+            animationGeneratorPage.classList.remove('active');
+            homepage.style.display = 'block';
+            // Add a small timeout before restarting animation to ensure display:block is rendered
+            setTimeout(restartHeroAnimation, 50); // Small delay
+            window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top of homepage
+        }
+
+        generatorLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                showAnimationGenerator();
+            });
+        });
+
+        // Add an event listener to the logo to return to homepage
+        logoLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            // If generator is active, switch to homepage, then scroll
+            if (animationGeneratorPage.classList.contains('active')) {
+                showHomepage();
+                setTimeout(() => {
+                    document.querySelector('#home').scrollIntoView({ behavior: 'smooth' });
+                }, 100); // Small delay after showing homepage
+            } else {
+                // Otherwise, just scroll to home
+                document.querySelector('#home').scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+
+
+        // --- Simplified Animation Generator Logic ---
+        const animationTypeSelect = document.getElementById('animationType');
+        const durationRange = document.getElementById('duration');
+        const durationValueSpan = document.getElementById('durationValue');
+        const delayRange = document.getElementById('delay');
+        const delayValueSpan = document.getElementById('delayValue');
+        const iterationCountSelect = document.getElementById('iterationCount');
+        const easingFunctionSelect = document.getElementById('easingFunction');
+        const directionSelect = document.getElementById('direction');
+        const fillModeSelect = document.getElementById('fillMode');
+        const livePreviewElement = document.getElementById('livePreviewElement');
+        const previewAnimationBtn = document.getElementById('previewAnimationBtn');
+        const resetAnimationBtn = document.getElementById('resetAnimationBtn');
+        const generatedCodePre = document.getElementById('generatedCode');
+        const codeTabs = document.querySelectorAll('.code-tab');
+        const copyCodeBtn = document.getElementById('copyCodeBtn');
+
+        // Update range value displays
+        durationRange.addEventListener('input', () => {
+            durationValueSpan.textContent = `${durationRange.value}s`;
+            updateAnimationAndCode();
+        });
+        delayRange.addEventListener('input', () => {
+            delayValueSpan.textContent = `${delayRange.value}s`;
+            updateAnimationAndCode();
+        });
+
+        // Event listeners for select changes
+        animationTypeSelect.addEventListener('change', updateAnimationAndCode);
+        iterationCountSelect.addEventListener('change', updateAnimationAndCode);
+        easingFunctionSelect.addEventListener('change', updateAnimationAndCode);
+        directionSelect.addEventListener('change', updateAnimationAndCode);
+        fillModeSelect.addEventListener('change', updateAnimationAndCode);
+
+
+        // Define animation keyframes dynamically
+        const keyframes = {
+            rotateIn: `
+                @keyframes rotateIn {
+                    0% {
+                        opacity: 0;
+                        transform: rotate(-200deg) scale(0.5);
+                    }
+                    100% {
+                        opacity: 1;
+                        transform: rotate(0deg) scale(1);
+                    }
+                }
+            `,
+            fadeIn: `
+                @keyframes fadeIn {
+                    0% { opacity: 0; }
+                    100% { opacity: 1; }
+                }
+            `,
+            slideIn: `
+                @keyframes slideIn {
+                    0% {
+                        opacity: 0;
+                        transform: translateX(-100%);
+                    }
+                    100% {
+                        opacity: 1;
+                        transform: translateX(0);
+                    }
+                }
+            `,
+            bounce: `
+                @keyframes bounce {
+                    0%, 20%, 53%, 80%, 100% {
+                        transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+                        transform: translate3d(0, 0, 0);
+                    }
+                    40%, 43% {
+                        transition-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+                        transform: translate3d(0, -30px, 0) scaleY(1.1);
+                    }
+                    70% {
+                        transition-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+                        transform: translate3d(0, -15px, 0) scaleY(1.05);
+                    }
+                    90% {
+                        transform: translate3d(0, -4px, 0) scaleY(1.02);
+                    }
+                }
+            `,
+            slideInRight: `
+                @keyframes slideInRight {
+                    0% {
+                        opacity: 0;
+                        transform: translateX(100%);
+                    }
+                    100% {
+                        opacity: 1;
+                        transform: translateX(0);
+                    }
+                }
+            `,
+            slideInLeft: `
+                @keyframes slideInLeft {
+                    0% {
+                        opacity: 0;
+                        transform: translateX(-100%);
+                    }
+                    100% {
+                        opacity: 1;
+                        transform: translateX(0);
+                    }
+                }
+            `,
+            slideInUp: `
+                @keyframes slideInUp {
+                    0% {
+                        opacity: 0;
+                        transform: translateY(100%);
+                    }
+                    100% {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+            `,
+            slideInDown: `
+                @keyframes slideInDown {
+                    0% {
+                        opacity: 0;
+                        transform: translateY(-100%);
+                    }
+                    100% {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+            `,
+            scaleIn: `
+                @keyframes scaleIn {
+                    0% {
+                        opacity: 0;
+                        transform: scale(0);
+                    }
+                    100% {
+                        opacity: 1;
+                        transform: scale(1);
+                    }
+                }
+            `,
+            shake: `
+                @keyframes shake {
+                    0%, 100% { transform: translateX(0); }
+                    10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+                    20%, 40%, 60%, 80% { transform: translateX(10px); }
+                }
+            `,
+            flip: `
+                @keyframes flip {
+                    0% {
+                        transform: perspective(400px) rotateY(0);
+                    }
+                    100% {
+                        transform: perspective(400px) rotateY(360deg);
+                    }
+                }
+            `,
+            rubberBand: `
+                @keyframes rubberBand {
+                    0% { transform: scale(1, 1); }
+                    30% { transform: scale(1.25, 0.75); }
+                    40% { transform: scale(0.75, 1.25); }
+                    50% { transform: scale(1.15, 0.85); }
+                    65% { transform: scale(0.95, 1.05); }
+                    75% { transform: scale(1.05, 0.95); }
+                    100% { transform: scale(1, 1); }
+                }
+            `
+        };
+
+        function generateAnimationCSS() {
+            const type = animationTypeSelect.value;
+            const duration = durationRange.value;
+            const delay = delayRange.value;
+            const iteration = iterationCountSelect.value;
+            const easing = easingFunctionSelect.value;
+            const direction = directionSelect.value;
+            const fill = fillModeSelect.value;
+
+            const animationName = type;
+            const animationProps = `${animationName} ${duration}s ${easing} ${delay}s ${iteration} ${direction} ${fill}`;
+
+            return `
+.preview-element {
+    /* Base styles */
+    width: 80px;
+    height: 80px;
+    background-color: var(--secondary-color);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--white);
+    /* Animation properties */
+    animation: ${animationProps};
+}
+
+${keyframes[type]}
+            `.trim();
+        }
+
+        function generateAnimationHTML() {
+            return `
+<div class="live-preview-box">
+    <div class="preview-element">CSS</div>
+</div>
+            `.trim();
+        }
+
+        function generateAnimationJS() {
+            return `
+// Get the element to animate
+const element = document.getElementById('livePreviewElement');
+
+// Set animation properties
+element.style.animation = '${animationTypeSelect.value} ${durationRange.value}s ${easingFunctionSelect.value} ${delayRange.value}s ${iterationCountSelect.value} ${directionSelect.value} ${fillModeSelect.value}';
+
+// Note: Keyframes for '${animationTypeSelect.value}' must be defined in your CSS.
+            `.trim();
+        }
+
+        function updateAnimationAndCode() {
+            // Apply animation to the preview element
+            // Remove previous animations to ensure fresh application
+            livePreviewElement.style.animation = 'none';
+            void livePreviewElement.offsetWidth; // Trigger reflow
+            const animationCSS = generateAnimationCSS();
+            const animationHTML = generateAnimationHTML();
+            const animationJS = generateAnimationJS();
+
+            // Inject keyframes into a style tag for live preview
+            let styleTag = document.getElementById('dynamic-animation-styles');
+            if (!styleTag) {
+                styleTag = document.createElement('style');
+                styleTag.id = 'dynamic-animation-styles';
+                document.head.appendChild(styleTag);
+            }
+            // Update only the specific keyframe for the selected animation
+            styleTag.textContent = keyframes[animationTypeSelect.value];
+
+
+            // Apply the animation to the element
+            livePreviewElement.style.animation = `${animationTypeSelect.value} ${durationRange.value}s ${easingFunctionSelect.value} ${delayRange.value}s ${iterationCountSelect.value} ${directionSelect.value} ${fillModeSelect.value}`;
+
+            // Update generated code display based on active tab
+            updateGeneratedCodeDisplay();
+        }
+
+        function updateGeneratedCodeDisplay() {
+            const activeTab = document.querySelector('.code-tab.active');
+            if (!activeTab) return;
+
+            const lang = activeTab.dataset.lang;
+            let code = '';
+            if (lang === 'css') {
+                code = generateAnimationCSS();
+            } else if (lang === 'html') {
+                code = generateAnimationHTML();
+            } else if (lang === 'js') {
+                code = generateAnimationJS();
+            }
+            generatedCodePre.textContent = code;
+        }
+
+        previewAnimationBtn.addEventListener('click', updateAnimationAndCode);
+
+        resetAnimationBtn.addEventListener('click', () => {
+            livePreviewElement.style.animation = 'none';
+            // Reset form values to default if needed, or just stop animation
+            animationTypeSelect.value = 'rotateIn';
+            durationRange.value = '2.7';
+            durationValueSpan.textContent = '2.7s';
+            delayRange.value = '0.1';
+            delayValueSpan.textContent = '0.1s';
+            iterationCountSelect.value = '3';
+            easingFunctionSelect.value = 'linear';
+            directionSelect.value = 'normal';
+            fillModeSelect.value = 'none';
+            updateAnimationAndCode(); // Update to default animation
+        });
+
+        // Tab switching for generated code
+        codeTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                codeTabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                updateGeneratedCodeDisplay();
+            });
+        });
+
+        // Copy code to clipboard
+        copyCodeBtn.addEventListener('click', () => {
+            const codeToCopy = generatedCodePre.textContent;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(codeToCopy).then(() => {
+                    alert('Code copied to clipboard!');
+                }).catch(err => {
+                    console.error('Failed to copy text: ', err);
+                    fallbackCopyTextToClipboard(codeToCopy);
+                });
+            } else {
+                fallbackCopyTextToClipboard(codeToCopy);
+            }
+        });
+
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            // Avoid scrolling to bottom
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.position = "fixed";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                const successful = document.execCommand('copy');
+                const msg = successful ? 'successful' : 'unsuccessful';
+                alert('Fallback: Code copied to clipboard!');
+            } catch (err) {
+                alert('Fallback: Oops, unable to copy');
+            }
+            document.body.removeChild(textArea);
+        }
+
+        // Initial setup for the generator
+        updateAnimationAndCode(); // Generate initial animation and code
+
+        // Initial restart of hero animation when the page first loads
+        document.addEventListener('DOMContentLoaded', restartHeroAnimation);
+
+    </script>
+</body>
+</html>
