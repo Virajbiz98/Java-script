@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CSS Animation Generator</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f6fb; max-width: 700px; margin: 40px auto; padding: 24px; }
+    h1 { text-align: center; margin-bottom: 24px; }
+    label { display: block; margin-top: 18px; }
+    select, input[type="number"], input[type="text"] {
+      padding: 6px 10px; font-size: 15px; border-radius: 4px; border: 1px solid #bbb; margin-top: 4px;
+    }
+    .preview-box {
+      width: 120px; height: 120px; margin: 30px auto 10px auto; background: #007bff;
+      border-radius: 12px; display: flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: bold; font-size: 20px;
+      transition: box-shadow 0.3s;
+    }
+    .controls { background: #fff; border-radius: 10px; padding: 18px 24px; box-shadow: 0 2px 12px #0001; }
+    .code-output { background: #222; color: #fff; padding: 12px; border-radius: 6px; margin-top: 18px; font-family: monospace; font-size: 15px; }
+    button { margin-top: 18px; background: #007bff; color: #fff; border: none; border-radius: 5px; padding: 10px 18px; font-size: 16px; cursor: pointer; }
+    button:hover { background: #0056b3; }
+    .footer { text-align: center; color: #888; margin-top: 30px; }
+  </style>
+</head>
+<body>
+  <h1>CSS Animation Generator</h1>
+  <div class="controls">
+    <label>
+      Animation Type:
+      <select id="animType">
+        <option value="fadeIn">Fade In</option>
+        <option value="slideRight">Slide Right</option>
+        <option value="scaleUp">Scale Up</option>
+        <option value="rotate">Rotate</option>
+      </select>
+    </label>
+    <label>
+      Duration (seconds):
+      <input type="number" id="duration" min="0.1" step="0.1" value="1" />
+    </label>
+    <label>
+      Delay (seconds):
+      <input type="number" id="delay" min="0" step="0.1" value="0" />
+    </label>
+    <label>
+      Iteration Count:
+      <input type="text" id="iteration" value="1" />
+    </label>
+    <label>
+      Easing:
+      <select id="easing">
+        <option value="ease">ease</option>
+        <option value="linear">linear</option>
+        <option value="ease-in">ease-in</option>
+        <option value="ease-out">ease-out</option>
+        <option value="ease-in-out">ease-in-out</option>
+      </select>
+    </label>
+    <button onclick="generateAnimation()">Preview & Generate CSS</button>
+  </div>
+
+  <div class="preview-box" id="previewBox">Preview</div>
+
+  <div class="code-output" id="cssCode"></div>
+
+  <div class="footer">
+    Developed by your friendly developer assistant 😊
+  </div>
+
+  <script>
+    const keyframes = {
+      fadeIn: `@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}`,
+      slideRight: `@keyframes slideRight {
+  from { transform: translateX(0); }
+  to { transform: translateX(120px); }
+}`,
+      scaleUp: `@keyframes scaleUp {
+  from { transform: scale(0.5); }
+  to { transform: scale(1); }
+}`,
+      rotate: `@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}`
+    };
+
+    function generateAnimation() {
+      const type = document.getElementById('animType').value;
+      const duration = document.getElementById('duration').value;
+      const delay = document.getElementById('delay').value;
+      const iteration = document.getElementById('iteration').value;
+      const easing = document.getElementById('easing').value;
+      const preview = document.getElementById('previewBox');
+      const codeOutput = document.getElementById('cssCode');
+
+      // Remove previous animation
+      preview.style.animation = 'none';
+      void preview.offsetWidth; // reflow hack
+
+      // Set animation
+      preview.style.animation = `${type} ${duration}s ${easing} ${delay}s ${iteration}`;
+      // Add keyframes to document head (if not already present)
+      if (!document.getElementById('kf_' + type)) {
+        const style = document.createElement('style');
+        style.id = 'kf_' + type;
+        style.innerHTML = keyframes[type];
+        document.head.appendChild(style);
+      }
+
+      // Show generated CSS
+      codeOutput.textContent =
+`${keyframes[type]}
+
+.preview-element {
+  animation: ${type} ${duration}s ${easing} ${delay}s ${iteration};
+}`;
+    }
+  </script>
+</body>
+</html>
