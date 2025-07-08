@@ -1,125 +1,1068 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CSS Animation Generator</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Animation Generator - Create Professional Animations | AnimateCSS Pro</title>
+  <meta name="description" content="Generate professional CSS animations with live preview. Create fade, slide, scale, rotate, bounce, and custom animations with modern easing functions. Free online tool.">
+  <meta name="keywords" content="CSS animation, keyframes generator, web animations, CSS transitions, animation tool, frontend development">
+  <meta name="author" content="AnimateCSS Pro">
+  <meta property="og:title" content="CSS Animation Generator - Create Professional Animations">
+  <meta property="og:description" content="Generate professional CSS animations with live preview. Free online tool for web developers.">
+  <meta property="og:type" content="website">
+  <link rel="canonical" href="https://animatecss.pro">
+  
   <style>
-    body { font-family: Arial, sans-serif; background: #f4f6fb; max-width: 700px; margin: 40px auto; padding: 24px; }
-    h1 { text-align: center; margin-bottom: 24px; }
-    label { display: block; margin-top: 18px; }
-    select, input[type="number"], input[type="text"] {
-      padding: 6px 10px; font-size: 15px; border-radius: 4px; border: 1px solid #bbb; margin-top: 4px;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
+
+    :root {
+      --primary: #667eea;
+      --primary-dark: #5a67d8;
+      --secondary: #764ba2;
+      --accent: #f093fb;
+      --background: #0f0f23;
+      --surface: #1a1a2e;
+      --surface-light: #16213e;
+      --text-primary: #ffffff;
+      --text-secondary: #a0aec0;
+      --border: #2d3748;
+      --success: #48bb78;
+      --warning: #ed8936;
+      --error: #f56565;
+      --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+      --shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      --glow: 0 0 20px rgba(102, 126, 234, 0.3);
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--background);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(10px); /* Note: Browser support varies */
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 4rem 0;
+      background: radial-gradient(circle at 50% 50%, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      margin-bottom: 1rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Main Content */
+    .main-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .controls-panel {
+      background: var(--surface);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+    }
+
+    .preview-panel {
+      background: var(--surface);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .control-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .control-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    select, input[type="number"], input[type="text"], input[type="range"] {
+      width: 100%;
+      padding: 0.75rem;
+      background: var(--surface-light);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    select:focus, input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+    }
+
+    /* Range Slider Styling */
+    input[type="range"] {
+      height: 6px;
+      background: var(--border);
+      border-radius: 3px;
+      outline: none;
+      padding: 0;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      background: var(--primary);
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      background: var(--primary);
+      border-radius: 50%;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
+    }
+
+    /* Preview Box */
+    .preview-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .preview-stage {
+      width: 300px;
+      height: 200px;
+      background: var(--surface-light);
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
     .preview-box {
-      width: 120px; height: 120px; margin: 30px auto 10px auto; background: #007bff;
-      border-radius: 12px; display: flex; align-items: center; justify-content: center;
-      color: #fff; font-weight: bold; font-size: 20px;
-      transition: box-shadow 0.3s;
+      width: 80px;
+      height: 80px;
+      background: var(--gradient);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 1.2rem;
+      box-shadow: var(--glow);
+      cursor: pointer;
+      transition: transform 0.2s ease;
     }
-    .controls { background: #fff; border-radius: 10px; padding: 18px 24px; box-shadow: 0 2px 12px #0001; }
-    .code-output { background: #222; color: #fff; padding: 12px; border-radius: 6px; margin-top: 18px; font-family: monospace; font-size: 15px; }
-    button { margin-top: 18px; background: #007bff; color: #fff; border: none; border-radius: 5px; padding: 10px 18px; font-size: 16px; cursor: pointer; }
-    button:hover { background: #0056b3; }
-    .footer { text-align: center; color: #888; margin-top: 30px; }
+
+    .preview-box:hover {
+      transform: scale(1.05);
+    }
+
+    /* Buttons */
+    .btn {
+      background: var(--gradient);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      background: var(--surface-light);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--border);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    /* Code Output */
+    .code-section {
+      margin-top: 2rem;
+      grid-column: 1 / -1;
+    }
+
+    .code-container {
+      background: var(--surface);
+      border-radius: 16px;
+      padding: 2rem;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .code-tabs {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .code-tab {
+      background: var(--surface-light);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+    }
+
+    .code-tab.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .code-output {
+      background: var(--background);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--text-primary);
+      overflow-x: auto;
+      white-space: pre;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .copy-btn {
+      background: var(--success);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .copy-btn:hover {
+      background: #38a169;
+      transform: translateY(-1px);
+    }
+
+    .copy-btn.copied {
+      background: var(--success);
+      transform: scale(0.95);
+    }
+
+    /* Animation Timeline */
+    .timeline {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background: var(--surface-light);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .timeline-controls {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .timeline-track {
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .timeline-progress {
+      height: 100%;
+      background: var(--gradient);
+      border-radius: 2px;
+      width: 0%;
+      transition: width 0.1s ease;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .main-content {
+        grid-template-columns: 1fr;
+      }
+      
+      .control-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .nav-links {
+        display: none;
+      }
+      
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      
+      .btn-group {
+        flex-direction: column;
+      }
+    }
+
+    /* Custom Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideInRight {
+      from { transform: translateX(-100px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes slideInLeft {
+      from { transform: translateX(100px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes slideInUp {
+      from { transform: translateY(100px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes slideInDown {
+      from { transform: translateY(-100px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes scaleIn {
+      from { transform: scale(0); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes rotateIn {
+      from { transform: rotate(-360deg) scale(0); opacity: 0; }
+      to { transform: rotate(0deg) scale(1); opacity: 1; }
+    }
+
+    @keyframes bounce {
+      0%, 20%, 53%, 80%, 100% { transform: translateY(0); }
+      40%, 43% { transform: translateY(-20px); }
+      70% { transform: translateY(-10px); }
+      90% { transform: translateY(-4px); }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+      20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+
+    @keyframes flip {
+      0% { transform: rotateY(0); }
+      50% { transform: rotateY(180deg); }
+      100% { transform: rotateY(360deg); }
+    }
+
+    @keyframes rubber {
+      0% { transform: scale(1); }
+      30% { transform: scale(1.25, 0.75); }
+      40% { transform: scale(0.75, 1.25); }
+      50% { transform: scale(1.15, 0.85); }
+      65% { transform: scale(0.95, 1.05); }
+      75% { transform: scale(1.05, 0.95); }
+      100% { transform: scale(1); }
+    }
+
+    /* Loading animation */
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--border);
+      border-radius: 50%;
+      border-top-color: var(--primary);
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Notification */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 1rem 1.5rem;
+      background: var(--success);
+      color: white;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      transform: translateX(400px);
+      transition: transform 0.3s ease;
+      z-index: 1001;
+    }
+
+    .notification.show {
+      transform: translateX(0);
+    }
   </style>
 </head>
 <body>
-  <h1>CSS Animation Generator</h1>
-  <div class="controls">
-    <label>
-      Animation Type:
-      <select id="animType">
-        <option value="fadeIn">Fade In</option>
-        <option value="slideRight">Slide Right</option>
-        <option value="scaleUp">Scale Up</option>
-        <option value="rotate">Rotate</option>
-      </select>
-    </label>
-    <label>
-      Duration (seconds):
-      <input type="number" id="duration" min="0.1" step="0.1" value="1" />
-    </label>
-    <label>
-      Delay (seconds):
-      <input type="number" id="delay" min="0" step="0.1" value="0" />
-    </label>
-    <label>
-      Iteration Count:
-      <input type="text" id="iteration" value="1" />
-    </label>
-    <label>
-      Easing:
-      <select id="easing">
-        <option value="ease">ease</option>
-        <option value="linear">linear</option>
-        <option value="ease-in">ease-in</option>
-        <option value="ease-out">ease-out</option>
-        <option value="ease-in-out">ease-in-out</option>
-      </select>
-    </label>
-    <button onclick="generateAnimation()">Preview & Generate CSS</button>
-  </div>
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">🎨 AnimateCSS Pro</div>
+        <nav>
+          <ul class="nav-links">
+            <li><a href="#generator">Generator</a></li>
+            <li><a href="#examples">Examples</a></li>
+            <li><a href="#docs">Docs</a></li>
+            <li><a href="#about">About</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
 
-  <div class="preview-box" id="previewBox">Preview</div>
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>CSS Animation Generator</h1>
+        <p>Create professional CSS animations with live preview. Generate keyframes, customize timing, and export clean code for your projects.</p>
+      </div>
+    </section>
 
-  <div class="code-output" id="cssCode"></div>
+    <section id="generator" class="container">
+      <div class="main-content">
+        <div class="controls-panel">
+          <h2 class="section-title">⚙️ Animation Controls</h2>
+          
+          <div class="control-group">
+            <label for="animType">Animation Type</label>
+            <select id="animType">
+              <option value="fadeIn">Fade In</option>
+              <option value="slideInRight">Slide In Right</option>
+              <option value="slideInLeft">Slide In Left</option>
+              <option value="slideInUp">Slide In Up</option>
+              <option value="slideInDown">Slide In Down</option>
+              <option value="scaleIn">Scale In</option>
+              <option value="rotateIn">Rotate In</option>
+              <option value="bounce">Bounce</option>
+              <option value="pulse">Pulse</option>
+              <option value="shake">Shake</option>
+              <option value="flip">Flip</option>
+              <option value="rubber">Rubber Band</option>
+            </select>
+          </div>
 
-  <div class="footer">
-    Developed by your friendly developer assistant 😊
-  </div>
+          <div class="control-grid">
+            <div class="control-group">
+              <label for="duration">Duration (seconds)</label>
+              <input type="range" id="duration" min="0.1" max="5" step="0.1" value="1">
+              <span id="durationValue">1.0s</span>
+            </div>
+            
+            <div class="control-group">
+              <label for="delay">Delay (seconds)</label>
+              <input type="range" id="delay" min="0" max="3" step="0.1" value="0">
+              <span id="delayValue">0.0s</span>
+            </div>
+          </div>
+
+          <div class="control-grid">
+            <div class="control-group">
+              <label for="iteration">Iteration Count</label>
+              <select id="iteration">
+                <option value="1">1 (Once)</option>
+                <option value="2">2 (Twice)</option>
+                <option value="3">3 (Three times)</option>
+                <option value="5">5 (Five times)</option>
+                <option value="infinite">Infinite</option>
+              </select>
+            </div>
+            
+            <div class="control-group">
+              <label for="easing">Easing Function</label>
+              <select id="easing">
+                <option value="ease">Ease</option>
+                <option value="linear">Linear</option>
+                <option value="ease-in">Ease In</option>
+                <option value="ease-out">Ease Out</option>
+                <option value="ease-in-out">Ease In Out</option>
+                <option value="cubic-bezier(0.68, -0.55, 0.265, 1.55)">Bounce</option>
+                <option value="cubic-bezier(0.25, 0.46, 0.45, 0.94)">Smooth</option>
+                <option value="cubic-bezier(0.175, 0.885, 0.32, 1.275)">Back</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label for="direction">Direction</label>
+            <select id="direction">
+              <option value="normal">Normal</option>
+              <option value="reverse">Reverse</option>
+              <option value="alternate">Alternate</option>
+              <option value="alternate-reverse">Alternate Reverse</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label for="fillMode">Fill Mode</label>
+            <select id="fillMode">
+              <option value="none">None</option>
+              <option value="forwards">Forwards</option>
+              <option value="backwards">Backwards</option>
+              <option value="both">Both</option>
+            </select>
+          </div>
+
+          <div class="btn-group">
+            <button class="btn" onclick="generateAnimation()">🎬 Preview Animation</button>
+            <button class="btn btn-secondary" onclick="resetAnimation()">🔄 Reset</button>
+          </div>
+        </div>
+
+        <div class="preview-panel">
+          <h2 class="section-title">👁️ Live Preview</h2>
+          <div class="preview-container">
+            <div class="preview-stage" id="previewStage">
+              <div class="preview-box" id="previewBox">CSS</div>
+            </div>
+            
+            <div class="timeline">
+              <div class="timeline-controls">
+                <button class="btn btn-secondary" id="playBtn" onclick="playAnimation()">▶️ Play</button>
+                <button class="btn btn-secondary" id="pauseBtn" onclick="pauseAnimation()">⏸️ Pause</button>
+                <span id="timeDisplay">0.0s / 1.0s</span>
+              </div>
+              <div class="timeline-track">
+                <div class="timeline-progress" id="timelineProgress"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-section">
+        <div class="code-container">
+          <div class="code-header">
+            <h2 class="section-title">💻 Generated Code</h2>
+            <div class="code-tabs">
+              <div class="code-tab active" onclick="switchTab('css')">CSS</div>
+              <div class="code-tab" onclick="switchTab('html')">HTML</div>
+              <div class="code-tab" onclick="switchTab('js')">JavaScript</div>
+            </div>
+            <button class="copy-btn" onclick="copyCode()">📋 Copy Code</button>
+          </div>
+          <div class="code-output" id="codeOutput"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="notification" id="notification">Code copied to clipboard!</div>
 
   <script>
+    let currentAnimation = null;
+    let animationStartTime = 0;
+    let animationDuration = 1000;
+    let timelineInterval = null;
+    let currentTab = 'css';
+    
     const keyframes = {
       fadeIn: `@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }`,
-      slideRight: `@keyframes slideRight {
-  from { transform: translateX(0); }
-  to { transform: translateX(120px); }
+      slideInRight: `@keyframes slideInRight {
+  from { transform: translateX(-100px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
 }`,
-      scaleUp: `@keyframes scaleUp {
-  from { transform: scale(0.5); }
-  to { transform: scale(1); }
+      slideInLeft: `@keyframes slideInLeft {
+  from { transform: translateX(100px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
 }`,
-      rotate: `@keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+      slideInUp: `@keyframes slideInUp {
+  from { transform: translateY(100px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}`,
+      slideInDown: `@keyframes slideInDown {
+  from { transform: translateY(-100px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}`,
+      scaleIn: `@keyframes scaleIn {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}`,
+      rotateIn: `@keyframes rotateIn {
+  from { transform: rotate(-360deg) scale(0); opacity: 0; }
+  to { transform: rotate(0deg) scale(1); opacity: 1; }
+}`,
+      bounce: `@keyframes bounce {
+  0%, 20%, 53%, 80%, 100% { transform: translateY(0); }
+  40%, 43% { transform: translateY(-20px); }
+  70% { transform: translateY(-10px); }
+  90% { transform: translateY(-4px); }
+}`,
+      pulse: `@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}`,
+      shake: `@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}`,
+      flip: `@keyframes flip {
+  0% { transform: rotateY(0); }
+  50% { transform: rotateY(180deg); }
+  100% { transform: rotateY(360deg); }
+}`,
+      rubber: `@keyframes rubber {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.25, 0.75); }
+  40% { transform: scale(0.75, 1.25); }
+  50% { transform: scale(1.15, 0.85); }
+  65% { transform: scale(0.95, 1.05); }
+  75% { transform: scale(1.05, 0.95); }
+  100% { transform: scale(1); }
 }`
     };
 
+    function updateSliderValues() {
+      document.getElementById('durationValue').textContent = parseFloat(document.getElementById('duration').value).toFixed(1) + 's';
+      document.getElementById('delayValue').textContent = parseFloat(document.getElementById('delay').value).toFixed(1) + 's';
+    }
+
     function generateAnimation() {
+      const type = document.getElementById('animType').value;
+      const duration = parseFloat(document.getElementById('duration').value);
+      const delay = parseFloat(document.getElementById('delay').value);
+      const iteration = document.getElementById('iteration').value;
+      const easing = document.getElementById('easing').value;
+      const direction = document.getElementById('direction').value;
+      const fillMode = document.getElementById('fillMode').value;
+      const preview = document.getElementById('previewBox');
+      
+      animationDuration = duration * 1000;
+      
+      // Reset animation
+      resetAnimation();
+      
+      // Apply animation after a slight delay to ensure reset takes effect
+      setTimeout(() => {
+        const animationString = `${type} ${duration}s ${easing} ${delay}s ${iteration} ${direction} ${fillMode}`;
+        preview.style.animation = animationString;
+        
+        // Add keyframes if not already present in a style tag with a unique ID
+        if (!document.getElementById('kf_' + type)) {
+          const style = document.createElement('style');
+          style.id = 'kf_' + type;
+          style.innerHTML = keyframes[type];
+          document.head.appendChild(style);
+        }
+        
+        // Start timeline
+        startTimeline(duration, delay);
+      }, 50); // Small delay for reflow
+
+      // Update code output
+      updateCodeOutput();
+    }
+
+    function resetAnimation() {
+      const preview = document.getElementById('previewBox');
+      preview.style.animation = 'none'; // Remove existing animation
+      clearInterval(timelineInterval); // Stop timeline updates
+      document.getElementById('timelineProgress').style.width = '0%';
+      document.getElementById('timeDisplay').textContent = `0.0s / ${parseFloat(document.getElementById('duration').value).toFixed(1)}s`;
+      void preview.offsetWidth; // Force reflow to clear animation state immediately
+    }
+
+    function playAnimation() {
+      const preview = document.getElementById('previewBox');
+      const duration = parseFloat(document.getElementById('duration').value);
+      const delay = parseFloat(document.getElementById('delay').value);
+      const iteration = document.getElementById('iteration').value;
+      const easing = document.getElementById('easing').value;
+      const direction = document.getElementById('direction').value;
+      const fillMode = document.getElementById('fillMode').value;
+      const type = document.getElementById('animType').value;
+
+      // If animation is already applied and paused, just resume
+      if (preview.style.animationPlayState === 'paused') {
+        preview.style.animationPlayState = 'running';
+        // Restart timeline from current elapsed time if possible, or from 0
+        const totalDuration = (duration + delay) * 1000;
+        const currentProgress = parseFloat(document.getElementById('timelineProgress').style.width) / 100;
+        animationStartTime = Date.now() - (currentProgress * totalDuration); // Adjust start time for resume
+        startTimeline(duration, delay);
+      } else {
+        // Otherwise, generate and play from scratch
+        generateAnimation();
+      }
+    }
+
+    function pauseAnimation() {
+      const preview = document.getElementById('previewBox');
+      preview.style.animationPlayState = 'paused';
+      clearInterval(timelineInterval); // Stop timeline updates
+    }
+
+    function startTimeline(duration, delay) {
+      const progress = document.getElementById('timelineProgress');
+      const timeDisplay = document.getElementById('timeDisplay');
+      const totalDuration = (duration + delay) * 1000;
+      
+      // Clear any existing interval to prevent multiple instances
+      clearInterval(timelineInterval);
+
+      animationStartTime = Date.now(); // Reset start time for a fresh play
+
+      timelineInterval = setInterval(() => {
+        const elapsed = Date.now() - animationStartTime;
+        const progressPercent = Math.min((elapsed / totalDuration) * 100, 100);
+        
+        progress.style.width = progressPercent + '%';
+        timeDisplay.textContent = `${(elapsed / 1000).toFixed(1)}s / ${(totalDuration / 1000).toFixed(1)}s`;
+        
+        if (elapsed >= totalDuration) {
+          clearInterval(timelineInterval);
+          // Optional: Reset animationPlayState to 'paused' or 'running' based on iteration count
+          const iterationCount = document.getElementById('iteration').value;
+          if (iterationCount !== 'infinite') {
+            document.getElementById('previewBox').style.animationPlayState = 'paused'; // or just let it finish
+          }
+        }
+      }, 50);
+    }
+
+    function switchTab(tab) {
+      currentTab = tab;
+      document.querySelectorAll('.code-tab').forEach(t => t.classList.remove('active'));
+      document.querySelector(`.code-tab[onclick="switchTab('${tab}')"]`).classList.add('active');
+      updateCodeOutput();
+    }
+
+    function updateCodeOutput() {
       const type = document.getElementById('animType').value;
       const duration = document.getElementById('duration').value;
       const delay = document.getElementById('delay').value;
       const iteration = document.getElementById('iteration').value;
       const easing = document.getElementById('easing').value;
-      const preview = document.getElementById('previewBox');
-      const codeOutput = document.getElementById('cssCode');
+      const direction = document.getElementById('direction').value;
+      const fillMode = document.getElementById('fillMode').value;
+      const output = document.getElementById('codeOutput');
+      
+      let code = '';
+      
+      switch(currentTab) {
+        case 'css':
+          code = `${keyframes[type]}
 
-      // Remove previous animation
-      preview.style.animation = 'none';
-      void preview.offsetWidth; // reflow hack
+.animated-element {
+  animation: ${type} ${duration}s ${easing} ${delay}s ${iteration} ${direction} ${fillMode};
+}
 
-      // Set animation
-      preview.style.animation = `${type} ${duration}s ${easing} ${delay}s ${iteration}`;
-      // Add keyframes to document head (if not already present)
-      if (!document.getElementById('kf_' + type)) {
-        const style = document.createElement('style');
-        style.id = 'kf_' + type;
-        style.innerHTML = keyframes[type];
-        document.head.appendChild(style);
-      }
-
-      // Show generated CSS
-      codeOutput.textContent =
-`${keyframes[type]}
-
-.preview-element {
-  animation: ${type} ${duration}s ${easing} ${delay}s ${iteration};
+/* Alternative longhand properties */
+.animated-element {
+  animation-name: ${type};
+  animation-duration: ${duration}s;
+  animation-timing-function: ${easing};
+  animation-delay: ${delay}s;
+  animation-iteration-count: ${iteration};
+  animation-direction: ${direction};
+  animation-fill-mode: ${fillMode};
 }`;
+          break;
+        case 'html':
+          code = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Animation Example</title>
+  <style>
+    ${keyframes[type]}
+    
+    .animated-element {
+      animation: ${type} ${duration}s ${easing} ${delay}s ${iteration} ${direction} ${fillMode};
     }
+    
+    .demo-box {
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 12px;
+      margin: 50px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-box animated-element">
+    Animated!
+  </div>
+</body>
+</html>`;
+          break;
+        case 'js':
+          code = `// JavaScript Animation Control
+class AnimationController {
+  constructor(element) {
+    this.element = element;
+    this.animationName = '${type}';
+    this.duration = ${duration};
+    this.delay = ${delay};
+    this.iterations = '${iteration}';
+    this.easing = '${easing}';
+    this.direction = '${direction}';
+    this.fillMode = '${fillMode}';
+  }
+  
+  // Play animation
+  play() {
+    this.element.style.animation = \`
+      \${this.animationName} 
+      \${this.duration}s 
+      \${this.easing} 
+      \${this.delay}s 
+      \${this.iterations} 
+      \${this.direction} 
+      \${this.fillMode}
+    \`;
+    this.element.style.animationPlayState = 'running'; // Ensure it's running
+  }
+  
+  // Pause animation
+  pause() {
+    this.element.style.animationPlayState = 'paused';
+  }
+  
+  // Resume animation
+  resume() {
+    this.element.style.animationPlayState = 'running';
+  }
+  
+  // Reset animation
+  reset() {
+    this.element.style.animation = 'none';
+    // Force reflow
+    this.element.offsetHeight;
+    this.element.style.animationPlayState = 'paused'; // Ensure it's paused after reset
+  }
+  
+  // Update animation properties
+  updateAnimation(properties) {
+    Object.assign(this, properties);
+    this.play();
+  }
+}
+
+// Usage example
+const animatedElement = document.getElementById('previewBox'); // Assuming this element is present
+const controller = new AnimationController(animatedElement);
+
+// Play animation when the page loads (or when controls are set)
+controller.play();
+
+// Event listeners for demonstration (if you were controlling from separate buttons)
+// For this specific UI, the existing generateAnimation() handles play.
+// document.getElementById('playBtn').addEventListener('click', () => {
+//   controller.play();
+// });
+
+// document.getElementById('pauseBtn').addEventListener('click', () => {
+//   controller.pause();
+// });
+
+// document.getElementById('resetBtn').addEventListener('click', () => {
+//   controller.reset();
+// });
+
+// Animation end event
+animatedElement.addEventListener('animationend', () => {
+  console.log('Animation completed!');
+});
+
+// Animation iteration event
+animatedElement.addEventListener('animationiteration', () => {
+  console.log('Animation iteration completed!');
+});`;
+          break;
+      }
+      output.textContent = code;
+    }
+
+    function copyCode() {
+      const codeOutput = document.getElementById('codeOutput');
+      const notification = document.getElementById('notification');
+      
+      navigator.clipboard.writeText(codeOutput.textContent).then(() => {
+        notification.classList.add('show');
+        setTimeout(() => {
+          notification.classList.remove('show');
+        }, 2000);
+      }).catch(err => {
+        console.error('Failed to copy code: ', err);
+        alert('Failed to copy code. Please copy manually.');
+      });
+    }
+
+    // Event listeners for slider changes to update displayed values
+    document.getElementById('duration').addEventListener('input', updateSliderValues);
+    document.getElementById('delay').addEventListener('input', updateSliderValues);
+
+    // Initial setup on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      updateSliderValues(); // Initialize slider values
+      updateCodeOutput(); // Generate initial code
+      generateAnimation(); // Play initial animation
+    });
+
+    // Added event listener for changes to animation parameters to re-generate animation and code
+    document.getElementById('animType').addEventListener('change', generateAnimation);
+    document.getElementById('iteration').addEventListener('change', generateAnimation);
+    document.getElementById('easing').addEventListener('change', generateAnimation);
+    document.getElementById('direction').addEventListener('change', generateAnimation);
+    document.getElementById('fillMode').addEventListener('change', generateAnimation);
+
   </script>
 </body>
 </html>
