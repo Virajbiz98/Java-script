@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeGen AI - Effortless Code Generation</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Monaco Editor CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.49.0/min/vs/loader.js"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Custom styles for gradients and specific elements not easily done with pure Tailwind */
+        :root {
+            --primary-blue: #007BFF; /* Vibrant Blue */
+            --accent-teal: #00C4CC;   /* Teal accent */
+            --accent-orange: #FF8C00; /* Orange accent */
+            --text-dark: #333;
+            --text-light: #f8f8f8;
+            --bg-light: #f9f9f9;
+            --bg-medium: #e9ecef;
+            --bg-dark: #2c3e50; /* Darker blue-gray for footer */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+
+        /* Accent button gradient */
+        .btn-accent {
+            background: linear-gradient(to right, var(--primary-blue), var(--accent-teal));
+            @apply text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105;
+        }
+
+        /* Panel resizer styling */
+        .panel-resizer {
+            width: 8px;
+            cursor: ew-resize;
+            background-color: #ccc;
+            @apply rounded-md;
+            flex-shrink: 0;
+        }
+
+        .panel-resizer:hover {
+            background-color: var(--primary-blue);
+        }
+
+        /* Chat message styling */
+        .user-message {
+            @apply bg-blue-100 text-blue-900 self-end;
+        }
+        .ai-message {
+            @apply bg-gray-200 text-gray-800 self-start;
+        }
+
+        /* Hide scrollbar for clean look, but allow scrolling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Simple fade-in animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        /* Monaco Editor container needs explicit height */
+        #editor-container {
+            height: calc(100% - 60px); /* Adjust for header/footer if any within the panel */
+            width: 100%;
+        }
+
+        /* Modal backdrop */
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Global Navigation Header -->
+    <header class="bg-white shadow-md py-4 px-6 flex items-center justify-between sticky top-0 z-50 rounded-b-lg">
+        <a href="#" id="home-link" class="flex items-center space-x-2">
+            <div class="text-3xl font-bold" style="color: var(--primary-blue);">
+                &lt;/<span class="text-gray-800">AI</span>&gt;
+            </div>
+            <h1 class="text-2xl font-bold text-gray-800">CodeGen AI</h1>
+        </a>
+        <nav class="hidden md:flex space-x-6">
+            <a href="#home" class="text-gray-600 hover:text-blue-500 transition-colors duration-200 font-medium">Home</a>
+            <a href="#features" class="text-gray-600 hover:text-blue-500 transition-colors duration-200 font-medium">Features</a>
+            <a href="#pricing" class="text-gray-600 hover:text-blue-500 transition-colors duration-200 font-medium">Pricing</a>
+            <a href="#contact" class="text-gray-600 hover:text-blue-500 transition-colors duration-200 font-medium">Contact</a>
+        </nav>
+        <button id="hamburger-button" class="md:hidden text-gray-600 text-2xl focus:outline-none">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <!-- Mobile Navigation Menu (Hidden by default) -->
+    <nav id="mobile-nav-menu" class="hidden fixed top-[72px] left-0 right-0 bg-white shadow-lg py-4 z-40 md:hidden rounded-b-lg">
+        <div class="flex flex-col items-center space-y-4">
+            <a href="#home" class="text-gray-700 hover:text-blue-500 transition duration-300 font-medium py-2">Home</a>
+            <a href="#features" class="text-gray-700 hover:text-blue-500 transition duration-300 font-medium py-2">Features</a>
+            <a href="#pricing" class="text-gray-700 hover:text-blue-500 transition duration-300 font-medium py-2">Pricing</a>
+            <a href="#contact" class="text-gray-700 hover:text-blue-500 transition duration-300 font-medium py-2">Contact</a>
+            <button id="start-generating-mobile" class="btn-accent text-base py-2 px-6">Start Generating Code Now</button>
+        </div>
+    </nav>
+
+    <!-- Landing Page Section -->
+    <div id="landing-page" class="flex-grow flex flex-col">
+        <!-- Hero Section -->
+        <section class="bg-gradient-to-br from-blue-50 to-white py-20 px-6 text-center rounded-b-xl shadow-inner">
+            <div class="max-w-4xl mx-auto animate-fade-in">
+                <h2 class="text-5xl font-extrabold leading-tight mb-6 text-gray-900">
+                    Effortless Code Generation <span style="color: var(--primary-blue);">Powered by Gemini AI</span>
+                </h2>
+                <p class="text-xl text-gray-700 mb-10">
+                    Transform your ideas into functional code with intelligent AI assistance and real-time previews.
+                </p>
+                <!-- Placeholder for graphic -->
+                <div class="w-full h-48 bg-gray-200 rounded-lg flex items-center justify-center text-gray-500 text-lg italic shadow-md mb-12">
+                    [Visually appealing graphic depicting simplified code creation]
+                </div>
+                <button id="start-generating-button" class="btn-accent">
+                    Start Generating Code Now
+                </button>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="bg-gray-50 py-16 px-6 text-center rounded-xl shadow-inner">
+            <h2 class="text-4xl font-bold mb-12 text-gray-900">Unlock Your Coding Potential</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-6xl mx-auto">
+                <!-- Feature 1: AI-Powered Code Generation -->
+                <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-2">
+                    <div class="text-6xl mb-6" style="color: var(--primary-blue);"><i class="fas fa-magic"></i></div>
+                    <h3 class="text-2xl font-semibold mb-4 text-gray-800">AI-Powered Code Generation</h3>
+                    <p class="text-gray-600 mb-6">Simply describe what you need, and Gemini AI will generate accurate and efficient code snippets, functions, or even full web pages.</p>
+                    <div class="w-full h-24 bg-gray-100 rounded-md flex items-center justify-center text-gray-400 text-sm italic shadow-inner">
+                        [Graphic: User prompt -> AI code]
+                    </div>
+                </div>
+                <!-- Feature 2: Live Preview -->
+                <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-2">
+                    <div class="text-6xl mb-6" style="color: var(--accent-teal);"><i class="fas fa-eye"></i></div>
+                    <h3 class="text-2xl font-semibold mb-4 text-gray-800">Instant Live Preview</h3>
+                    <p class="text-gray-600 mb-6">See your code come to life in real-time. Our integrated live preview updates instantly as you type or as AI generates new code.</p>
+                    <div class="w-full h-24 bg-gray-100 rounded-md flex items-center justify-center text-gray-400 text-sm italic shadow-inner">
+                        [Mockup: Preview window with generated HTML]
+                    </div>
+                </div>
+                <!-- Feature 3: Interactive Chat Assistance -->
+                <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-2">
+                    <div class="text-6xl mb-6" style="color: var(--accent-orange);"><i class="fas fa-comments"></i></div>
+                    <h3 class="text-2xl font-semibold mb-4 text-gray-800">Interactive Chat Assistance</h3>
+                    <p class="text-gray-600 mb-6">Get on-demand help from our AI chatbot. Ask for code suggestions, debug errors, or clarify concepts – your personal coding mentor.</p>
+                    <div class="w-full h-24 bg-gray-100 rounded-md flex items-center justify-center text-gray-400 text-sm italic shadow-inner">
+                        [Icon: Chatbot bubble]
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="bg-white py-16 px-6 text-center rounded-xl shadow-inner">
+            <h2 class="text-4xl font-bold mb-12 text-gray-900">What Our Users Say</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <!-- Testimonial 1 -->
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-200">
+                    <p class="italic text-gray-700 mb-4">"CodeGen AI has revolutionized my workflow. The live preview and chat assistance save me hours every week!"</p>
+                    <p class="font-semibold text-gray-800">- Jane Doe, Web Developer</p>
+                </div>
+                <!-- Testimonial 2 -->
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-200">
+                    <p class="italic text-gray-700 mb-4">"As a student, this tool is invaluable. I learn so much faster with the AI's explanations and code suggestions."</p>
+                    <p class="font-semibold text-gray-800">- Alex Smith, Programming Student</p>
+                </div>
+                <!-- Testimonial 3 -->
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-200">
+                    <p class="italic text-gray-700 mb-4">"Debugging used to be a nightmare. Now, with the AI chat, I can pinpoint and fix issues in minutes."</p>
+                    <p class="font-semibold text-gray-800">- Emily White, Freelance Designer</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section (Optional) -->
+        <section id="pricing" class="bg-gray-100 py-16 px-6 text-center rounded-xl shadow-inner">
+            <h2 class="text-4xl font-bold mb-12 text-gray-900">Simple & Transparent Pricing</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <!-- Plan 1: Free -->
+                <div class="bg-white p-8 rounded-lg shadow-lg border border-gray-200 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-4 text-gray-800">Free</h3>
+                        <p class="text-5xl font-extrabold mb-6 text-gray-900">$0<span class="text-lg font-medium text-gray-500">/month</span></p>
+                        <ul class="text-gray-600 text-left space-y-3 mb-8">
+                            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i>Basic AI Suggestions</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i>Live Preview</li>
+                            <li class="flex items-center"><i class="fas fa-times-circle text-red-500 mr-2"></i>Limited Chat Prompts</li>
+                        </ul>
+                    </div>
+                    <button class="w-full py-3 rounded-full bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 transition-colors duration-200">
+                        Get Started
+                    </button>
+                </div>
+                <!-- Plan 2: Pro (Highlighted) -->
+                <div class="bg-white p-8 rounded-lg shadow-2xl border-2 border-blue-500 flex flex-col justify-between transform scale-105 relative z-10">
+                    <span class="absolute top-0 right-0 bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-lg">Popular</span>
+                    <div>
+                        <h3 class="text-2xl font-bold mb-4 text-gray-800">Pro</h3>
+                        <p class="text-5xl font-extrabold mb-6 text-gray-900">$29<span class="text-lg font-medium text-gray-500">/month</span></p>
+                        <ul class="text-gray-600 text-left space-y-3 mb-8">
+                            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i>Unlimited AI Generation</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i>Full Live Preview</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i>Priority Chat Support</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i>Advanced Debugging</li>
+                        </ul>
+                    </div>
+                    <button class="w-full btn-accent">
+                        Choose Pro
+                    </button>
+                </div>
+                <!-- Plan 3: Enterprise -->
+                <div class="bg-white p-8 rounded-lg shadow-lg border border-gray-200 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-4 text-gray-800">Enterprise</h3>
+                        <p class="text-5xl font-extrabold mb-6 text-gray-900">Custom</p>
+                        <ul class="text-gray-600 text-left space-y-3 mb-8">
+                            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i>All Pro Features</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i>Dedicated Support</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i>On-Premise Options</li>
+                        </ul>
+                    </div>
+                    <button class="w-full py-3 rounded-full bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 transition-colors duration-200">
+                        Contact Sales
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Code Generation Tool Page Section (Hidden by default) -->
+    <div id="tool-page" class="hidden flex-grow flex flex-col h-[calc(100vh-72px)] md:flex-row bg-gray-100">
+        <!-- Left Panel: Chat Interface -->
+        <div id="chat-panel" class="relative flex flex-col bg-white shadow-lg rounded-lg m-4 p-4 overflow-hidden md:w-1/4 min-w-[280px] max-w-[400px]">
+            <h3 class="text-xl font-bold mb-4 text-gray-800">AI Chat Assistant</h3>
+            <div id="chat-messages" class="flex-grow overflow-y-auto space-y-4 p-2 mb-4 custom-scrollbar">
+                <!-- Chat messages will be appended here -->
+                <div class="ai-message p-3 rounded-lg max-w-[80%] shadow-sm">
+                    Hello! How can I assist you with your code today? Try asking me to "create a simple HTML page for a blog."
+                </div>
+                <div class="ai-message p-3 rounded-lg max-w-[80%] shadow-sm">
+                    You can also ask me to "add a CSS style for a responsive image" or "debug this JavaScript function: `function sum(a,b){return a+c;}`".
+                </div>
+            </div>
+            <div class="flex flex-col space-y-2">
+                <input type="text" id="chat-input" placeholder="Ask me anything about code..." class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                <button id="send-chat-button" class="w-full btn-accent py-2 px-4 text-base">
+                    <i class="fas fa-paper-plane mr-2"></i>Send
+                </button>
+                <div id="chat-loading-indicator" class="hidden text-center text-gray-500 text-sm mt-2">
+                    <i class="fas fa-spinner fa-spin mr-2"></i>Thinking...
+                </div>
+            </div>
+        </div>
+
+        <!-- Resizer 1 -->
+        <div id="resizer-1" class="panel-resizer hidden md:block"></div>
+
+        <!-- Center Panel: Code Editor -->
+        <div id="editor-panel" class="relative flex flex-col bg-white shadow-lg rounded-lg m-4 p-4 overflow-hidden flex-grow md:w-1/2">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-800">Code Editor</h3>
+                <div class="flex space-x-2">
+                    <select id="language-select" class="p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                        <option value="html">HTML</option>
+                        <option value="css">CSS</option>
+                        <option value="javascript">JavaScript</option>
+                        <option value="python">Python</option>
+                    </select>
+                    <button id="generate-code-button" class="p-2 bg-purple-500 text-white rounded-md hover:bg-purple-600 transition-colors duration-200 flex items-center space-x-1" title="Generate Code with AI">
+                        <i class="fas fa-magic"></i>
+                        <span class="hidden md:inline">Generate Code</span>
+                    </button>
+                    <button id="debug-code-button" class="p-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors duration-200 flex items-center space-x-1" title="Debug Code with AI">
+                        <i class="fas fa-bug"></i>
+                        <span class="hidden md:inline">Debug Code</span>
+                    </button>
+                    <button id="copy-code-button" class="p-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors duration-200" title="Copy Code">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                    <button id="download-code-button" class="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-200" title="Download Code">
+                        <i class="fas fa-download"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="editor-container" class="flex-grow rounded-md border border-gray-200"></div>
+        </div>
+
+        <!-- Resizer 2 -->
+        <div id="resizer-2" class="panel-resizer hidden md:block"></div>
+
+        <!-- Right Panel: Live Preview -->
+        <div id="preview-panel" class="relative flex flex-col bg-white shadow-lg rounded-lg m-4 p-4 overflow-hidden flex-grow md:w-1/4 min-w-[280px] max-w-[400px]">
+            <h3 class="text-xl font-bold mb-4 text-gray-800">Live Preview</h3>
+            <iframe id="live-preview-iframe" class="flex-grow w-full h-full border border-gray-200 rounded-md"></iframe>
+            <button id="download-preview-button" class="mt-4 w-full btn-accent py-2 px-4 text-base">
+                <i class="fas fa-download mr-2"></i>Download Preview HTML
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark-bg-color text-light-text-color py-8 px-6 text-center rounded-t-lg shadow-inner">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0">
+            <div class="text-sm">
+                <p>&copy; 2025 CodeGen AI. All rights reserved.</p>
+                <div class="flex justify-center md:justify-start space-x-4 mt-2">
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Terms of Service</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Privacy Policy</a>
+                </div>
+            </div>
+            <div class="text-sm">
+                <p>Contact: <a href="mailto:info@codegenai.com" class="text-gray-400 hover:text-white transition-colors duration-300">info@codegenai.com</a></p>
+                <p>123 AI Street, Tech City, 90210</p>
+            </div>
+            <div class="flex space-x-6 text-2xl">
+                <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-github"></i></a>
+                <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast/Message Box for notifications -->
+    <div id="toast-message" class="fixed bottom-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded-full shadow-lg hidden opacity-0 transition-opacity duration-300 z-[1000]">
+        Code copied to clipboard!
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let editor; // Monaco Editor instance
+            let debounceTimer; // For live preview debounce
+            let chatHistory = []; // To store chat messages for Gemini API
+
+            const landingPage = document.getElementById('landing-page');
+            const toolPage = document.getElementById('tool-page');
+            const startGeneratingButton = document.getElementById('start-generating-button');
+            const startGeneratingMobileButton = document.getElementById('start-generating-mobile');
+            const homeLink = document.getElementById('home-link');
+            const hamburgerButton = document.getElementById('hamburger-button');
+            const mobileNavMenu = document.getElementById('mobile-nav-menu');
+
+            const chatMessagesDiv = document.getElementById('chat-messages');
+            const chatInput = document.getElementById('chat-input');
+            const sendChatButton = document.getElementById('send-chat-button');
+            const chatLoadingIndicator = document.getElementById('chat-loading-indicator');
+
+            const languageSelect = document.getElementById('language-select');
+            const generateCodeButton = document.getElementById('generate-code-button'); // New button
+            const debugCodeButton = document.getElementById('debug-code-button');       // New button
+            const copyCodeButton = document.getElementById('copy-code-button');
+            const downloadCodeButton = document.getElementById('download-code-button');
+            const livePreviewIframe = document.getElementById('live-preview-iframe');
+            const downloadPreviewButton = document.getElementById('download-preview-button');
+
+            // --- Page Switching Logic ---
+            function showPage(pageId) {
+                if (pageId === 'landing') {
+                    landingPage.classList.remove('hidden');
+                    landingPage.classList.add('flex');
+                    toolPage.classList.add('hidden');
+                    toolPage.classList.remove('flex');
+                } else if (pageId === 'tool') {
+                    landingPage.classList.add('hidden');
+                    landingPage.classList.remove('flex');
+                    toolPage.classList.remove('hidden');
+                    toolPage.classList.add('flex');
+                    // Ensure Monaco Editor layout is updated when its container becomes visible
+                    if (editor) {
+                        editor.layout();
+                    }
+                }
+            }
+
+            startGeneratingButton.addEventListener('click', () => showPage('tool'));
+            if (startGeneratingMobileButton) {
+                startGeneratingMobileButton.addEventListener('click', () => {
+                    showPage('tool');
+                    mobileNavMenu.classList.add('hidden'); // Hide mobile menu after click
+                });
+            }
+            homeLink.addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent default link behavior
+                showPage('landing');
+                mobileNavMenu.classList.add('hidden'); // Hide mobile menu if open
+            });
+
+            // Mobile Navigation Toggle
+            hamburgerButton.addEventListener('click', () => {
+                mobileNavMenu.classList.toggle('hidden');
+            });
+
+            // Close mobile menu when a link is clicked
+            mobileNavMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileNavMenu.classList.add('hidden');
+                });
+            });
+
+            // --- Monaco Editor Initialization ---
+            require.config({ paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.49.0/min/vs' } });
+            require(['vs/editor/editor.main'], function() {
+                editor = monaco.editor.create(document.getElementById('editor-container'), {
+                    value: `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Generated Page</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; background-color: #f0f4f8; color: #2d3748; }
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        h1 { color: #007BFF; margin-bottom: 15px; }
+        p { line-height: 1.6; margin-bottom: 20px; }
+        button {
+            background-color: #00C4CC;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover { background-color: #00A3A8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to CodeGen AI!</h1>
+        <p>This is where your generated code comes to life. Use the chat assistant to describe your desired web page, and watch it appear here.</p>
+        <button>Click Me!</button>
+    </div>
+</body>
+</html>`,
+                    language: 'html',
+                    theme: 'vs-light',
+                    minimap: { enabled: false },
+                    fontSize: 16,
+                    lineNumbers: 'on',
+                    roundedSelection: true,
+                    scrollBeyondLastLine: false,
+                    automaticLayout: true, // Automatically resize editor
+                });
+
+                // Initial preview update
+                updateLivePreview();
+
+                // Listen for content changes and debounce preview update
+                editor.onDidChangeModelContent(() => {
+                    clearTimeout(debounceTimer);
+                    debounceTimer = setTimeout(updateLivePreview, 500); // Debounce by 500ms
+                });
+
+                // Expose editor globally for easier access
+                window.editor = editor;
+            });
+
+            // --- Live Preview Functionality ---
+            function updateLivePreview() {
+                const code = editor.getValue();
+                const doc = livePreviewIframe.contentWindow.document;
+                doc.open();
+                doc.write(code);
+                doc.close();
+            }
+
+            // --- Language Selection for Editor ---
+            languageSelect.addEventListener('change', (e) => {
+                const newLanguage = e.target.value;
+                if (editor) {
+                    monaco.editor.setModelLanguage(editor.getModel(), newLanguage);
+                }
+            });
+
+            // --- Copy Code Button ---
+            copyCodeButton.addEventListener('click', () => {
+                if (editor) {
+                    const code = editor.getValue();
+                    // Use document.execCommand for clipboard operations in iframe environments
+                    const textarea = document.createElement('textarea');
+                    textarea.value = code;
+                    textarea.style.position = 'fixed'; // Prevent scrolling to bottom
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    try {
+                        document.execCommand('copy');
+                        showToast('Code copied to clipboard!');
+                    } catch (err) {
+                        console.error('Failed to copy code: ', err);
+                        showToast('Failed to copy code. Please try manually.', 'error');
+                    }
+                    document.body.removeChild(textarea);
+                }
+            });
+
+            // --- Download Code Button ---
+            downloadCodeButton.addEventListener('click', () => {
+                if (!editor) return;
+                const code = editor.getValue();
+                const language = languageSelect.value;
+                let filename = `code.${language}`;
+                let mimeType = `text/${language}`;
+
+                // Special handling for JavaScript and HTML
+                if (language === 'javascript') mimeType = 'application/javascript';
+                if (language === 'html') mimeType = 'text/html';
+                if (language === 'python') mimeType = 'text/x-python';
+
+                const blob = new Blob([code], { type: mimeType });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+
+            // --- Download Preview HTML Button ---
+            downloadPreviewButton.addEventListener('click', () => {
+                const previewDoc = livePreviewIframe.contentWindow.document;
+                const htmlContent = `<!DOCTYPE html>\n${previewDoc.documentElement.outerHTML}`;
+                const blob = new Blob([htmlContent], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'preview_output.html';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+
+            // --- Chat Interface Logic (Gemini API) ---
+            async function callGeminiAPI(promptContent, systemInstruction = "") {
+                chatLoadingIndicator.classList.remove('hidden'); // Show loading
+                try {
+                    const apiKey = "AIzaSyA9kpz2LSTjqXC8Ih9I8qZElR74W6WkwZM"; // User provided API Key
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                    let contents = [];
+                    if (systemInstruction) {
+                        contents.push({ role: "system", parts: [{ text: systemInstruction }] });
+                    }
+                    contents.push({ role: "user", parts: [{ text: promptContent }] });
+
+                    const payload = { contents: contents };
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const result = await response.json();
+                    chatLoadingIndicator.classList.add('hidden'); // Hide loading
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        return result.candidates[0].content.parts[0].text;
+                    } else {
+                        console.error('Gemini API response structure unexpected:', result);
+                        return "Sorry, I couldn't generate a response. The AI's response was unexpected.";
+                    }
+
+                } catch (error) {
+                    console.error('Error calling Gemini API:', error);
+                    chatLoadingIndicator.classList.add('hidden');
+                    return "An error occurred while connecting to the AI. Please try again later.";
+                }
+            }
+
+
+            async function sendChatMessage() {
+                const userMessage = chatInput.value.trim();
+                if (!userMessage) return;
+
+                appendMessage(userMessage, 'user');
+                chatInput.value = ''; // Clear input
+
+                // Add user message to chat history
+                chatHistory.push({ role: "user", parts: [{ text: userMessage }] });
+
+                const aiResponseText = await callGeminiAPI(userMessage);
+
+                appendMessage(aiResponseText, 'ai');
+                chatHistory.push({ role: "model", parts: [{ text: aiResponseText }] });
+
+                // Attempt to extract code and put it in the editor
+                const codeMatch = aiResponseText.match(/```(html|css|javascript|python)?\n([\s\S]*?)\n```/i);
+                if (codeMatch && editor) {
+                    const detectedLanguage = codeMatch[1] ? codeMatch[1].toLowerCase() : 'html';
+                    const codeSnippet = codeMatch[2].trim();
+
+                    if (['html', 'css', 'javascript', 'python'].includes(detectedLanguage)) {
+                        languageSelect.value = detectedLanguage;
+                        monaco.editor.setModelLanguage(editor.getModel(), detectedLanguage);
+                    }
+                    editor.setValue(codeSnippet);
+                    updateLivePreview(); // Update preview with new code
+                }
+                chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight; // Scroll to bottom
+            }
+
+            sendChatButton.addEventListener('click', sendChatMessage);
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendChatMessage();
+                }
+            });
+
+            function appendMessage(text, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('p-3', 'rounded-lg', 'max-w-[80%]', 'shadow-sm', 'animate-fade-in');
+                messageDiv.classList.add(sender === 'user' ? 'user-message' : 'ai-message');
+                messageDiv.textContent = text;
+                chatMessagesDiv.appendChild(messageDiv);
+                chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight; // Scroll to bottom
+            }
+
+            // --- New AI-powered Editor Buttons ---
+
+            // Generate Code Button
+            generateCodeButton.addEventListener('click', async () => {
+                const currentLanguage = languageSelect.value;
+                const lastUserPrompt = chatHistory.length > 0 && chatHistory[chatHistory.length - 1].role === 'user'
+                                     ? chatHistory[chatHistory.length - 1].parts[0].text
+                                     : "Generate a simple 'Hello World' example.";
+
+                appendMessage(`Generating ${currentLanguage} code based on: "${lastUserPrompt}"...`, 'ai');
+
+                const prompt = `Generate ${currentLanguage} code for the following request: "${lastUserPrompt}". Provide only the code block, nothing else.`;
+                const generatedCode = await callGeminiAPI(prompt);
+
+                const codeMatch = generatedCode.match(/```(?:html|css|javascript|python)?\n([\s\S]*?)\n```/i);
+                if (codeMatch) {
+                    editor.setValue(codeMatch[1].trim());
+                    updateLivePreview();
+                    appendMessage("Code generated and updated in editor!", 'ai');
+                } else {
+                    editor.setValue(generatedCode.trim()); // Fallback if no code block found
+                    updateLivePreview();
+                    appendMessage("Generated text updated in editor. No specific code block found.", 'ai');
+                }
+            });
+
+            // Debug Code Button
+            debugCodeButton.addEventListener('click', async () => {
+                const currentCode = editor.getValue();
+                const currentLanguage = languageSelect.value;
+
+                if (!currentCode.trim()) {
+                    showToast('Editor is empty. Nothing to debug.', 'error');
+                    return;
+                }
+
+                appendMessage(`Debugging ${currentLanguage} code...`, 'ai');
+
+                const prompt = `Debug the following ${currentLanguage} code. Provide the corrected code block and a brief explanation of the fix.
+                \n\`\`\`${currentLanguage}\n${currentCode}\n\`\`\``;
+                const debuggedResponse = await callGeminiAPI(prompt);
+
+                const codeMatch = debuggedResponse.match(/```(?:html|css|javascript|python)?\n([\s\S]*?)\n```/i);
+                if (codeMatch) {
+                    editor.setValue(codeMatch[1].trim());
+                    updateLivePreview();
+                    appendMessage("Code debugged and updated in editor!", 'ai');
+
+                    // Try to extract and display the explanation
+                    const explanationMatch = debuggedResponse.replace(codeMatch[0], '').trim();
+                    if (explanationMatch) {
+                        appendMessage(`Explanation: ${explanationMatch}`, 'ai');
+                    }
+                } else {
+                    appendMessage(`Debugging complete, but no clear code block found in response. Here's the AI's full response: ${debuggedResponse}`, 'ai');
+                }
+            });
+
+
+            // --- Resizable Panel Logic (Three Panels) ---
+            const chatPanel = document.getElementById('chat-panel');
+            const editorPanel = document.getElementById('editor-panel');
+            const previewPanel = document.getElementById('preview-panel');
+            const resizer1 = document.getElementById('resizer-1');
+            const resizer2 = document.getElementById('resizer-2');
+
+            let isResizing1 = false;
+            let isResizing2 = false;
+
+            function startResize(e, resizerNum) {
+                if (resizerNum === 1) isResizing1 = true;
+                if (resizerNum === 2) isResizing2 = true;
+                document.body.style.cursor = 'ew-resize';
+                document.addEventListener('mousemove', handlePanelMouseMove);
+                document.addEventListener('mouseup', stopResize);
+            }
+
+            function handlePanelMouseMove(e) {
+                if (!isResizing1 && !isResizing2) return;
+
+                const container = toolPage; // The flex container for panels
+                const containerWidth = container.offsetWidth - 32; // Account for horizontal margins (m-4 on each side)
+
+                if (isResizing1) {
+                    let newChatWidth = e.clientX - container.getBoundingClientRect().left - 16; // Account for left margin
+                    newChatWidth = Math.max(280, Math.min(newChatWidth, containerWidth - editorPanel.offsetWidth - previewPanel.offsetWidth - 16)); // Ensure min width and don't overlap others
+                    chatPanel.style.width = `${newChatWidth}px`;
+                }
+
+                if (isResizing2) {
+                    let newEditorWidth = e.clientX - chatPanel.offsetWidth - resizer1.offsetWidth - container.getBoundingClientRect().left - 32; // Account for left panel, resizer, and margins
+                    newEditorWidth = Math.max(280, Math.min(newEditorWidth, containerWidth - chatPanel.offsetWidth - previewPanel.offsetWidth - 16));
+                    editorPanel.style.width = `${newEditorWidth}px`;
+                }
+
+                // Recalculate flex-grow for remaining panels if needed, or set fixed widths
+                // For simplicity, we're setting fixed widths on drag and letting flex-grow handle the rest.
+                // Monaco editor needs to be told to re-layout
+                if (editor) {
+                    editor.layout();
+                }
+            }
+
+            function stopResize() {
+                isResizing1 = false;
+                isResizing2 = false;
+                document.body.style.cursor = 'default';
+                document.removeEventListener('mousemove', handlePanelMouseMove);
+                document.removeEventListener('mouseup', stopResize);
+            }
+
+            resizer1.addEventListener('mousedown', (e) => startResize(e, 1));
+            resizer2.addEventListener('mousedown', (e) => startResize(e, 2));
+
+            // Adjust panel widths on window resize to maintain responsiveness
+            window.addEventListener('resize', () => {
+                if (editor) {
+                    editor.layout(); // Re-layout Monaco editor
+                }
+                // Reset widths to flex-grow on resize to handle responsiveness
+                // This is a simple way to ensure they adapt, more complex logic might be needed for perfect retention
+                if (window.innerWidth >= 768) { // Only for desktop layouts
+                    chatPanel.style.width = ''; // Reset to flex-grow
+                    editorPanel.style.width = '';
+                    previewPanel.style.width = '';
+                }
+            });
+
+
+            // --- Toast Message Function ---
+            const toastMessage = document.getElementById('toast-message');
+            function showToast(message, type = 'success') {
+                toastMessage.textContent = message;
+                toastMessage.classList.remove('hidden', 'opacity-0');
+                toastMessage.classList.add('opacity-100');
+
+                // Customize color based on type (optional)
+                if (type === 'error') {
+                    toastMessage.style.backgroundColor = '#dc3545'; // Red for error
+                } else {
+                    toastMessage.style.backgroundColor = '#333'; // Default dark gray
+                }
+
+                setTimeout(() => {
+                    toastMessage.classList.remove('opacity-100');
+                    toastMessage.classList.add('opacity-0');
+                    setTimeout(() => {
+                        toastMessage.classList.add('hidden');
+                    }, 300); // Wait for fade out
+                }, 3000); // Show for 3 seconds
+            }
+
+            // Initial page load: show landing page
+            showPage('landing');
+        });
+    </script>
+</body>
+</html>
