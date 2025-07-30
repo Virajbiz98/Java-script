@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Booking Chatbot</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for scrollbar and font */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chatbot-messages::-webkit-scrollbar {
+            width: 8px;
+        }
+        .chatbot-messages::-webkit-scrollbar-track {
+            background: #e9eff6;
+            border-radius: 10px;
+        }
+        .chatbot-messages::-webkit-scrollbar-thumb {
+            background: #a8b9d4;
+            border-radius: 10px;
+        }
+        .chatbot-messages::-webkit-scrollbar-thumb:hover {
+            background: #8e9cb3;
+        }
+
+        /* CSS from style.css */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .chatbot-container {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            margin: 20px;
+        }
+
+        .chatbot-header {
+            background-color: #4A90E2;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: 600;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .chatbot-messages {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background-color: #e9eff6;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 12px;
+            line-height: 1.4;
+            word-wrap: break-word;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background-color: #DCF8C6; /* Light green for user */
+            color: #333;
+            border-bottom-right-radius: 2px;
+        }
+
+        .bot-message {
+            align-self: flex-start;
+            background-color: #FFFFFF; /* White for bot */
+            color: #333;
+            border: 1px solid #E0E0E0;
+            border-bottom-left-radius: 2px;
+        }
+
+        .chatbot-input-area {
+            display: flex;
+            padding: 15px 20px;
+            background-color: #f9f9f9;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        #user-input {
+            flex-grow: 1;
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            border-radius: 25px;
+            font-size: 1em;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        #user-input:focus {
+            border-color: #4A90E2;
+        }
+
+        #send-button {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 20px;
+            margin-left: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            box-shadow: 0 4px 10px rgba(74, 144, 226, 0.3);
+        }
+
+        #send-button:hover {
+            background-color: #3A7BD5;
+        }
+
+        #send-button:active {
+            transform: translateY(1px);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .chatbot-container {
+                width: 100%;
+                height: 100vh;
+                border-radius: 0;
+                margin: 0;
+            }
+
+            .chatbot-header {
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center min-h-screen p-4">
+    <div class="chatbot-container bg-white rounded-3xl shadow-2xl flex flex-col w-full max-w-md h-[90vh] md:h-[80vh] overflow-hidden">
+        <div class="chatbot-header bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-5 text-center text-2xl font-bold rounded-t-3xl shadow-md">
+            <h2>Hotel Bot</h2>
+        </div>
+        <div id="chat-messages" class="chatbot-messages flex-grow p-5 overflow-y-auto bg-gray-50 flex flex-col space-y-3">
+            <!-- Initial bot message -->
+            <div class="message bot-message self-start bg-white text-gray-800 p-3 rounded-xl shadow-sm max-w-[80%] border border-gray-200">
+                <p>Hello! I'm your hotel booking assistant. How can I help you today?</p>
+            </div>
+        </div>
+        <div class="chatbot-input-area flex p-4 bg-gray-100 border-t border-gray-200">
+            <input type="text" id="user-input" placeholder="Type your message..." autocomplete="off"
+                   class="flex-grow p-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent text-gray-800 shadow-sm">
+            <button id="send-button"
+                    class="ml-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-full shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 active:scale-95
+                           bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700">
+                Send
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript from script.js
+        document.addEventListener('DOMContentLoaded', () => {
+            const chatMessages = document.getElementById('chat-messages');
+            const userInput = document.getElementById('user-input');
+            const sendButton = document.getElementById('send-button');
+
+            // IMPORTANT: Replace this with the actual URL of your deployed Google Cloud Function
+            // You will get this URL after deploying the backend code.
+            const CLOUD_FUNCTION_URL = 'https://bookingagent-651632520089.asia-south1.run.app'; 
+
+            // chatHistory will store the conversation to send to the backend for context
+            let chatHistory = [];
+
+            // Function to add a message to the chat interface
+            function addMessage(message, sender) {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message', `${sender}-message`, 'p-3', 'rounded-xl', 'shadow-sm', 'max-w-[80%]');
+                
+                if (sender === 'user') {
+                    messageElement.classList.add('self-end', 'bg-blue-200', 'text-gray-800');
+                } else {
+                    messageElement.classList.add('self-start', 'bg-white', 'text-gray-800', 'border', 'border-gray-200');
+                }
+
+                messageElement.innerHTML = `<p>${message}</p>`;
+                chatMessages.appendChild(messageElement);
+                // Scroll to the bottom of the chat
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            // Function to send message to the backend
+            async function sendMessage() {
+                const message = userInput.value.trim();
+                if (message === '') return;
+
+                addMessage(message, 'user');
+                chatHistory.push({ role: "user", parts: [{ text: message }] }); // Add user message to history
+                userInput.value = ''; // Clear input
+
+                // Add a "Thinking..." message from the bot
+                const thinkingMessageElement = document.createElement('div');
+                thinkingMessageElement.classList.add('message', 'bot-message', 'p-3', 'rounded-xl', 'shadow-sm', 'max-w-[80%]', 'self-start', 'bg-white', 'text-gray-800', 'border', 'border-gray-200');
+                thinkingMessageElement.innerHTML = `<p>Thinking...</p>`;
+                chatMessages.appendChild(thinkingMessageElement);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                try {
+                    const response = await fetch(CLOUD_FUNCTION_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        // Send both the current message and the full chat history
+                        body: JSON.stringify({ message: message, chatHistory: chatHistory }),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    
+                    // Remove the "Thinking..." message
+                    chatMessages.removeChild(thinkingMessageElement);
+
+                    addMessage(data.reply, 'bot');
+                    chatHistory.push({ role: "model", parts: [{ text: data.reply }] }); // Add bot response to history
+                } catch (error) {
+                    console.error('Error sending message:', error);
+                    // Remove the "Thinking..." message and display an error
+                    chatMessages.removeChild(thinkingMessageElement);
+                    const errorMessage = 'Oops! Something went wrong. Please try again.';
+                    addMessage(errorMessage, 'bot');
+                    chatHistory.push({ role: "model", parts: [{ text: errorMessage }] }); // Add error to history
+                }
+            }
+
+            // Event listeners
+            sendButton.addEventListener('click', sendMessage);
+            userInput.addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

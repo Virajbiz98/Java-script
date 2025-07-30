@@ -1,0 +1,18 @@
+
+{
+  "name": "hotel-chatbot-backend",
+  "version": "1.0.0",
+  "description": "Google Cloud Function for a hotel booking chatbot using Gemini API",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.15.0"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "author": "Your Name",
+  "license": "MIT"
+}
