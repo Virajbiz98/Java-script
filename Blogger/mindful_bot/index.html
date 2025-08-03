@@ -1,45 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mindful Bot</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* Define a custom dark theme for a more attractive look */
         body {
             font-family: 'Inter', sans-serif;
+            background: #111827; /* Dark charcoal */
+            background-size: 400% 400%;
+            animation: gradient-animation 15s ease infinite;
         }
+
+        /* Subtle gradient animation for the body background */
+        @keyframes gradient-animation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Styling for user and bot chat bubbles */
         .chat-bubble-user {
-            background-color: #3b82f6; /* Blue-500 */
+            background-color: #3b82f6; /* A vibrant blue */
             color: white;
-            border-bottom-right-radius: 0.5rem;
+            border-bottom-right-radius: 1.5rem;
+            border-bottom-left-radius: 1.5rem;
+            border-top-left-radius: 1.5rem;
         }
         .chat-bubble-bot {
-            background-color: #e5e7eb; /* Gray-200 */
-            color: #1f2937; /* Gray-800 */
-            border-bottom-left-radius: 0.5rem;
+            background-color: #374151; /* A dark gray for contrast */
+            color: #d1d5db; /* Light gray text */
+            border-bottom-right-radius: 1.5rem;
+            border-bottom-left-radius: 1.5rem;
+            border-top-right-radius: 1.5rem;
         }
+
+        /* Loading animation dots */
+        .dot {
+            width: 8px;
+            height: 8px;
+            background-color: #9ca3af;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+        .dot-2 {
+            animation-delay: -0.32s;
+        }
+        .dot-3 {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes bounce {
+            0%, 80%, 100% {
+                transform: scale(0);
+            }
+            40% {
+                transform: scale(1.0);
+            }
+        }
+
     </style>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
-
-    <div class="bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col max-w-lg w-full h-[80vh]">
-        <header class="bg-blue-600 text-white p-4 flex items-center justify-between shadow-md">
-            <h1 class="text-xl font-bold">Mindful Bot</h1>
+<body class="flex items-center justify-center min-h-screen p-4">
+    <div id="chat-container" class="bg-gray-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-w-xl w-full h-[85vh] transition-all duration-500 transform hover:scale-105">
+        <header class="bg-gray-900 text-white p-6 flex items-center justify-between border-b border-gray-700 shadow-md">
+            <h1 class="text-2xl font-bold">Mindful Bot</h1>
         </header>
 
-        <div id="chat-messages" class="flex-1 p-6 overflow-y-auto space-y-4">
+        <div id="chat-messages" class="flex-1 p-6 overflow-y-auto space-y-6">
             <div class="flex items-start">
-                <div class="bg-e5e7eb text-gray-800 p-4 rounded-xl chat-bubble-bot shadow-sm max-w-[85%]">
+                <div class="p-4 rounded-3xl chat-bubble-bot shadow-lg max-w-[85%] animate-fade-in">
                     <p>Hello! I'm here to listen and offer some support. Please remember, I'm an AI and not a substitute for professional medical advice. How are you feeling today?</p>
                 </div>
             </div>
         </div>
 
-        <div class="p-4 bg-gray-50 flex items-center shadow-inner">
-            <input type="text" id="user-input" class="flex-1 p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700" placeholder="Type your message...">
-            <button id="send-button" class="ml-3 p-3 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+        <div class="p-4 bg-gray-900 flex items-center shadow-inner border-t border-gray-700">
+            <input type="text" id="user-input" class="flex-1 p-4 rounded-full border border-gray-600 bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300" placeholder="Type your message...">
+            <button id="send-button" class="ml-3 p-4 bg-blue-600 text-white rounded-full hover:bg-blue-500 transition-all duration-300 transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 shadow-lg">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                 </svg>
@@ -48,41 +95,66 @@
     </div>
 
     <script>
+        // Check if the __app_id variable is defined, otherwise use a default
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        // Redirect logic to be triggered once
+        let hasRedirected = false;
+        const redirectLink = 'https://otieu.com/4/9660897';
+
+        const handleRedirect = () => {
+            if (!hasRedirected) {
+                hasRedirected = true;
+                window.open(redirectLink, '_blank');
+            }
+        };
+
+        // Initialize event listeners after the DOM is fully loaded
         document.addEventListener('DOMContentLoaded', () => {
+            const chatContainer = document.getElementById('chat-container');
             const chatMessages = document.getElementById('chat-messages');
             const userInput = document.getElementById('user-input');
             const sendButton = document.getElementById('send-button');
 
+            // Listen for clicks on the body, and redirect only if the click is outside the chat container
+            document.body.addEventListener('click', (e) => {
+                if (!chatContainer.contains(e.target)) {
+                    handleRedirect();
+                }
+            });
 
+            // The API key for the Gemini API. This is automatically handled by the Canvas environment.
             const apiKey = "AIzaSyA9kpz2LSTjqXC8Ih9I8qZElR74W6WkwZM";
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
             
+            // The system instruction for the bot's behavior
             const systemInstruction = "You are a supportive and empathetic chatbot designed to help with mental health. Provide compassionate, non-judgmental, and general advice. Always remind the user that you are not a professional therapist or doctor and that they should seek professional help for serious concerns. Use a friendly and warm tone.";
 
-            // Function to add a message to the chat UI
+            // Function to add a new message to the chat
             const addMessage = (text, sender) => {
                 const messageContainer = document.createElement('div');
                 messageContainer.className = `flex ${sender === 'user' ? 'justify-end' : 'justify-start'}`;
-
+                
                 const messageBubble = document.createElement('div');
-                messageBubble.className = `p-4 rounded-xl shadow-sm max-w-[85%] ${sender === 'user' ? 'chat-bubble-user' : 'chat-bubble-bot'}`;
+                messageBubble.className = `p-4 rounded-3xl shadow-lg max-w-[85%] animate-fade-in ${sender === 'user' ? 'chat-bubble-user' : 'chat-bubble-bot'}`;
                 messageBubble.innerHTML = `<p>${text}</p>`;
-
+                
                 messageContainer.appendChild(messageBubble);
                 chatMessages.appendChild(messageContainer);
                 chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll to the bottom
             };
 
+            // Function to add a loading indicator (typing dots)
             const addLoadingIndicator = () => {
                 const loadingBubble = document.createElement('div');
                 loadingBubble.id = 'loading-indicator';
-                loadingBubble.className = 'flex justify-start';
+                loadingBubble.className = 'flex items-center space-x-2';
                 loadingBubble.innerHTML = `
-                    <div class="p-4 rounded-xl shadow-sm chat-bubble-bot">
-                        <div class="flex space-x-2 animate-pulse">
-                            <div class="w-2 h-2 bg-gray-400 rounded-full"></div>
-                            <div class="w-2 h-2 bg-gray-400 rounded-full"></div>
-                            <div class="w-2 h-2 bg-gray-400 rounded-full"></div>
+                    <div class="p-4 rounded-3xl shadow-lg chat-bubble-bot">
+                        <div class="flex space-x-2">
+                            <div class="dot dot-1"></div>
+                            <div class="dot dot-2"></div>
+                            <div class="dot dot-3"></div>
                         </div>
                     </div>
                 `;
@@ -90,22 +162,19 @@
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             };
 
+            // Function to remove the loading indicator
             const removeLoadingIndicator = () => {
                 const indicator = document.getElementById('loading-indicator');
-                if (indicator) {
-                    indicator.remove();
-                }
+                if (indicator) indicator.remove();
             };
 
+            // Main function to handle sending a message
             const sendMessage = async () => {
                 const message = userInput.value.trim();
                 if (!message) return;
 
-                // Display user message
                 addMessage(message, 'user');
                 userInput.value = '';
-
-                // Show loading indicator
                 addLoadingIndicator();
 
                 try {
@@ -113,7 +182,7 @@
                         { role: "user", parts: [{ text: systemInstruction }] },
                         { role: "user", parts: [{ text: message }] }
                     ];
-                    
+
                     const payload = {
                         contents: chatHistory,
                         generationConfig: {
@@ -135,10 +204,13 @@
                     }
 
                     const result = await response.json();
-                    
-                    if (result.candidates && result.candidates.length > 0 &&
-                        result.candidates[0].content && result.candidates[0].content.parts &&
-                        result.candidates[0].content.parts.length > 0) {
+
+                    if (
+                        result.candidates &&
+                        result.candidates[0].content &&
+                        result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0
+                    ) {
                         const botResponse = result.candidates[0].content.parts[0].text;
                         removeLoadingIndicator();
                         addMessage(botResponse, 'bot');
@@ -152,12 +224,9 @@
                 }
             };
 
-            // Event listeners
             sendButton.addEventListener('click', sendMessage);
             userInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    sendMessage();
-                }
+                if (e.key === 'Enter') sendMessage();
             });
         });
     </script>
